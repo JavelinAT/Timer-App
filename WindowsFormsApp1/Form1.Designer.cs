@@ -1,0 +1,635 @@
+﻿namespace WindowsFormsApp1
+{
+    partial class FrontPage
+    {
+        /// <summary>
+        /// 設計工具所需的變數。
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// 清除任何使用中的資源。
+        /// </summary>
+        /// <param name="disposing">如果應該處置受控資源則為 true，否則為 false。</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form 設計工具產生的程式碼
+
+        /// <summary>
+        /// 此為設計工具支援所需的方法 - 請勿使用程式碼編輯器修改
+        /// 這個方法的內容。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrontPage));
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage_Main = new System.Windows.Forms.TabPage();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.button_Command_Ready = new System.Windows.Forms.Button();
+            this.button_Command_Fail = new System.Windows.Forms.Button();
+            this.button_Command_3 = new System.Windows.Forms.Button();
+            this.button_Command_4 = new System.Windows.Forms.Button();
+            this.button_Command_Restart = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tabPage_Setting = new System.Windows.Forms.TabPage();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label_ComState = new System.Windows.Forms.Label();
+            this.PorSelector = new System.Windows.Forms.ComboBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.textBoxSend = new System.Windows.Forms.TextBox();
+            this.button_Sand = new System.Windows.Forms.Button();
+            this.textBoxReceive = new System.Windows.Forms.TextBox();
+            this.button_Clear = new System.Windows.Forms.Button();
+            this.tabPage_Excel = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label_excel_1 = new System.Windows.Forms.Label();
+            this.button_excel_4 = new System.Windows.Forms.Button();
+            this.button_excel_3 = new System.Windows.Forms.Button();
+            this.button_excel_2 = new System.Windows.Forms.Button();
+            this.button_excel_1 = new System.Windows.Forms.Button();
+            this.label_display = new System.Windows.Forms.Label();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabControl1.SuspendLayout();
+            this.tabPage_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.tabPage_Setting.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.tabPage_Excel.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage_Main);
+            this.tabControl1.Controls.Add(this.tabPage_Setting);
+            this.tabControl1.Controls.Add(this.tabPage_Excel);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1312, 550);
+            this.tabControl1.TabIndex = 9;
+            // 
+            // tabPage_Main
+            // 
+            this.tabPage_Main.Controls.Add(this.splitContainer4);
+            this.tabPage_Main.Location = new System.Drawing.Point(4, 31);
+            this.tabPage_Main.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.tabPage_Main.Name = "tabPage_Main";
+            this.tabPage_Main.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.tabPage_Main.Size = new System.Drawing.Size(1304, 515);
+            this.tabPage_Main.TabIndex = 0;
+            this.tabPage_Main.Text = "Command";
+            this.tabPage_Main.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.IsSplitterFixed = true;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 1);
+            this.splitContainer4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.tableLayoutPanel1);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.panel2);
+            this.splitContainer4.Size = new System.Drawing.Size(1304, 513);
+            this.splitContainer4.SplitterDistance = 200;
+            this.splitContainer4.SplitterWidth = 3;
+            this.splitContainer4.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.button_Command_Ready, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button_Command_Fail, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.button_Command_3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.button_Command_4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.button_Command_Restart, 0, 4);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 513);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // button_Command_Ready
+            // 
+            this.button_Command_Ready.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button_Command_Ready.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Command_Ready.FlatAppearance.BorderSize = 0;
+            this.button_Command_Ready.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Command_Ready.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_Ready.Location = new System.Drawing.Point(1, 2);
+            this.button_Command_Ready.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_Command_Ready.Name = "button_Command_Ready";
+            this.button_Command_Ready.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_Ready.TabIndex = 0;
+            this.button_Command_Ready.Text = "Ready";
+            this.button_Command_Ready.UseVisualStyleBackColor = false;
+            this.button_Command_Ready.Click += new System.EventHandler(this.button_Command_Ready_Click);
+            // 
+            // button_Command_Fail
+            // 
+            this.button_Command_Fail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.button_Command_Fail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Command_Fail.FlatAppearance.BorderSize = 0;
+            this.button_Command_Fail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Command_Fail.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_Fail.ForeColor = System.Drawing.Color.Black;
+            this.button_Command_Fail.Location = new System.Drawing.Point(1, 104);
+            this.button_Command_Fail.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_Command_Fail.Name = "button_Command_Fail";
+            this.button_Command_Fail.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_Fail.TabIndex = 1;
+            this.button_Command_Fail.Text = "Fail";
+            this.button_Command_Fail.UseVisualStyleBackColor = false;
+            this.button_Command_Fail.Click += new System.EventHandler(this.button_Command_Fail_Click);
+            // 
+            // button_Command_3
+            // 
+            this.button_Command_3.BackColor = System.Drawing.Color.Silver;
+            this.button_Command_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Command_3.FlatAppearance.BorderSize = 0;
+            this.button_Command_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Command_3.Font = new System.Drawing.Font("PMingLiU", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_3.Location = new System.Drawing.Point(1, 206);
+            this.button_Command_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_Command_3.Name = "button_Command_3";
+            this.button_Command_3.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_3.TabIndex = 2;
+            this.button_Command_3.Text = "button3";
+            this.button_Command_3.UseVisualStyleBackColor = false;
+            // 
+            // button_Command_4
+            // 
+            this.button_Command_4.BackColor = System.Drawing.Color.Silver;
+            this.button_Command_4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Command_4.FlatAppearance.BorderSize = 0;
+            this.button_Command_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Command_4.Font = new System.Drawing.Font("PMingLiU", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_4.Location = new System.Drawing.Point(1, 308);
+            this.button_Command_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_Command_4.Name = "button_Command_4";
+            this.button_Command_4.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_4.TabIndex = 3;
+            this.button_Command_4.Text = "button4";
+            this.button_Command_4.UseVisualStyleBackColor = false;
+            // 
+            // button_Command_Restart
+            // 
+            this.button_Command_Restart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.button_Command_Restart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Command_Restart.FlatAppearance.BorderSize = 0;
+            this.button_Command_Restart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Command_Restart.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_Restart.ForeColor = System.Drawing.SystemColors.Control;
+            this.button_Command_Restart.Location = new System.Drawing.Point(1, 410);
+            this.button_Command_Restart.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_Command_Restart.Name = "button_Command_Restart";
+            this.button_Command_Restart.Size = new System.Drawing.Size(198, 101);
+            this.button_Command_Restart.TabIndex = 4;
+            this.button_Command_Restart.Text = "Restart";
+            this.button_Command_Restart.UseVisualStyleBackColor = false;
+            this.button_Command_Restart.Click += new System.EventHandler(this.button_Command_Restart_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Location = new System.Drawing.Point(4, 8);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(496, 395);
+            this.panel2.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(4, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 378);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "1.\r\n2.\r\n3.\r\n4.\r\n5.\r\n6.\r\n7.\r\n8.\r\n9";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(52, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 42);
+            this.label2.TabIndex = 2;
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tabPage_Setting
+            // 
+            this.tabPage_Setting.Controls.Add(this.splitContainer3);
+            this.tabPage_Setting.Location = new System.Drawing.Point(4, 31);
+            this.tabPage_Setting.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.tabPage_Setting.Name = "tabPage_Setting";
+            this.tabPage_Setting.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.tabPage_Setting.Size = new System.Drawing.Size(1304, 514);
+            this.tabPage_Setting.TabIndex = 1;
+            this.tabPage_Setting.Text = "Setting";
+            this.tabPage_Setting.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer3.IsSplitterFixed = true;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 1);
+            this.splitContainer3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.label_ComState);
+            this.splitContainer3.Panel1.Controls.Add(this.PorSelector);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.checkBox1);
+            this.splitContainer3.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer3.Size = new System.Drawing.Size(1304, 512);
+            this.splitContainer3.SplitterDistance = 49;
+            this.splitContainer3.SplitterWidth = 2;
+            this.splitContainer3.TabIndex = 1;
+            // 
+            // label_ComState
+            // 
+            this.label_ComState.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.label_ComState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_ComState.CausesValidation = false;
+            this.label_ComState.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label_ComState.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_ComState.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ComState.Location = new System.Drawing.Point(0, 0);
+            this.label_ComState.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_ComState.Name = "label_ComState";
+            this.label_ComState.Size = new System.Drawing.Size(1304, 21);
+            this.label_ComState.TabIndex = 1;
+            this.label_ComState.Text = "Click to select Com Port";
+            this.label_ComState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_ComState.Click += new System.EventHandler(this.label_ComState_Click);
+            // 
+            // PorSelector
+            // 
+            this.PorSelector.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PorSelector.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PorSelector.DropDownHeight = 110;
+            this.PorSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PorSelector.DropDownWidth = 104;
+            this.PorSelector.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.PorSelector.Font = new System.Drawing.Font("新細明體", 12F);
+            this.PorSelector.FormattingEnabled = true;
+            this.PorSelector.IntegralHeight = false;
+            this.PorSelector.Location = new System.Drawing.Point(0, 21);
+            this.PorSelector.Margin = new System.Windows.Forms.Padding(1);
+            this.PorSelector.Name = "PorSelector";
+            this.PorSelector.Size = new System.Drawing.Size(1304, 28);
+            this.PorSelector.Sorted = true;
+            this.PorSelector.TabIndex = 2;
+            this.PorSelector.TabStop = false;
+            this.PorSelector.Visible = false;
+            this.PorSelector.DropDown += new System.EventHandler(this.PorSelector_DropDown);
+            this.PorSelector.SelectedIndexChanged += new System.EventHandler(this.PorSelector_SelectedIndexChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(45, 22);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(119, 26);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.IsSplitterFixed = true;
+            this.splitContainer2.Location = new System.Drawing.Point(197, 22);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.textBoxSend);
+            this.splitContainer2.Panel1.Controls.Add(this.button_Sand);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.textBoxReceive);
+            this.splitContainer2.Panel2.Controls.Add(this.button_Clear);
+            this.splitContainer2.Size = new System.Drawing.Size(460, 320);
+            this.splitContainer2.SplitterDistance = 220;
+            this.splitContainer2.SplitterWidth = 1;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // textBoxSend
+            // 
+            this.textBoxSend.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxSend.Location = new System.Drawing.Point(0, 55);
+            this.textBoxSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxSend.Multiline = true;
+            this.textBoxSend.Name = "textBoxSend";
+            this.textBoxSend.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxSend.Size = new System.Drawing.Size(220, 265);
+            this.textBoxSend.TabIndex = 3;
+            // 
+            // button_Sand
+            // 
+            this.button_Sand.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button_Sand.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Sand.Location = new System.Drawing.Point(0, 0);
+            this.button_Sand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button_Sand.Name = "button_Sand";
+            this.button_Sand.Size = new System.Drawing.Size(220, 55);
+            this.button_Sand.TabIndex = 0;
+            this.button_Sand.Text = "Sand Text";
+            this.button_Sand.UseVisualStyleBackColor = true;
+            this.button_Sand.Click += new System.EventHandler(this.button_Sand_Click);
+            // 
+            // textBoxReceive
+            // 
+            this.textBoxReceive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxReceive.Location = new System.Drawing.Point(0, 55);
+            this.textBoxReceive.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.textBoxReceive.Multiline = true;
+            this.textBoxReceive.Name = "textBoxReceive";
+            this.textBoxReceive.ReadOnly = true;
+            this.textBoxReceive.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxReceive.Size = new System.Drawing.Size(239, 265);
+            this.textBoxReceive.TabIndex = 4;
+            // 
+            // button_Clear
+            // 
+            this.button_Clear.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button_Clear.Location = new System.Drawing.Point(0, 0);
+            this.button_Clear.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_Clear.Name = "button_Clear";
+            this.button_Clear.Size = new System.Drawing.Size(239, 55);
+            this.button_Clear.TabIndex = 5;
+            this.button_Clear.Text = "Clear Receive Box";
+            this.button_Clear.UseCompatibleTextRendering = true;
+            this.button_Clear.UseVisualStyleBackColor = true;
+            this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
+            // 
+            // tabPage_Excel
+            // 
+            this.tabPage_Excel.Controls.Add(this.panel1);
+            this.tabPage_Excel.Location = new System.Drawing.Point(4, 31);
+            this.tabPage_Excel.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.tabPage_Excel.Name = "tabPage_Excel";
+            this.tabPage_Excel.Padding = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.tabPage_Excel.Size = new System.Drawing.Size(1304, 515);
+            this.tabPage_Excel.TabIndex = 2;
+            this.tabPage_Excel.Text = "Excel";
+            this.tabPage_Excel.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label_excel_1);
+            this.panel1.Controls.Add(this.button_excel_4);
+            this.panel1.Controls.Add(this.button_excel_3);
+            this.panel1.Controls.Add(this.button_excel_2);
+            this.panel1.Controls.Add(this.button_excel_1);
+            this.panel1.Location = new System.Drawing.Point(33, 28);
+            this.panel1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1240, 445);
+            this.panel1.TabIndex = 0;
+            // 
+            // label_excel_1
+            // 
+            this.label_excel_1.AutoSize = true;
+            this.label_excel_1.Location = new System.Drawing.Point(63, 65);
+            this.label_excel_1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_excel_1.Name = "label_excel_1";
+            this.label_excel_1.Size = new System.Drawing.Size(0, 22);
+            this.label_excel_1.TabIndex = 4;
+            // 
+            // button_excel_4
+            // 
+            this.button_excel_4.Location = new System.Drawing.Point(67, 288);
+            this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_4.Name = "button_excel_4";
+            this.button_excel_4.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_4.TabIndex = 3;
+            this.button_excel_4.Text = "button4_OpenFile";
+            this.button_excel_4.UseVisualStyleBackColor = true;
+            this.button_excel_4.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button_excel_3
+            // 
+            this.button_excel_3.Location = new System.Drawing.Point(67, 225);
+            this.button_excel_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_3.Name = "button_excel_3";
+            this.button_excel_3.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_3.TabIndex = 2;
+            this.button_excel_3.Text = "button3_SaveOnExcel";
+            this.button_excel_3.UseVisualStyleBackColor = true;
+            this.button_excel_3.Click += new System.EventHandler(this.button_excel_3_Click);
+            // 
+            // button_excel_2
+            // 
+            this.button_excel_2.Location = new System.Drawing.Point(67, 165);
+            this.button_excel_2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_2.Name = "button_excel_2";
+            this.button_excel_2.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_2.TabIndex = 1;
+            this.button_excel_2.Text = "button2_SelectFolder";
+            this.button_excel_2.UseVisualStyleBackColor = true;
+            this.button_excel_2.Click += new System.EventHandler(this.button_excel_2_Click);
+            // 
+            // button_excel_1
+            // 
+            this.button_excel_1.Location = new System.Drawing.Point(67, 105);
+            this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_1.Name = "button_excel_1";
+            this.button_excel_1.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_1.TabIndex = 0;
+            this.button_excel_1.Text = "button1_OpenTemplate";
+            this.button_excel_1.UseVisualStyleBackColor = true;
+            this.button_excel_1.Click += new System.EventHandler(this.button_excel_1_Click);
+            // 
+            // label_display
+            // 
+            this.label_display.BackColor = System.Drawing.Color.Transparent;
+            this.label_display.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_display.Font = new System.Drawing.Font("Times New Roman", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_display.Location = new System.Drawing.Point(0, 0);
+            this.label_display.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label_display.Name = "label_display";
+            this.label_display.Size = new System.Drawing.Size(1312, 149);
+            this.label_display.TabIndex = 5;
+            this.label_display.Text = "00:00.000";
+            this.label_display.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.label_display);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Size = new System.Drawing.Size(1312, 701);
+            this.splitContainer1.SplitterDistance = 149;
+            this.splitContainer1.SplitterWidth = 2;
+            this.splitContainer1.TabIndex = 6;
+            this.splitContainer1.TabStop = false;
+            // 
+            
+            // label_excel_1
+            // 
+            this.label_excel_1.AutoSize = true;
+            this.label_excel_1.Location = new System.Drawing.Point(93, 45);
+            this.label_excel_1.Name = "label_excel_1";
+            this.label_excel_1.Size = new System.Drawing.Size(0, 19);
+            this.label_excel_1.TabIndex = 4;
+            // 
+            // FrontPage
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1312, 701);
+            this.Controls.Add(this.splitContainer1);
+            this.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MinimumSize = new System.Drawing.Size(1173, 622);
+            this.Name = "FrontPage";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Timer App";
+            this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.FrontPage_Load);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage_Main.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.tabPage_Setting.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            this.splitContainer3.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.tabPage_Excel.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage_Main;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.Button button_Sand;
+        private System.Windows.Forms.TextBox textBoxSend;
+        private System.Windows.Forms.Label label_ComState;
+        private System.Windows.Forms.ComboBox PorSelector;
+        private System.Windows.Forms.TabPage tabPage_Setting;
+        private System.Windows.Forms.Label label_display;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button button_Command_Ready;
+        private System.Windows.Forms.Button button_Command_Fail;
+        private System.Windows.Forms.Button button_Command_3;
+        private System.Windows.Forms.Button button_Command_4;
+        private System.Windows.Forms.Button button_Command_Restart;
+        private System.Windows.Forms.Button button_Clear;
+        private System.Windows.Forms.TextBox textBoxReceive;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TabPage tabPage_Excel;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button_excel_3;
+        private System.Windows.Forms.Button button_excel_2;
+        private System.Windows.Forms.Button button_excel_1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button button_excel_4;
+        private System.Windows.Forms.Label label_excel_1;
+    }
+}
+
