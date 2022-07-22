@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,11 @@ using System.Windows.Forms;
 
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Data.OleDb;
+
+
+using System.Diagnostics;
 
 namespace WindowsFormsApp1
 {
@@ -21,6 +27,7 @@ namespace WindowsFormsApp1
         private bool Console_receiving = false;
         private bool Counting = false;
         private Thread t;
+        private string ExcelFilePath;
         Flag flag = new Flag(false, false, false);
 
         public struct Flag
@@ -306,8 +313,8 @@ namespace WindowsFormsApp1
         {
             //string str = System.Environment.CurrentDirectory;
             //string str = System.Windows.Forms.Application.StartupPath;//啟動路徑
-            string str = System.Windows.Forms.Application.ExecutablePath;
-            label_excel_1.Text = str;
+            string strPath = System.Windows.Forms.Application.ExecutablePath;
+            label_excel_1.Text = strPath;
 
             //Form2 frm = new Form2();
             //frm.Show(this);
@@ -389,7 +396,6 @@ namespace WindowsFormsApp1
                 MessageBox.Show(errorMessage, "Error");
             }
         }
-
         private void SaveOnExcel(string path)
         {
             //string FileStr = "D:\\test";
@@ -446,43 +452,144 @@ namespace WindowsFormsApp1
                 MessageBox.Show(errorMessage, "Error");
             }
         }
+        public void getExcelFile()
+        {
+
+            //Create COM Objects. Create a COM object for everything that is referenced
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(label_excel_1.Text);
+            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlWorksheet.UsedRange;
+
+            int rowCount = xlRange.Rows.Count;
+            int colCount = xlRange.Columns.Count;
+
+            //iterate over the rows and columns and print to the console as it appears in the file
+            //excel is not zero based!!
+            for (int i = 1; i <= rowCount; i++)
+            {
+                for (int j = 1; j <= colCount; j++)
+                {
+                    //new line
+                    if (j == 1)
+                        Console.Write("\r\n");
+
+                    //write the value to the console
+                    if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
+                        Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+                }
+            }
+
+            //cleanup
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            //rule of thumb for releasing com objects:
+            //  never use two dots, all COM objects must be referenced and released individually
+            //  ex: [somthing].[something].[something] is bad
+
+            //release com objects to fully kill excel process from running in the background
+            Marshal.ReleaseComObject(xlRange);
+            Marshal.ReleaseComObject(xlWorksheet);
+
+            //close and release
+            xlWorkbook.Close();
+            Marshal.ReleaseComObject(xlWorkbook);
+
+            //quit and release
+            xlApp.Quit();
+            Marshal.ReleaseComObject(xlApp);
+        }
         private void button_excel_1_Click(object sender, EventArgs e)
         {
             OpenExcel();
         }
-
         private void button_excel_2_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "Excel 活頁簿 (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|文字檔 (Tab 字元分隔) (*.txt)|*.txt";
+                ofd.Title = "Select Excel file";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    label_excel_1.Text = ofd.FileName;
+                    ExcelFilePath = ofd.FileName;
+                    label_excel_1.Text = ExcelFilePath;
                 }
                 else
                 {
-                    label_excel_1.Text = string.Empty;
+                    ExcelFilePath = string.Empty;
+                    label_excel_1.Text = ExcelFilePath;
                 }
             }
         }
-
         private void button_excel_3_Click(object sender, EventArgs e)
         {
             SaveOnExcel(label_excel_1.Text);
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void button_excel_4_Click(object sender, EventArgs e)
         {
             Excel.Application oXL;
             Excel._Workbook oWB;
-            string path = label_excel_1.Text;
+            string path = ExcelFilePath;
             //Start Excel and get Application object.
             oXL = new Excel.Application();
             //Get a new workbook.
             oWB = oXL.Workbooks.Open(path);
             oXL.Visible = true;
             oXL.UserControl = true;
+        }
+        private void button_excel_5_Click(object sender, EventArgs e)
+        {
+            // getExcelFile();
+            DataTable TableValue = ImportExcel("Table1");
+            dataGridView1.DataSource = TableValue;
+        }
+        public DataTable ImportExcel(string SheetName)
+        {
+            
+            DataTable dataTable = new DataTable();
+
+            
+
+                //2.提供者名稱  Microsoft.Jet.OLEDB.4.0適用於2003以前版本，Microsoft.ACE.OLEDB.12.0 適用於2007以後的版本處理 xlsx 檔案
+                string ProviderName = "Microsoft.ACE.OLEDB.12.0;";
+
+                //3.Excel版本，Excel 8.0 針對Excel2000及以上版本，Excel5.0 針對Excel97。
+                string ExtendedString = "'Excel 8.0;";
+
+                //4.第一行是否為標題(;結尾區隔)
+                string HDR = "No;";
+
+                //5.IMEX=1 通知驅動程序始終將「互混」數據列作為文本讀取(;結尾區隔,'文字結尾)
+                string IMEX = "0';";
+
+                //=============================================================
+                //連線字串
+                string connectString =
+                        "Data Source=" + ExcelFilePath + ";" +
+                        "Provider=" + ProviderName +
+                        "Extended Properties=" + ExtendedString +
+                        "HDR=" + HDR +
+                        "IMEX=" + IMEX;
+                //=============================================================
+
+                using (OleDbConnection Connect = new OleDbConnection(connectString))
+                {
+                    Connect.Open();
+                    string queryString = "SELECT * FROM [" + SheetName + "$]";
+                    try
+                    {
+                        using (OleDbDataAdapter dr = new OleDbDataAdapter(queryString, Connect))
+                        {
+                            dr.Fill(dataTable);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("異常訊息:" + ex.Message, "異常訊息");
+                    }
+                }
+            return dataTable;
         }
     }
 }

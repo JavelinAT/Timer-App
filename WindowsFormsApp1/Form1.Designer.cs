@@ -60,6 +60,10 @@
             this.button_excel_1 = new System.Windows.Forms.Button();
             this.label_display = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button_excel_5 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.comboBox_select_file = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
@@ -83,6 +87,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -96,17 +101,17 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1312, 550);
+            this.tabControl1.Size = new System.Drawing.Size(984, 440);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage_Main
             // 
             this.tabPage_Main.Controls.Add(this.splitContainer4);
-            this.tabPage_Main.Location = new System.Drawing.Point(4, 31);
+            this.tabPage_Main.Location = new System.Drawing.Point(4, 28);
             this.tabPage_Main.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.tabPage_Main.Name = "tabPage_Main";
             this.tabPage_Main.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.tabPage_Main.Size = new System.Drawing.Size(1304, 515);
+            this.tabPage_Main.Size = new System.Drawing.Size(976, 408);
             this.tabPage_Main.TabIndex = 0;
             this.tabPage_Main.Text = "Command";
             this.tabPage_Main.UseVisualStyleBackColor = true;
@@ -126,9 +131,9 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.panel2);
-            this.splitContainer4.Size = new System.Drawing.Size(1304, 513);
-            this.splitContainer4.SplitterDistance = 200;
-            this.splitContainer4.SplitterWidth = 3;
+            this.splitContainer4.Size = new System.Drawing.Size(976, 406);
+            this.splitContainer4.SplitterDistance = 149;
+            this.splitContainer4.SplitterWidth = 2;
             this.splitContainer4.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -150,7 +155,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 513);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(149, 406);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // button_Command_Ready
@@ -163,7 +168,7 @@
             this.button_Command_Ready.Location = new System.Drawing.Point(1, 2);
             this.button_Command_Ready.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_Ready.Name = "button_Command_Ready";
-            this.button_Command_Ready.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_Ready.Size = new System.Drawing.Size(147, 77);
             this.button_Command_Ready.TabIndex = 0;
             this.button_Command_Ready.Text = "Ready";
             this.button_Command_Ready.UseVisualStyleBackColor = false;
@@ -177,10 +182,10 @@
             this.button_Command_Fail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Command_Fail.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.button_Command_Fail.ForeColor = System.Drawing.Color.Black;
-            this.button_Command_Fail.Location = new System.Drawing.Point(1, 104);
+            this.button_Command_Fail.Location = new System.Drawing.Point(1, 83);
             this.button_Command_Fail.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_Fail.Name = "button_Command_Fail";
-            this.button_Command_Fail.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_Fail.Size = new System.Drawing.Size(147, 77);
             this.button_Command_Fail.TabIndex = 1;
             this.button_Command_Fail.Text = "Fail";
             this.button_Command_Fail.UseVisualStyleBackColor = false;
@@ -192,11 +197,11 @@
             this.button_Command_3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Command_3.FlatAppearance.BorderSize = 0;
             this.button_Command_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Command_3.Font = new System.Drawing.Font("PMingLiU", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Command_3.Location = new System.Drawing.Point(1, 206);
+            this.button_Command_3.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_3.Location = new System.Drawing.Point(1, 164);
             this.button_Command_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_3.Name = "button_Command_3";
-            this.button_Command_3.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_3.Size = new System.Drawing.Size(147, 77);
             this.button_Command_3.TabIndex = 2;
             this.button_Command_3.Text = "button3";
             this.button_Command_3.UseVisualStyleBackColor = false;
@@ -207,11 +212,11 @@
             this.button_Command_4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Command_4.FlatAppearance.BorderSize = 0;
             this.button_Command_4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Command_4.Font = new System.Drawing.Font("PMingLiU", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Command_4.Location = new System.Drawing.Point(1, 308);
+            this.button_Command_4.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_4.Location = new System.Drawing.Point(1, 245);
             this.button_Command_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_4.Name = "button_Command_4";
-            this.button_Command_4.Size = new System.Drawing.Size(198, 98);
+            this.button_Command_4.Size = new System.Drawing.Size(147, 77);
             this.button_Command_4.TabIndex = 3;
             this.button_Command_4.Text = "button4";
             this.button_Command_4.UseVisualStyleBackColor = false;
@@ -224,10 +229,10 @@
             this.button_Command_Restart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Command_Restart.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.button_Command_Restart.ForeColor = System.Drawing.SystemColors.Control;
-            this.button_Command_Restart.Location = new System.Drawing.Point(1, 410);
+            this.button_Command_Restart.Location = new System.Drawing.Point(1, 326);
             this.button_Command_Restart.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_Restart.Name = "button_Command_Restart";
-            this.button_Command_Restart.Size = new System.Drawing.Size(198, 101);
+            this.button_Command_Restart.Size = new System.Drawing.Size(147, 78);
             this.button_Command_Restart.TabIndex = 4;
             this.button_Command_Restart.Text = "Restart";
             this.button_Command_Restart.UseVisualStyleBackColor = false;
@@ -237,20 +242,18 @@
             // 
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.label2);
-            this.panel2.Location = new System.Drawing.Point(4, 8);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Location = new System.Drawing.Point(3, 6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(496, 395);
+            this.panel2.Size = new System.Drawing.Size(372, 316);
             this.panel2.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(4, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 378);
+            this.label1.Size = new System.Drawing.Size(36, 297);
             this.label1.TabIndex = 1;
             this.label1.Text = "1.\r\n2.\r\n3.\r\n4.\r\n5.\r\n6.\r\n7.\r\n8.\r\n9";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -259,21 +262,20 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(52, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(39, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 42);
+            this.label2.Size = new System.Drawing.Size(0, 33);
             this.label2.TabIndex = 2;
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tabPage_Setting
             // 
             this.tabPage_Setting.Controls.Add(this.splitContainer3);
-            this.tabPage_Setting.Location = new System.Drawing.Point(4, 31);
+            this.tabPage_Setting.Location = new System.Drawing.Point(4, 28);
             this.tabPage_Setting.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.tabPage_Setting.Name = "tabPage_Setting";
             this.tabPage_Setting.Padding = new System.Windows.Forms.Padding(0, 1, 0, 1);
-            this.tabPage_Setting.Size = new System.Drawing.Size(1304, 514);
+            this.tabPage_Setting.Size = new System.Drawing.Size(976, 408);
             this.tabPage_Setting.TabIndex = 1;
             this.tabPage_Setting.Text = "Setting";
             this.tabPage_Setting.UseVisualStyleBackColor = true;
@@ -297,7 +299,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.checkBox1);
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer3.Size = new System.Drawing.Size(1304, 512);
+            this.splitContainer3.Size = new System.Drawing.Size(976, 406);
             this.splitContainer3.SplitterDistance = 49;
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 1;
@@ -311,9 +313,8 @@
             this.label_ComState.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_ComState.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ComState.Location = new System.Drawing.Point(0, 0);
-            this.label_ComState.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_ComState.Name = "label_ComState";
-            this.label_ComState.Size = new System.Drawing.Size(1304, 21);
+            this.label_ComState.Size = new System.Drawing.Size(976, 25);
             this.label_ComState.TabIndex = 1;
             this.label_ComState.Text = "Click to select Com Port";
             this.label_ComState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -330,10 +331,10 @@
             this.PorSelector.Font = new System.Drawing.Font("新細明體", 12F);
             this.PorSelector.FormattingEnabled = true;
             this.PorSelector.IntegralHeight = false;
-            this.PorSelector.Location = new System.Drawing.Point(0, 21);
+            this.PorSelector.Location = new System.Drawing.Point(0, 25);
             this.PorSelector.Margin = new System.Windows.Forms.Padding(1);
             this.PorSelector.Name = "PorSelector";
-            this.PorSelector.Size = new System.Drawing.Size(1304, 28);
+            this.PorSelector.Size = new System.Drawing.Size(976, 24);
             this.PorSelector.Sorted = true;
             this.PorSelector.TabIndex = 2;
             this.PorSelector.TabStop = false;
@@ -346,10 +347,9 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(45, 22);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox1.Location = new System.Drawing.Point(34, 18);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(119, 26);
+            this.checkBox1.Size = new System.Drawing.Size(97, 23);
             this.checkBox1.TabIndex = 2;
             this.checkBox1.Text = "checkBox1";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -357,7 +357,7 @@
             // splitContainer2
             // 
             this.splitContainer2.IsSplitterFixed = true;
-            this.splitContainer2.Location = new System.Drawing.Point(197, 22);
+            this.splitContainer2.Location = new System.Drawing.Point(148, 18);
             this.splitContainer2.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.splitContainer2.Name = "splitContainer2";
             // 
@@ -370,20 +370,19 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.textBoxReceive);
             this.splitContainer2.Panel2.Controls.Add(this.button_Clear);
-            this.splitContainer2.Size = new System.Drawing.Size(460, 320);
-            this.splitContainer2.SplitterDistance = 220;
+            this.splitContainer2.Size = new System.Drawing.Size(345, 256);
+            this.splitContainer2.SplitterDistance = 165;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 0;
             // 
             // textBoxSend
             // 
             this.textBoxSend.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxSend.Location = new System.Drawing.Point(0, 55);
-            this.textBoxSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxSend.Location = new System.Drawing.Point(0, 44);
             this.textBoxSend.Multiline = true;
             this.textBoxSend.Name = "textBoxSend";
             this.textBoxSend.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxSend.Size = new System.Drawing.Size(220, 265);
+            this.textBoxSend.Size = new System.Drawing.Size(165, 212);
             this.textBoxSend.TabIndex = 3;
             // 
             // button_Sand
@@ -391,9 +390,9 @@
             this.button_Sand.Dock = System.Windows.Forms.DockStyle.Top;
             this.button_Sand.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Sand.Location = new System.Drawing.Point(0, 0);
-            this.button_Sand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button_Sand.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button_Sand.Name = "button_Sand";
-            this.button_Sand.Size = new System.Drawing.Size(220, 55);
+            this.button_Sand.Size = new System.Drawing.Size(165, 44);
             this.button_Sand.TabIndex = 0;
             this.button_Sand.Text = "Sand Text";
             this.button_Sand.UseVisualStyleBackColor = true;
@@ -402,13 +401,13 @@
             // textBoxReceive
             // 
             this.textBoxReceive.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxReceive.Location = new System.Drawing.Point(0, 55);
+            this.textBoxReceive.Location = new System.Drawing.Point(0, 44);
             this.textBoxReceive.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.textBoxReceive.Multiline = true;
             this.textBoxReceive.Name = "textBoxReceive";
             this.textBoxReceive.ReadOnly = true;
             this.textBoxReceive.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxReceive.Size = new System.Drawing.Size(239, 265);
+            this.textBoxReceive.Size = new System.Drawing.Size(179, 212);
             this.textBoxReceive.TabIndex = 4;
             // 
             // button_Clear
@@ -417,7 +416,7 @@
             this.button_Clear.Location = new System.Drawing.Point(0, 0);
             this.button_Clear.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Clear.Name = "button_Clear";
-            this.button_Clear.Size = new System.Drawing.Size(239, 55);
+            this.button_Clear.Size = new System.Drawing.Size(179, 44);
             this.button_Clear.TabIndex = 5;
             this.button_Clear.Text = "Clear Receive Box";
             this.button_Clear.UseCompatibleTextRendering = true;
@@ -427,78 +426,82 @@
             // tabPage_Excel
             // 
             this.tabPage_Excel.Controls.Add(this.panel1);
-            this.tabPage_Excel.Location = new System.Drawing.Point(4, 31);
+            this.tabPage_Excel.Location = new System.Drawing.Point(4, 28);
             this.tabPage_Excel.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.tabPage_Excel.Name = "tabPage_Excel";
             this.tabPage_Excel.Padding = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.tabPage_Excel.Size = new System.Drawing.Size(1304, 515);
+            this.tabPage_Excel.Size = new System.Drawing.Size(976, 408);
             this.tabPage_Excel.TabIndex = 2;
             this.tabPage_Excel.Text = "Excel";
             this.tabPage_Excel.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.comboBox2);
+            this.panel1.Controls.Add(this.comboBox_select_file);
+            this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Controls.Add(this.label_excel_1);
+            this.panel1.Controls.Add(this.button_excel_5);
             this.panel1.Controls.Add(this.button_excel_4);
             this.panel1.Controls.Add(this.button_excel_3);
             this.panel1.Controls.Add(this.button_excel_2);
             this.panel1.Controls.Add(this.button_excel_1);
-            this.panel1.Location = new System.Drawing.Point(33, 28);
+            this.panel1.Location = new System.Drawing.Point(25, 22);
             this.panel1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1240, 445);
+            this.panel1.Size = new System.Drawing.Size(930, 356);
             this.panel1.TabIndex = 0;
             // 
             // label_excel_1
             // 
             this.label_excel_1.AutoSize = true;
-            this.label_excel_1.Location = new System.Drawing.Point(63, 65);
-            this.label_excel_1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_excel_1.Location = new System.Drawing.Point(46, 0);
             this.label_excel_1.Name = "label_excel_1";
-            this.label_excel_1.Size = new System.Drawing.Size(0, 22);
+            this.label_excel_1.Size = new System.Drawing.Size(36, 19);
             this.label_excel_1.TabIndex = 4;
+            this.label_excel_1.Text = "Path";
             // 
             // button_excel_4
             // 
-            this.button_excel_4.Location = new System.Drawing.Point(67, 288);
+            this.button_excel_4.Location = new System.Drawing.Point(0, 177);
             this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_4.Name = "button_excel_4";
-            this.button_excel_4.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_4.Size = new System.Drawing.Size(185, 30);
             this.button_excel_4.TabIndex = 3;
-            this.button_excel_4.Text = "button4_OpenFile";
+            this.button_excel_4.Text = "OpenFile";
             this.button_excel_4.UseVisualStyleBackColor = true;
-            this.button_excel_4.Click += new System.EventHandler(this.button1_Click);
+            this.button_excel_4.Click += new System.EventHandler(this.button_excel_4_Click);
             // 
             // button_excel_3
             // 
-            this.button_excel_3.Location = new System.Drawing.Point(67, 225);
+            this.button_excel_3.Location = new System.Drawing.Point(0, 127);
             this.button_excel_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_3.Name = "button_excel_3";
-            this.button_excel_3.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_3.Size = new System.Drawing.Size(185, 30);
             this.button_excel_3.TabIndex = 2;
-            this.button_excel_3.Text = "button3_SaveOnExcel";
+            this.button_excel_3.Text = "SaveOnExcel";
             this.button_excel_3.UseVisualStyleBackColor = true;
             this.button_excel_3.Click += new System.EventHandler(this.button_excel_3_Click);
             // 
             // button_excel_2
             // 
-            this.button_excel_2.Location = new System.Drawing.Point(67, 165);
+            this.button_excel_2.Location = new System.Drawing.Point(0, 79);
             this.button_excel_2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_2.Name = "button_excel_2";
-            this.button_excel_2.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_2.Size = new System.Drawing.Size(185, 30);
             this.button_excel_2.TabIndex = 1;
-            this.button_excel_2.Text = "button2_SelectFolder";
+            this.button_excel_2.Text = "SelectFolder";
             this.button_excel_2.UseVisualStyleBackColor = true;
             this.button_excel_2.Click += new System.EventHandler(this.button_excel_2_Click);
             // 
             // button_excel_1
             // 
-            this.button_excel_1.Location = new System.Drawing.Point(67, 105);
+            this.button_excel_1.Location = new System.Drawing.Point(0, 31);
             this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_1.Name = "button_excel_1";
-            this.button_excel_1.Size = new System.Drawing.Size(247, 38);
+            this.button_excel_1.Size = new System.Drawing.Size(185, 30);
             this.button_excel_1.TabIndex = 0;
-            this.button_excel_1.Text = "button1_OpenTemplate";
+            this.button_excel_1.Text = "OpenTemplate";
             this.button_excel_1.UseVisualStyleBackColor = true;
             this.button_excel_1.Click += new System.EventHandler(this.button_excel_1_Click);
             // 
@@ -510,7 +513,7 @@
             this.label_display.Location = new System.Drawing.Point(0, 0);
             this.label_display.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label_display.Name = "label_display";
-            this.label_display.Size = new System.Drawing.Size(1312, 149);
+            this.label_display.Size = new System.Drawing.Size(984, 119);
             this.label_display.TabIndex = 5;
             this.label_display.Text = "00:00.000";
             this.label_display.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -532,37 +535,67 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(1312, 701);
-            this.splitContainer1.SplitterDistance = 149;
+            this.splitContainer1.Size = new System.Drawing.Size(984, 561);
+            this.splitContainer1.SplitterDistance = 119;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 6;
             this.splitContainer1.TabStop = false;
             // 
-            
-            // label_excel_1
+            // button_excel_5
             // 
-            this.label_excel_1.AutoSize = true;
-            this.label_excel_1.Location = new System.Drawing.Point(93, 45);
-            this.label_excel_1.Name = "label_excel_1";
-            this.label_excel_1.Size = new System.Drawing.Size(0, 19);
-            this.label_excel_1.TabIndex = 4;
+            this.button_excel_5.Location = new System.Drawing.Point(0, 231);
+            this.button_excel_5.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_5.Name = "button_excel_5";
+            this.button_excel_5.Size = new System.Drawing.Size(185, 30);
+            this.button_excel_5.TabIndex = 5;
+            this.button_excel_5.Text = "ReadFile";
+            this.button_excel_5.UseVisualStyleBackColor = true;
+            this.button_excel_5.Click += new System.EventHandler(this.button_excel_5_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(310, 31);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(620, 325);
+            this.dataGridView1.TabIndex = 7;
+            // 
+            // comboBox_select_file
+            // 
+            this.comboBox_select_file.FormattingEnabled = true;
+            this.comboBox_select_file.Location = new System.Drawing.Point(0, 277);
+            this.comboBox_select_file.Name = "comboBox_select_file";
+            this.comboBox_select_file.Size = new System.Drawing.Size(185, 27);
+            this.comboBox_select_file.TabIndex = 8;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(0, 320);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(185, 27);
+            this.comboBox2.TabIndex = 9;
             // 
             // FrontPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1312, 701);
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(1173, 622);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MinimumSize = new System.Drawing.Size(884, 505);
             this.Name = "FrontPage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Timer App";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.FrontPage_Load);
             this.tabControl1.ResumeLayout(false);
@@ -593,6 +626,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -630,6 +664,10 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button_excel_4;
         private System.Windows.Forms.Label label_excel_1;
+        private System.Windows.Forms.Button button_excel_5;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox_select_file;
     }
 }
 
