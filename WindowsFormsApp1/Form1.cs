@@ -72,7 +72,7 @@ namespace WindowsFormsApp1
                             Counting = false;
                             flag.Ready = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
-                            label2.Text +=label_display.Text + "\r\n";
+                            label1.Text +=label_display.Text + "\r\n";
                             break;
                         case "C":
                             label_display.BackColor = Color.Transparent;
@@ -88,7 +88,7 @@ namespace WindowsFormsApp1
                             flag.Ready = false;
                             label_display.BackColor = Color.FromArgb(192, 0, 0);
                             label_display.Text = "Fail";
-                            label2.Text += "XX:XX.XXX\r\n";
+                            label1.Text += "XX:XX.XXX\r\n";
                             break;
                         
                     }
@@ -315,7 +315,6 @@ namespace WindowsFormsApp1
             //string str = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             label_excel_1.Text = strPath;
-
             //Form2 frm = new Form2();
             //frm.Show(this);
 
@@ -426,7 +425,7 @@ namespace WindowsFormsApp1
                 oSheet.get_Range("A1", "C1").VerticalAlignment =
                 Excel.XlVAlign.xlVAlignCenter;
 
-                string[] StrArr = label2.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] StrArr = label1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 int count = 1;
                 foreach (string str in StrArr)
                 {
@@ -463,22 +462,55 @@ namespace WindowsFormsApp1
 
             int rowCount = xlRange.Rows.Count;
             int colCount = xlRange.Columns.Count;
+            //--------------------------------------
 
-            //iterate over the rows and columns and print to the console as it appears in the file
-            //excel is not zero based!!
+            textBox1.Text = null;
             for (int i = 1; i <= rowCount; i++)
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    //new line
-                    if (j == 1)
-                        Console.Write("\r\n");
-
-                    //write the value to the console
                     if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
-                        Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+                    {
+                        string strdata = xlRange.Cells[i, j].Value2.ToString();
+                        if (i == 1)
+                        {
+                            dataGridView1.Columns.Add("Col1", strdata);
+                        }
+                        else
+                            this.dataGridView1.Rows[i - 2].Cells[j - 1].Value = strdata;
+                    }
                 }
+                if(i != rowCount) this.dataGridView1.Rows.Add();
             }
+            //--------------------------------------
+            //iterate over the rows and columns and print to the console as it appears in the file
+            //excel is not zero based!!
+
+            //--------------------------------------
+            //------源code
+
+            //textBox1.Text = null;
+            //for (int i = 1; i <= rowCount; i++)
+            //{
+            //    for (int j = 1; j <= colCount; j++)
+            //    {
+            //        //new line
+            //        if (j == 1)
+            //        {
+            //            Console.Write("\r\n");
+            //            textBox1.Text += "\r\n";
+            //        }
+
+            //        //write the value to the console
+            //        if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
+            //        {
+            //            Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+            //            textBox1.Text += xlRange.Cells[i, j].Value2.ToString() + "\t";
+            //        }
+            //        else textBox1.Text += "\t";
+            //    }
+            //}
+            //--------------------------------------
 
             //cleanup
             GC.Collect();
@@ -540,9 +572,9 @@ namespace WindowsFormsApp1
         }
         private void button_excel_5_Click(object sender, EventArgs e)
         {
-            // getExcelFile();
-            DataTable TableValue = ImportExcel("Table1");
-            dataGridView1.DataSource = TableValue;
+            getExcelFile();
+            //DataTable TableValue = ImportExcel("Table1");
+            //dataGridView1.DataSource = TableValue;
         }
         public DataTable ImportExcel(string SheetName)
         {
@@ -590,6 +622,16 @@ namespace WindowsFormsApp1
                     }
                 }
             return dataTable;
+        }
+
+        private void button_Command_3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Command_4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
