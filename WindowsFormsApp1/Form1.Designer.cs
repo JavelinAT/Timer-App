@@ -50,18 +50,18 @@
             this.textBoxReceive = new System.Windows.Forms.TextBox();
             this.button_Clear = new System.Windows.Forms.Button();
             this.tabPage_Excel = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.label_excel_2 = new System.Windows.Forms.Label();
             this.label_excel_1 = new System.Windows.Forms.Label();
-            this.button_excel_5 = new System.Windows.Forms.Button();
-            this.button_excel_4 = new System.Windows.Forms.Button();
-            this.button_excel_3 = new System.Windows.Forms.Button();
-            this.button_excel_2 = new System.Windows.Forms.Button();
+            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.button_excel_1 = new System.Windows.Forms.Button();
+            this.button_excel_2 = new System.Windows.Forms.Button();
+            this.button_excel_5 = new System.Windows.Forms.Button();
+            this.button_excel_3 = new System.Windows.Forms.Button();
+            this.button_excel_4 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label_display = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.label_excel_2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
@@ -79,11 +79,6 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tabPage_Excel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
@@ -92,6 +87,11 @@
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -422,6 +422,120 @@
             this.tabPage_Excel.Text = "Excel";
             this.tabPage_Excel.UseVisualStyleBackColor = true;
             // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.Location = new System.Drawing.Point(1, 2);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.label_excel_2);
+            this.splitContainer5.Panel1.Controls.Add(this.label_excel_1);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.splitContainer6);
+            this.splitContainer5.Size = new System.Drawing.Size(974, 406);
+            this.splitContainer5.SplitterDistance = 37;
+            this.splitContainer5.TabIndex = 1;
+            // 
+            // label_excel_2
+            // 
+            this.label_excel_2.AutoSize = true;
+            this.label_excel_2.Location = new System.Drawing.Point(481, 0);
+            this.label_excel_2.Name = "label_excel_2";
+            this.label_excel_2.Size = new System.Drawing.Size(45, 19);
+            this.label_excel_2.TabIndex = 5;
+            this.label_excel_2.Text = "label2";
+            // 
+            // label_excel_1
+            // 
+            this.label_excel_1.AutoSize = true;
+            this.label_excel_1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label_excel_1.Location = new System.Drawing.Point(0, 0);
+            this.label_excel_1.Name = "label_excel_1";
+            this.label_excel_1.Size = new System.Drawing.Size(36, 19);
+            this.label_excel_1.TabIndex = 4;
+            this.label_excel_1.Text = "Path";
+            // 
+            // splitContainer6
+            // 
+            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer6.Name = "splitContainer6";
+            // 
+            // splitContainer6.Panel1
+            // 
+            this.splitContainer6.Panel1.Controls.Add(this.button_excel_1);
+            this.splitContainer6.Panel1.Controls.Add(this.button_excel_2);
+            this.splitContainer6.Panel1.Controls.Add(this.button_excel_5);
+            this.splitContainer6.Panel1.Controls.Add(this.button_excel_3);
+            this.splitContainer6.Panel1.Controls.Add(this.button_excel_4);
+            // 
+            // splitContainer6.Panel2
+            // 
+            this.splitContainer6.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer6.Size = new System.Drawing.Size(974, 365);
+            this.splitContainer6.SplitterDistance = 230;
+            this.splitContainer6.TabIndex = 0;
+            // 
+            // button_excel_1
+            // 
+            this.button_excel_1.Location = new System.Drawing.Point(33, 16);
+            this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_1.Name = "button_excel_1";
+            this.button_excel_1.Size = new System.Drawing.Size(185, 30);
+            this.button_excel_1.TabIndex = 0;
+            this.button_excel_1.Text = "OpenTemplate";
+            this.button_excel_1.UseVisualStyleBackColor = true;
+            this.button_excel_1.Click += new System.EventHandler(this.button_excel_1_Click);
+            // 
+            // button_excel_2
+            // 
+            this.button_excel_2.Location = new System.Drawing.Point(33, 94);
+            this.button_excel_2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_2.Name = "button_excel_2";
+            this.button_excel_2.Size = new System.Drawing.Size(185, 30);
+            this.button_excel_2.TabIndex = 1;
+            this.button_excel_2.Text = "SelectFolder";
+            this.button_excel_2.UseVisualStyleBackColor = true;
+            this.button_excel_2.Click += new System.EventHandler(this.button_excel_2_Click);
+            // 
+            // button_excel_5
+            // 
+            this.button_excel_5.Location = new System.Drawing.Point(33, 228);
+            this.button_excel_5.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_5.Name = "button_excel_5";
+            this.button_excel_5.Size = new System.Drawing.Size(185, 30);
+            this.button_excel_5.TabIndex = 5;
+            this.button_excel_5.Text = "ReadFile";
+            this.button_excel_5.UseVisualStyleBackColor = true;
+            this.button_excel_5.Click += new System.EventHandler(this.button_excel_5_Click);
+            // 
+            // button_excel_3
+            // 
+            this.button_excel_3.Location = new System.Drawing.Point(33, 140);
+            this.button_excel_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_3.Name = "button_excel_3";
+            this.button_excel_3.Size = new System.Drawing.Size(185, 30);
+            this.button_excel_3.TabIndex = 2;
+            this.button_excel_3.Text = "SaveOnExcel";
+            this.button_excel_3.UseVisualStyleBackColor = true;
+            this.button_excel_3.Click += new System.EventHandler(this.button_excel_3_Click);
+            // 
+            // button_excel_4
+            // 
+            this.button_excel_4.Location = new System.Drawing.Point(33, 184);
+            this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_4.Name = "button_excel_4";
+            this.button_excel_4.Size = new System.Drawing.Size(185, 30);
+            this.button_excel_4.TabIndex = 3;
+            this.button_excel_4.Text = "OpenFile";
+            this.button_excel_4.UseVisualStyleBackColor = true;
+            this.button_excel_4.Click += new System.EventHandler(this.button_excel_4_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -437,71 +551,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(740, 365);
             this.dataGridView1.TabIndex = 7;
             this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
-            // 
-            // label_excel_1
-            // 
-            this.label_excel_1.AutoSize = true;
-            this.label_excel_1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label_excel_1.Location = new System.Drawing.Point(0, 0);
-            this.label_excel_1.Name = "label_excel_1";
-            this.label_excel_1.Size = new System.Drawing.Size(36, 19);
-            this.label_excel_1.TabIndex = 4;
-            this.label_excel_1.Text = "Path";
-            // 
-            // button_excel_5
-            // 
-            this.button_excel_5.Location = new System.Drawing.Point(33, 228);
-            this.button_excel_5.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_5.Name = "button_excel_5";
-            this.button_excel_5.Size = new System.Drawing.Size(185, 30);
-            this.button_excel_5.TabIndex = 5;
-            this.button_excel_5.Text = "ReadFile";
-            this.button_excel_5.UseVisualStyleBackColor = true;
-            this.button_excel_5.Click += new System.EventHandler(this.button_excel_5_Click);
-            // 
-            // button_excel_4
-            // 
-            this.button_excel_4.Location = new System.Drawing.Point(33, 184);
-            this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_4.Name = "button_excel_4";
-            this.button_excel_4.Size = new System.Drawing.Size(185, 30);
-            this.button_excel_4.TabIndex = 3;
-            this.button_excel_4.Text = "OpenFile";
-            this.button_excel_4.UseVisualStyleBackColor = true;
-            this.button_excel_4.Click += new System.EventHandler(this.button_excel_4_Click);
-            // 
-            // button_excel_3
-            // 
-            this.button_excel_3.Location = new System.Drawing.Point(33, 140);
-            this.button_excel_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_3.Name = "button_excel_3";
-            this.button_excel_3.Size = new System.Drawing.Size(185, 30);
-            this.button_excel_3.TabIndex = 2;
-            this.button_excel_3.Text = "SaveOnExcel";
-            this.button_excel_3.UseVisualStyleBackColor = true;
-            this.button_excel_3.Click += new System.EventHandler(this.button_excel_3_Click);
-            // 
-            // button_excel_2
-            // 
-            this.button_excel_2.Location = new System.Drawing.Point(33, 94);
-            this.button_excel_2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_2.Name = "button_excel_2";
-            this.button_excel_2.Size = new System.Drawing.Size(185, 30);
-            this.button_excel_2.TabIndex = 1;
-            this.button_excel_2.Text = "SelectFolder";
-            this.button_excel_2.UseVisualStyleBackColor = true;
-            this.button_excel_2.Click += new System.EventHandler(this.button_excel_2_Click);
-            // 
-            // button_excel_1
-            // 
-            this.button_excel_1.Location = new System.Drawing.Point(33, 16);
-            this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_1.Name = "button_excel_1";
-            this.button_excel_1.Size = new System.Drawing.Size(185, 30);
-            this.button_excel_1.TabIndex = 0;
-            this.button_excel_1.Text = "OpenTemplate";
-            this.button_excel_1.UseVisualStyleBackColor = true;
-            this.button_excel_1.Click += new System.EventHandler(this.button_excel_1_Click);
             // 
             // label_display
             // 
@@ -538,55 +587,6 @@
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 6;
             this.splitContainer1.TabStop = false;
-            // 
-            // splitContainer5
-            // 
-            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer5.Location = new System.Drawing.Point(1, 2);
-            this.splitContainer5.Name = "splitContainer5";
-            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer5.Panel1
-            // 
-            this.splitContainer5.Panel1.Controls.Add(this.label_excel_2);
-            this.splitContainer5.Panel1.Controls.Add(this.label_excel_1);
-            // 
-            // splitContainer5.Panel2
-            // 
-            this.splitContainer5.Panel2.Controls.Add(this.splitContainer6);
-            this.splitContainer5.Size = new System.Drawing.Size(974, 406);
-            this.splitContainer5.SplitterDistance = 37;
-            this.splitContainer5.TabIndex = 1;
-            // 
-            // splitContainer6
-            // 
-            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer6.Name = "splitContainer6";
-            // 
-            // splitContainer6.Panel1
-            // 
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_1);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_2);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_5);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_3);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_4);
-            // 
-            // splitContainer6.Panel2
-            // 
-            this.splitContainer6.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer6.Size = new System.Drawing.Size(974, 365);
-            this.splitContainer6.SplitterDistance = 230;
-            this.splitContainer6.TabIndex = 0;
-            // 
-            // label_excel_2
-            // 
-            this.label_excel_2.AutoSize = true;
-            this.label_excel_2.Location = new System.Drawing.Point(481, 0);
-            this.label_excel_2.Name = "label_excel_2";
-            this.label_excel_2.Size = new System.Drawing.Size(45, 19);
-            this.label_excel_2.TabIndex = 5;
-            this.label_excel_2.Text = "label2";
             // 
             // FrontPage
             // 
@@ -626,11 +626,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.tabPage_Excel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel1.PerformLayout();
             this.splitContainer5.Panel2.ResumeLayout(false);
@@ -640,6 +635,11 @@
             this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
