@@ -72,7 +72,7 @@ namespace WindowsFormsApp1
                             Counting = false;
                             flag.Ready = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
-                            label2.Text +=label_display.Text + "\r\n";
+                            label1.Text +=label_display.Text + "\r\n";
                             break;
                         case "C":
                             label_display.BackColor = Color.Transparent;
@@ -88,7 +88,7 @@ namespace WindowsFormsApp1
                             flag.Ready = false;
                             label_display.BackColor = Color.FromArgb(192, 0, 0);
                             label_display.Text = "Fail";
-                            label2.Text += "XX:XX.XXX\r\n";
+                            label1.Text += "XX:XX.XXX\r\n";
                             break;
                         
                     }
@@ -315,7 +315,6 @@ namespace WindowsFormsApp1
             //string str = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             label_excel_1.Text = strPath;
-
             //Form2 frm = new Form2();
             //frm.Show(this);
 
@@ -340,44 +339,55 @@ namespace WindowsFormsApp1
                 oSheet = (Excel._Worksheet)oWB.ActiveSheet;
 
                 //Add table headers going cell by cell.
-                oSheet.Cells[1, 1] = "First Name";
-                oSheet.Cells[1, 2] = "Last Name";
-                oSheet.Cells[1, 3] = "Full Name";
-                oSheet.Cells[1, 4] = "Salary";
+                oSheet.Cells[1, 1] = "Order";
+                oSheet.Cells[1, 2] = "Name";
+                oSheet.Cells[1, 3] = "ID";
+                oSheet.Cells[1, 4] = "隊伍名稱";
+                oSheet.Cells[1, 5] = "Runtime1";
+                oSheet.Cells[1, 6] = "Runtime2";
+                oSheet.Cells[1, 7] = "Runtime3";
+                oSheet.Cells[1, 8] = "Runtime4";
+                oSheet.Cells[1, 9] = "Runtime5";
+                oSheet.Cells[1, 10] = "Mazetime2";
+                oSheet.Cells[1, 11] = "Mazetime3";
+                oSheet.Cells[1, 12] = "Mazetime4";
+                oSheet.Cells[1, 13] = "Mazetime5"; 
+                oSheet.Cells[1, 14] = "Score 1";
+                oSheet.Cells[1, 15] = "Score 2";
+                oSheet.Cells[1, 16] = "Score 3";
+                oSheet.Cells[1, 17] = "Score 4";
+                oSheet.Cells[1, 18] = "Score 5"; 
+                oSheet.Cells[1, 19] = "Bouns2";
+                oSheet.Cells[1, 20] = "Bouns3";
+                oSheet.Cells[1, 21] = "Bouns4";
+                oSheet.Cells[1, 22] = "Bouns5"; 
+                oSheet.Cells[1, 23] = "Best score";
 
+                oSheet.Cells[2, 1] = "1";
+                oSheet.Cells[2, 2] = "";
+                oSheet.Cells[2, 3] = "A1U-005";
+                oSheet.Cells[2, 4] = "Alfa";
+
+                oSheet.Cells[3, 1] = "2";
+                oSheet.Cells[3, 2] = "";
+                oSheet.Cells[3, 3] = "A1U-009";
+                oSheet.Cells[3, 4] = "Essex ";
+
+                oSheet.Cells[4, 1] = "3";
+                oSheet.Cells[4, 2] = "";
+                oSheet.Cells[4, 3] = "A1U-006";
+                oSheet.Cells[4, 4] = "Enterprise";
+
+                oSheet.Cells[5, 1] = "3";
+                oSheet.Cells[5, 2] = "";
+                oSheet.Cells[5, 3] = "A1U-061";
+                oSheet.Cells[5, 4] = "Iowa ";
                 //Format A1:D1 as bold, vertical alignment = center.
-                oSheet.get_Range("A1", "D1").Font.Bold = true;
-                oSheet.get_Range("A1", "D1").VerticalAlignment =
-                Excel.XlVAlign.xlVAlignCenter;
+                oSheet.get_Range("A1", "W1").Cells.Interior.Color = System.Drawing.Color.FromArgb(255, 140, 0).ToArgb();
+                oSheet.get_Range("A1", "W1").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
 
-                // Create an array to multiple values at once.
-                string[,] saNames = new string[5, 2];
-
-                saNames[0, 0] = "John";
-                saNames[0, 1] = "Smith";
-                saNames[1, 0] = "Tom";
-                saNames[1, 1] = "Brown";
-                saNames[2, 0] = "Sue";
-                saNames[2, 1] = "Thomas";
-                saNames[3, 0] = "Jane";
-                saNames[3, 1] = "Jones";
-                saNames[4, 0] = "Adam";
-                saNames[4, 1] = "Johnson";
-
-                //Fill A2:B6 with an array of values (First and Last Names).
-                oSheet.get_Range("A2", "B6").Value2 = saNames;
-
-                //Fill C2:C6 with a relative formula (=A2 & " " & B2).
-                oRng = oSheet.get_Range("C2", "C6");
-                oRng.Formula = "=A2 & \" \" & B2";
-
-                //Fill D2:D6 with a formula(=RAND()*100000) and apply format.
-                oRng = oSheet.get_Range("D2", "D6");
-                oRng.Formula = "=RAND()*100000";
-                oRng.NumberFormat = "$0.00";
-
-                //AutoFit columns A:D.
-                oRng = oSheet.get_Range("A1", "D1");
+                //AutoFit columns
+                oRng = oSheet.get_Range("A1", "W1");
                 oRng.EntireColumn.AutoFit();
 
                 //Make sure Excel is visible and give the user control
@@ -426,7 +436,7 @@ namespace WindowsFormsApp1
                 oSheet.get_Range("A1", "C1").VerticalAlignment =
                 Excel.XlVAlign.xlVAlignCenter;
 
-                string[] StrArr = label2.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] StrArr = label1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 int count = 1;
                 foreach (string str in StrArr)
                 {
@@ -463,22 +473,53 @@ namespace WindowsFormsApp1
 
             int rowCount = xlRange.Rows.Count;
             int colCount = xlRange.Columns.Count;
-
-            //iterate over the rows and columns and print to the console as it appears in the file
-            //excel is not zero based!!
+            //--------------------------------------
             for (int i = 1; i <= rowCount; i++)
             {
                 for (int j = 1; j <= colCount; j++)
                 {
-                    //new line
-                    if (j == 1)
-                        Console.Write("\r\n");
-
-                    //write the value to the console
                     if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
-                        Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+                    {
+                        string strdata = xlRange.Cells[i, j].Value2.ToString();
+                        if (i == 1)
+                        {
+                            dataGridView1.Columns.Add("Col1", strdata);
+                        }
+                        else
+                            this.dataGridView1.Rows[i - 2].Cells[j - 1].Value = strdata;
+                    }
                 }
+                if(i != rowCount) this.dataGridView1.Rows.Add();
             }
+            //--------------------------------------
+            //iterate over the rows and columns and print to the console as it appears in the file
+            //excel is not zero based!!
+
+            //--------------------------------------
+            //------源code
+
+            //textBox1.Text = null;
+            //for (int i = 1; i <= rowCount; i++)
+            //{
+            //    for (int j = 1; j <= colCount; j++)
+            //    {
+            //        //new line
+            //        if (j == 1)
+            //        {
+            //            Console.Write("\r\n");
+            //            textBox1.Text += "\r\n";
+            //        }
+
+            //        //write the value to the console
+            //        if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
+            //        {
+            //            Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+            //            textBox1.Text += xlRange.Cells[i, j].Value2.ToString() + "\t";
+            //        }
+            //        else textBox1.Text += "\t";
+            //    }
+            //}
+            //--------------------------------------
 
             //cleanup
             GC.Collect();
@@ -524,7 +565,7 @@ namespace WindowsFormsApp1
         }
         private void button_excel_3_Click(object sender, EventArgs e)
         {
-            SaveOnExcel(label_excel_1.Text);
+            //SaveOnExcel(label_excel_1.Text);
         }
         private void button_excel_4_Click(object sender, EventArgs e)
         {
@@ -540,9 +581,9 @@ namespace WindowsFormsApp1
         }
         private void button_excel_5_Click(object sender, EventArgs e)
         {
-            // getExcelFile();
-            DataTable TableValue = ImportExcel("Table1");
-            dataGridView1.DataSource = TableValue;
+            getExcelFile();
+            //DataTable TableValue = ImportExcel("Table1");
+            //dataGridView1.DataSource = TableValue;
         }
         public DataTable ImportExcel(string SheetName)
         {
@@ -590,6 +631,30 @@ namespace WindowsFormsApp1
                     }
                 }
             return dataTable;
+        }
+
+        private void button_Command_3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Command_4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            //Console.WriteLine("單元");
+            //foreach (DataGridViewCell c in dataGridView1.SelectedCells)
+            //{
+            //    Console.WriteLine("{0}, {1}", c.ColumnIndex, c.RowIndex);
+            //    label_excel_2.Text = dataGridView1.Rows[c.RowIndex].Cells[2].Value.ToString() + "\t" + "\t" + dataGridView1.Rows[c.RowIndex].Cells[3].Value.ToString();
+            //}
+            int RowInd = dataGridView1.CurrentCell.RowIndex;
+            Console.WriteLine(RowInd);
+            if(dataGridView1.Rows[RowInd].Cells[2].Value != null && dataGridView1.Rows[RowInd].Cells[3].Value != null)
+                label_excel_2.Text = dataGridView1.Rows[RowInd].Cells[2].Value.ToString() + "       "  + dataGridView1.Rows[RowInd].Cells[3].Value.ToString();
         }
     }
 }
