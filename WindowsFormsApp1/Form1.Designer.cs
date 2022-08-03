@@ -52,23 +52,16 @@
             this.tabPage_Excel = new System.Windows.Forms.TabPage();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.label_excel_2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-=========
->>>>>>>>> Temporary merge branch 2
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label_excel_1 = new System.Windows.Forms.Label();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.button_excel_1 = new System.Windows.Forms.Button();
             this.button_excel_2 = new System.Windows.Forms.Button();
             this.button_excel_5 = new System.Windows.Forms.Button();
             this.button_excel_3 = new System.Windows.Forms.Button();
+            this.button_excel_4 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label_display = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-<<<<<<<<< Temporary merge branch 1
-=========
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.label_excel_2 = new System.Windows.Forms.Label();
->>>>>>>>> Temporary merge branch 2
             this.tabControl1.SuspendLayout();
             this.tabPage_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
@@ -79,23 +72,13 @@
             this.tabPage_Setting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tabPage_Excel.SuspendLayout();
-<<<<<<<<< Temporary merge branch 1
-            this.panel1.SuspendLayout();
-=========
->>>>>>>>> Temporary merge branch 2
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-<<<<<<<<< Temporary merge branch 1
-=========
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
@@ -104,14 +87,18 @@
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
->>>>>>>>> Temporary merge branch 2
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage_Main);
-            this.tabControl1.Controls.Add(this.tabPage_Setting);
             this.tabControl1.Controls.Add(this.tabPage_Excel);
+            this.tabControl1.Controls.Add(this.tabPage_Setting);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -431,38 +418,21 @@
             this.tabPage_Excel.Name = "tabPage_Excel";
             this.tabPage_Excel.Padding = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.tabPage_Excel.Size = new System.Drawing.Size(976, 410);
+            this.tabPage_Excel.TabIndex = 2;
+            this.tabPage_Excel.Text = "Excel";
+            this.tabPage_Excel.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.Location = new System.Drawing.Point(1, 2);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
             this.splitContainer5.Panel1.Controls.Add(this.label_excel_2);
             this.splitContainer5.Panel1.Controls.Add(this.label_excel_1);
-<<<<<<<<< Temporary merge branch 1
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Controls.Add(this.label_excel_1);
-            this.panel1.Controls.Add(this.button_excel_5);
-            this.panel1.Controls.Add(this.button_excel_4);
-            this.panel1.Controls.Add(this.button_excel_3);
-            this.panel1.Controls.Add(this.button_excel_2);
-            this.panel1.Controls.Add(this.button_excel_1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(1, 2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(974, 405);
-            this.panel1.TabIndex = 0;
-=========
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(740, 365);
-            this.dataGridView1.TabIndex = 7;
-            this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
->>>>>>>>> Temporary merge branch 2
             // 
             // splitContainer5.Panel2
             // 
@@ -518,7 +488,7 @@
             this.button_excel_1.Name = "button_excel_1";
             this.button_excel_1.Size = new System.Drawing.Size(185, 30);
             this.button_excel_1.TabIndex = 0;
-            this.button_excel_1.Text = "OpenTemplate";
+            this.button_excel_1.Text = "Create Excel template";
             this.button_excel_1.UseVisualStyleBackColor = true;
             this.button_excel_1.Click += new System.EventHandler(this.button_excel_1_Click);
             // 
@@ -588,44 +558,46 @@
             this.label_display.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_display.Font = new System.Drawing.Font("Times New Roman", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_display.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer5.TabIndex = 1;
+            this.label_display.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label_display.Name = "label_display";
+            this.label_display.Size = new System.Drawing.Size(984, 117);
+            this.label_display.TabIndex = 5;
+            this.label_display.Text = "00:00.000";
+            this.label_display.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // splitContainer6
+            // splitContainer1
             // 
-            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer6.Name = "splitContainer6";
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer6.Panel1
+            // splitContainer1.Panel1
             // 
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_1);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_2);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_5);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_3);
-            this.splitContainer6.Panel1.Controls.Add(this.button_excel_4);
+            this.splitContainer1.Panel1.Controls.Add(this.label_display);
             // 
-            // splitContainer6.Panel2
+            // splitContainer1.Panel2
             // 
-            this.splitContainer6.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer6.Size = new System.Drawing.Size(974, 365);
-            this.splitContainer6.SplitterDistance = 230;
-            this.splitContainer6.TabIndex = 0;
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Size = new System.Drawing.Size(984, 561);
+            this.splitContainer1.SplitterDistance = 117;
+            this.splitContainer1.SplitterWidth = 2;
+            this.splitContainer1.TabIndex = 6;
+            this.splitContainer1.TabStop = false;
             // 
-            // label_excel_2
-            // 
-            this.label_excel_2.AutoSize = true;
-            this.label_excel_2.Location = new System.Drawing.Point(481, 0);
-            this.label_excel_2.Name = "label_excel_2";
-            this.label_excel_2.Size = new System.Drawing.Size(45, 19);
-            this.label_excel_2.TabIndex = 5;
-            this.label_excel_2.Text = "label2";
-            // 
->>>>>>>>> Temporary merge branch 2
             // FrontPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.splitContainer1);
+            this.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(884, 501);
             this.Name = "FrontPage";
@@ -635,11 +607,7 @@
             this.Load += new System.EventHandler(this.FrontPage_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage_Main.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel2.ResumeLayout(false);
             this.splitContainer4.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
@@ -658,18 +626,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.tabPage_Excel.ResumeLayout(false);
-<<<<<<<<< Temporary merge branch 1
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-=========
->>>>>>>>> Temporary merge branch 2
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-<<<<<<<<< Temporary merge branch 1
-=========
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel1.PerformLayout();
             this.splitContainer5.Panel2.ResumeLayout(false);
@@ -679,7 +635,11 @@
             this.splitContainer6.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
             this.splitContainer6.ResumeLayout(false);
->>>>>>>>> Temporary merge branch 2
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

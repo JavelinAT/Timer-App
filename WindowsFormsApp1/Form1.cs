@@ -28,18 +28,26 @@ namespace WindowsFormsApp1
         private bool Counting = false;
         private Thread t;
         private string ExcelFilePath;
-        Flag flag = new Flag(false, false, false);
-
+        Flag flag = new Flag(false, false);
+        ExcelLoca Excel_loca = new ExcelLoca(0, 0);
+        public struct ExcelLoca
+        {
+            public int Rows;
+            public int Columns;
+            public ExcelLoca(int Rows, int Columns)
+            {
+                this.Rows = Rows;
+                this.Columns = Columns;
+            }
+        }
         public struct Flag
         {
             public bool Ready;
             public bool Failing;
-            public bool Counting;
-            public Flag(bool r, bool f, bool c)
+            public Flag(bool r, bool f)
             {
                 this.Ready = r;
                 this.Failing = f;
-                this.Counting = c;
             }
         }
         delegate void Display(string buffer);//1    //使用委派顯示
@@ -321,7 +329,7 @@ namespace WindowsFormsApp1
             //畫面開啟時直接連接Com10
             //Console_Connect("COM10", 115200);
         }
-        private void OpenExcel()
+        private void Create_Excel_template()
         {
             Excel.Application oXL;
             Excel._Workbook oWB;
@@ -408,34 +416,15 @@ namespace WindowsFormsApp1
         }
         private void SaveOnExcel(string path)
         {
-            //string FileStr = "D:\\test";
             Excel.Application oXL;
             Excel._Workbook oWB;
             Excel._Worksheet oSheet;
-            //Excel.Range oRng;
-            
-
             try
             {
-                //Start Excel and get Application object.
                 oXL = new Excel.Application();
                 oXL.Visible = false;
-
-                //Get a new workbook.
-                //oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
                 oWB = oXL.Workbooks.Open(path);
                 oSheet = oWB.Worksheets[1];
-
-                //Add table headers going cell by cell.
-                oSheet.Cells[1, 1] = "Team";
-                oSheet.Cells[1, 2] = "Name";
-                oSheet.Cells[1, 3] = "Score";
-
-                //Format A1:D1 as bold, vertical alignment = center.
-                oSheet.get_Range("A1", "C1").Font.Bold = true;
-                oSheet.get_Range("A1", "C1").VerticalAlignment =
-                Excel.XlVAlign.xlVAlignCenter;
-
                 string[] StrArr = label1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 int count = 1;
                 foreach (string str in StrArr)
@@ -446,7 +435,6 @@ namespace WindowsFormsApp1
                 }
                 
                 oXL.Visible = false;
-                //oXL.UserControl = true;
                 oWB.Save();
                 oWB.Close();
                 oXL.Quit();
@@ -458,7 +446,6 @@ namespace WindowsFormsApp1
                 errorMessage = String.Concat(errorMessage, theException.Message);
                 errorMessage = String.Concat(errorMessage, " Line: ");
                 errorMessage = String.Concat(errorMessage, theException.Source);
-
                 MessageBox.Show(errorMessage, "Error");
             }
         }
@@ -483,7 +470,7 @@ namespace WindowsFormsApp1
                         string strdata = xlRange.Cells[i, j].Value2.ToString();
                         if (i == 1)
                         {
-                            dataGridView1.Columns.Add("Col1", strdata);
+                            dataGridView1.Columns.Add("Cells", strdata);
                         }
                         else
                             this.dataGridView1.Rows[i - 2].Cells[j - 1].Value = strdata;
@@ -491,35 +478,9 @@ namespace WindowsFormsApp1
                 }
                 if(i != rowCount) this.dataGridView1.Rows.Add();
             }
-            //--------------------------------------
-            //iterate over the rows and columns and print to the console as it appears in the file
-            //excel is not zero based!!
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
 
-            //--------------------------------------
-            //------源code
-
-            //textBox1.Text = null;
-            //for (int i = 1; i <= rowCount; i++)
-            //{
-            //    for (int j = 1; j <= colCount; j++)
-            //    {
-            //        //new line
-            //        if (j == 1)
-            //        {
-            //            Console.Write("\r\n");
-            //            textBox1.Text += "\r\n";
-            //        }
-
-            //        //write the value to the console
-            //        if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
-            //        {
-            //            Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
-            //            textBox1.Text += xlRange.Cells[i, j].Value2.ToString() + "\t";
-            //        }
-            //        else textBox1.Text += "\t";
-            //    }
-            //}
-            //--------------------------------------
+            { column.SortMode = DataGridViewColumnSortMode.NotSortable; }
 
             //cleanup
             GC.Collect();
@@ -543,7 +504,7 @@ namespace WindowsFormsApp1
         }
         private void button_excel_1_Click(object sender, EventArgs e)
         {
-            OpenExcel();
+            Create_Excel_template();
         }
         private void button_excel_2_Click(object sender, EventArgs e)
         {
@@ -645,16 +606,16 @@ namespace WindowsFormsApp1
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            //Console.WriteLine("單元");
-            //foreach (DataGridViewCell c in dataGridView1.SelectedCells)
-            //{
-            //    Console.WriteLine("{0}, {1}", c.ColumnIndex, c.RowIndex);
-            //    label_excel_2.Text = dataGridView1.Rows[c.RowIndex].Cells[2].Value.ToString() + "\t" + "\t" + dataGridView1.Rows[c.RowIndex].Cells[3].Value.ToString();
-            //}
             int RowInd = dataGridView1.CurrentCell.RowIndex;
-            Console.WriteLine(RowInd);
-            if(dataGridView1.Rows[RowInd].Cells[2].Value != null && dataGridView1.Rows[RowInd].Cells[3].Value != null)
-                label_excel_2.Text = dataGridView1.Rows[RowInd].Cells[2].Value.ToString() + "       "  + dataGridView1.Rows[RowInd].Cells[3].Value.ToString();
+            int ColInd = dataGridView1.CurrentCell.ColumnIndex;
+            Console.WriteLine(RowInd + " "+ ColInd);
+            Excel_loca.Rows = RowInd + 2;
+            Excel_loca.Columns = ColInd + 1;
+            Console.WriteLine("Excel_loca " + Excel_loca.Rows + " " + Excel_loca.Columns);
+            if (dataGridView1.Rows[RowInd].Cells[2].Value != null && dataGridView1.Rows[RowInd].Cells[3].Value != null)
+                label_excel_2.Text = dataGridView1.Rows[RowInd].Cells[2].Value.ToString() + "       " + dataGridView1.Rows[RowInd].Cells[3].Value.ToString() + "       " + "Row" + RowInd.ToString() + "Column" + ColInd.ToString();
+            else
+                label_excel_2.Text = "Row" + RowInd.ToString() + "Column" + ColInd.ToString();
         }
     }
 }
