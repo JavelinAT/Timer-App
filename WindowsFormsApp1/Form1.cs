@@ -26,9 +26,10 @@ namespace WindowsFormsApp1
         private SerialPort My_SerialPort;
         private bool Console_receiving = false;
         private bool Counting = false;
+        private bool State_Ready = false;
+        private bool State_Failing = false;
         private Thread t;
         private string ExcelFilePath;
-        Flag flag = new Flag(false, false);
         ExcelLoca Excel_loca = new ExcelLoca(0, 0);
         public struct ExcelLoca
         {
@@ -38,16 +39,6 @@ namespace WindowsFormsApp1
             {
                 this.Rows = Rows;
                 this.Columns = Columns;
-            }
-        }
-        public struct Flag
-        {
-            public bool Ready;
-            public bool Failing;
-            public Flag(bool r, bool f)
-            {
-                this.Ready = r;
-                this.Failing = f;
             }
         }
         delegate void Display(string buffer);//1    //使用委派顯示
@@ -78,21 +69,21 @@ namespace WindowsFormsApp1
                             break;
                         case "G":
                             Counting = false;
-                            flag.Ready = false;
+                            State_Ready = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
                             break;
                         case "C":
                             label_display.BackColor = Color.Transparent;
                             break;
                         case "R":   //Ready
-                            flag.Ready = true;
-                            flag.Failing = false;
+                            State_Ready = true;
+                            State_Failing = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
                             label_display.Text = "Ready";
                             break;
                         case "F":   //Fail
-                            flag.Failing = true;
-                            flag.Ready = false;
+                            State_Failing = true;
+                            State_Ready = false;
                             label_display.BackColor = Color.FromArgb(192, 0, 0);
                             label_display.Text = "Fail";
                             break;
@@ -111,8 +102,8 @@ namespace WindowsFormsApp1
         }
         public void Reset()
         {
-            flag.Ready = false;
-            flag.Failing = false;
+            State_Ready = false;
+            State_Failing = false;
             label_display.Text = "00:00.000";
             label_display.BackColor = Color.Transparent;
         }
@@ -285,7 +276,7 @@ namespace WindowsFormsApp1
         }
         private void button_Command_Ready_Click(object sender, EventArgs e)
         {
-            if (flag.Ready == false)
+            if (State_Ready == false)
             {
                 SendString("R\n");
             }
@@ -293,7 +284,7 @@ namespace WindowsFormsApp1
         }
         private void button_Command_Fail_Click(object sender, EventArgs e)
         {
-            if(flag.Failing == false)
+            if(State_Failing == false)
             {
                 SendString("F\n");
                 //My_SerialPort.Write("F\n");
@@ -321,8 +312,8 @@ namespace WindowsFormsApp1
             //string str = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             label_excel_1.Text = strPath;
-            //Form2 frm = new Form2();
-            //frm.Show(this);
+            Form2 frm = new Form2();
+            frm.Show(this);
 
             //畫面開啟時直接連接Com10
             //Console_Connect("COM10", 115200);
