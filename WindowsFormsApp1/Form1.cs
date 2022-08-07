@@ -80,7 +80,6 @@ namespace WindowsFormsApp1
                             Counting = false;
                             flag.Ready = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
-                            label1.Text +=label_display.Text + "\r\n";
                             break;
                         case "C":
                             label_display.BackColor = Color.Transparent;
@@ -96,7 +95,6 @@ namespace WindowsFormsApp1
                             flag.Ready = false;
                             label_display.BackColor = Color.FromArgb(192, 0, 0);
                             label_display.Text = "Fail";
-                            label1.Text += "XX:XX.XXX\r\n";
                             break;
                         
                     }
@@ -345,51 +343,36 @@ namespace WindowsFormsApp1
                 //Get a new workbook.
                 oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
                 oSheet = (Excel._Worksheet)oWB.ActiveSheet;
+                string[] saNames = new string[] { "Order" , "Name" , "ID" , "隊伍名稱" ,
+                    "Runtime1" , "Runtime2" , "Runtime3" , "Runtime4" , "Runtime5" ,
+                    "Mazetime2" ,"Mazetime3","Mazetime4","Mazetime5",
+                    "Score 1","Score 2","Score 3","Score 4","Score 5",
+                    "Bouns2","Bouns3","Bouns4","Bouns5","Best score"};
+                oSheet.get_Range("A1", "W1").Value2 = saNames;
+                for(int i = 2; i < 7; i++)
+                {
+                    oSheet.Cells[i, 1] = (i-1);
+                }
 
-                //Add table headers going cell by cell.
-                oSheet.Cells[1, 1] = "Order";
-                oSheet.Cells[1, 2] = "Name";
-                oSheet.Cells[1, 3] = "ID";
-                oSheet.Cells[1, 4] = "隊伍名稱";
-                oSheet.Cells[1, 5] = "Runtime1";
-                oSheet.Cells[1, 6] = "Runtime2";
-                oSheet.Cells[1, 7] = "Runtime3";
-                oSheet.Cells[1, 8] = "Runtime4";
-                oSheet.Cells[1, 9] = "Runtime5";
-                oSheet.Cells[1, 10] = "Mazetime2";
-                oSheet.Cells[1, 11] = "Mazetime3";
-                oSheet.Cells[1, 12] = "Mazetime4";
-                oSheet.Cells[1, 13] = "Mazetime5"; 
-                oSheet.Cells[1, 14] = "Score 1";
-                oSheet.Cells[1, 15] = "Score 2";
-                oSheet.Cells[1, 16] = "Score 3";
-                oSheet.Cells[1, 17] = "Score 4";
-                oSheet.Cells[1, 18] = "Score 5"; 
-                oSheet.Cells[1, 19] = "Bouns2";
-                oSheet.Cells[1, 20] = "Bouns3";
-                oSheet.Cells[1, 21] = "Bouns4";
-                oSheet.Cells[1, 22] = "Bouns5"; 
-                oSheet.Cells[1, 23] = "Best score";
-
-                oSheet.Cells[2, 1] = "1";
-                oSheet.Cells[2, 2] = "";
-                oSheet.Cells[2, 3] = "A1U-005";
+                oSheet.Cells[2, 2] = "Team-A";
+                oSheet.Cells[2, 3] = "A1U-003";
                 oSheet.Cells[2, 4] = "Alfa";
 
-                oSheet.Cells[3, 1] = "2";
-                oSheet.Cells[3, 2] = "";
-                oSheet.Cells[3, 3] = "A1U-009";
+                oSheet.Cells[3, 2] = "CV-9";
+                oSheet.Cells[3, 3] = "A1U-002";
                 oSheet.Cells[3, 4] = "Essex ";
 
-                oSheet.Cells[4, 1] = "3";
-                oSheet.Cells[4, 2] = "";
-                oSheet.Cells[4, 3] = "A1U-006";
+                oSheet.Cells[4, 2] = "CV-6";
+                oSheet.Cells[4, 3] = "A1U-004";
                 oSheet.Cells[4, 4] = "Enterprise";
 
-                oSheet.Cells[5, 1] = "3";
-                oSheet.Cells[5, 2] = "";
-                oSheet.Cells[5, 3] = "A1U-061";
+                oSheet.Cells[5, 2] = "BB-61";
+                oSheet.Cells[5, 3] = "A1U-001";
                 oSheet.Cells[5, 4] = "Iowa ";
+
+                oSheet.Cells[6, 2] = "DD-12";
+                oSheet.Cells[6, 3] = "A1U-005";
+                oSheet.Cells[6, 4] = "丹陽";
                 //Format A1:D1 as bold, vertical alignment = center.
                 oSheet.get_Range("A1", "W1").Cells.Interior.Color = System.Drawing.Color.FromArgb(255, 140, 0).ToArgb();
                 oSheet.get_Range("A1", "W1").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
@@ -425,15 +408,14 @@ namespace WindowsFormsApp1
                 oXL.Visible = false;
                 oWB = oXL.Workbooks.Open(path);
                 oSheet = oWB.Worksheets[1];
-                string[] StrArr = label1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                int count = 1;
-                foreach (string str in StrArr)
-                {
-                    count += 1;
-                    oSheet.Cells[count, 3].NumberFormat = "@";
-                    oSheet.Cells[count, 3].Value = str;
-                }
-                
+                //string[] StrArr = label1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                //int count = 1;
+                //foreach (string str in StrArr)
+                //{
+                //    count += 1;
+                //    oSheet.Cells[count, 3].NumberFormat = "@";
+                //    oSheet.Cells[count, 3].Value = str;
+                //}
                 oXL.Visible = false;
                 oWB.Save();
                 oWB.Close();
@@ -451,10 +433,9 @@ namespace WindowsFormsApp1
         }
         public void getExcelFile()
         {
-
             //Create COM Objects. Create a COM object for everything that is referenced
             Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(label_excel_1.Text);
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ExcelFilePath);
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
@@ -515,18 +496,17 @@ namespace WindowsFormsApp1
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     ExcelFilePath = ofd.FileName;
-                    label_excel_1.Text = ExcelFilePath;
                 }
                 else
                 {
                     ExcelFilePath = string.Empty;
-                    label_excel_1.Text = ExcelFilePath;
                 }
+                label_excel_1.Text = ExcelFilePath;
             }
         }
         private void button_excel_3_Click(object sender, EventArgs e)
         {
-            //SaveOnExcel(label_excel_1.Text);
+            //SaveOnExcel(ExcelFilePath);
         }
         private void button_excel_4_Click(object sender, EventArgs e)
         {
@@ -543,57 +523,7 @@ namespace WindowsFormsApp1
         private void button_excel_5_Click(object sender, EventArgs e)
         {
             getExcelFile();
-            //DataTable TableValue = ImportExcel("Table1");
-            //dataGridView1.DataSource = TableValue;
         }
-        public DataTable ImportExcel(string SheetName)
-        {
-            
-            DataTable dataTable = new DataTable();
-
-            
-
-                //2.提供者名稱  Microsoft.Jet.OLEDB.4.0適用於2003以前版本，Microsoft.ACE.OLEDB.12.0 適用於2007以後的版本處理 xlsx 檔案
-                string ProviderName = "Microsoft.ACE.OLEDB.12.0;";
-
-                //3.Excel版本，Excel 8.0 針對Excel2000及以上版本，Excel5.0 針對Excel97。
-                string ExtendedString = "'Excel 8.0;";
-
-                //4.第一行是否為標題(;結尾區隔)
-                string HDR = "No;";
-
-                //5.IMEX=1 通知驅動程序始終將「互混」數據列作為文本讀取(;結尾區隔,'文字結尾)
-                string IMEX = "0';";
-
-                //=============================================================
-                //連線字串
-                string connectString =
-                        "Data Source=" + ExcelFilePath + ";" +
-                        "Provider=" + ProviderName +
-                        "Extended Properties=" + ExtendedString +
-                        "HDR=" + HDR +
-                        "IMEX=" + IMEX;
-                //=============================================================
-
-                using (OleDbConnection Connect = new OleDbConnection(connectString))
-                {
-                    Connect.Open();
-                    string queryString = "SELECT * FROM [" + SheetName + "$]";
-                    try
-                    {
-                        using (OleDbDataAdapter dr = new OleDbDataAdapter(queryString, Connect))
-                        {
-                            dr.Fill(dataTable);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("異常訊息:" + ex.Message, "異常訊息");
-                    }
-                }
-            return dataTable;
-        }
-
         private void button_Command_3_Click(object sender, EventArgs e)
         {
 
@@ -603,7 +533,6 @@ namespace WindowsFormsApp1
         {
 
         }
-
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             int RowInd = dataGridView1.CurrentCell.RowIndex;
@@ -616,6 +545,11 @@ namespace WindowsFormsApp1
                 label_excel_2.Text = dataGridView1.Rows[RowInd].Cells[2].Value.ToString() + "       " + dataGridView1.Rows[RowInd].Cells[3].Value.ToString() + "       " + "Row" + RowInd.ToString() + "Column" + ColInd.ToString();
             else
                 label_excel_2.Text = "Row" + RowInd.ToString() + "Column" + ColInd.ToString();
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
