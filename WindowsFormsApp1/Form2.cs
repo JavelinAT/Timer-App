@@ -19,6 +19,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
+        public FrontPage MainForm;//Form2 to Form1
         public Form2()
         {
             InitializeComponent();
@@ -26,7 +27,9 @@ namespace WindowsFormsApp1
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            
+
+            SendToBack();
+            //BringToFront();
         }
     }
 }

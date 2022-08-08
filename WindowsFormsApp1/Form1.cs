@@ -17,8 +17,6 @@ using System.Runtime.InteropServices;
 using System.Data.OleDb;
 
 
-using System.Diagnostics;
-
 namespace WindowsFormsApp1
 {
     public partial class FrontPage : Form
@@ -28,9 +26,13 @@ namespace WindowsFormsApp1
         private bool Counting = false;
         private bool State_Ready = false;
         private bool State_Failing = false;
+        public int GwRowInd;
+        public int GwColInd;
+        public int TotalRuns = 3;
+        
         private Thread t;
         private string ExcelFilePath;
-        ExcelLoca Excel_loca = new ExcelLoca(0, 0);
+        ExcelLoca xlCells = new ExcelLoca(0, 0);
         public struct ExcelLoca
         {
             public int Rows;
@@ -42,9 +44,13 @@ namespace WindowsFormsApp1
             }
         }
         delegate void Display(string buffer);//1    //使用委派顯示
+        public Form2 F2 = new Form2();
         public FrontPage()
         {
             InitializeComponent();
+            F2.Show();
+
+            F2.MainForm = this;//Form2 to Form1
         }
         public void ConsoleShow(string buffer)//3
         {
@@ -71,6 +77,9 @@ namespace WindowsFormsApp1
                             Counting = false;
                             State_Ready = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
+                            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns, label_display.Text);
+                            Write_dataGridView(GwRowInd, GwColInd, label_display.Text);
+                            GwColInd += 1;
                             break;
                         case "C":
                             label_display.BackColor = Color.Transparent;
@@ -308,12 +317,10 @@ namespace WindowsFormsApp1
         }
         private void FrontPage_Load(object sender, EventArgs e)
         {
-            //string str = System.Environment.CurrentDirectory;
-            //string str = System.Windows.Forms.Application.StartupPath;//啟動路徑
+            //string strPath = System.Environment.CurrentDirectory;
+            //string strPath = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             label_excel_1.Text = strPath;
-            Form2 frm = new Form2();
-            frm.Show(this);
 
             //畫面開啟時直接連接Com10
             //Console_Connect("COM10", 115200);
@@ -372,6 +379,7 @@ namespace WindowsFormsApp1
                 oRng = oSheet.get_Range("A1", "W1");
                 oRng.EntireColumn.AutoFit();
 
+                oWB.SaveAs(System.Windows.Forms.Application.StartupPath + "\\Template");
                 //Make sure Excel is visible and give the user control
                 //of Microsoft Excel's lifetime.
                 oXL.Visible = true;
@@ -388,29 +396,29 @@ namespace WindowsFormsApp1
                 MessageBox.Show(errorMessage, "Error");
             }
         }
-        private void SaveOnExcel(string path)
+        private void SaveToExcel(string path, int xlRows,int xlColumns, string Value)
         {
-            Excel.Application oXL;
-            Excel._Workbook oWB;
-            Excel._Worksheet oSheet;
             try
             {
-                oXL = new Excel.Application();
-                oXL.Visible = false;
-                oWB = oXL.Workbooks.Open(path);
-                oSheet = oWB.Worksheets[1];
-                //string[] StrArr = label1.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                //int count = 1;
-                //foreach (string str in StrArr)
-                //{
-                //    count += 1;
-                //    oSheet.Cells[count, 3].NumberFormat = "@";
-                //    oSheet.Cells[count, 3].Value = str;
-                //}
-                oXL.Visible = false;
-                oWB.Save();
-                oWB.Close();
-                oXL.Quit();
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(path);
+                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+                xlApp.Visible = false;
+                xlWorksheet.Cells[xlRows, xlColumns].NumberFormat = "@";
+                xlWorksheet.Cells[xlRows, xlColumns].Value = Value;
+                xlWorkbook.Save();
+                //cleanup
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                Marshal.ReleaseComObject(xlWorksheet);
+                //close and release
+                xlWorkbook.Close();
+                Marshal.ReleaseComObject(xlWorkbook);
+
+                //quit and release
+                xlApp.Quit();
+                Marshal.ReleaseComObject(xlApp);
             }
             catch (Exception theException)
             {
@@ -422,14 +430,14 @@ namespace WindowsFormsApp1
                 MessageBox.Show(errorMessage, "Error");
             }
         }
-        public void getExcelFile()
+        public void getExcelFile(string xlFilePath)
         {
             //Create COM Objects. Create a COM object for everything that is referenced
             Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ExcelFilePath);
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(xlFilePath);
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
-
+            dataGridView1.Columns.Clear();
             int rowCount = xlRange.Rows.Count;
             int colCount = xlRange.Columns.Count;
             //--------------------------------------
@@ -474,6 +482,10 @@ namespace WindowsFormsApp1
             xlApp.Quit();
             Marshal.ReleaseComObject(xlApp);
         }
+        public void Write_dataGridView(int GwRows, int GwColumns, string GwScore)
+        {
+            dataGridView1.Rows[GwRows].Cells[GwColumns].Value = GwScore;
+        }
         private void button_excel_1_Click(object sender, EventArgs e)
         {
             Create_Excel_template();
@@ -487,17 +499,20 @@ namespace WindowsFormsApp1
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     ExcelFilePath = ofd.FileName;
+                    label_excel_1.Text = ExcelFilePath;
+                    getExcelFile(ExcelFilePath);
                 }
                 else
                 {
                     ExcelFilePath = string.Empty;
+                    label_excel_1.Text = ExcelFilePath;
                 }
-                label_excel_1.Text = ExcelFilePath;
             }
         }
         private void button_excel_3_Click(object sender, EventArgs e)
         {
-            //SaveOnExcel(ExcelFilePath);
+            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns,textBoxSend.Text);
+            Write_dataGridView(GwRowInd,GwColInd, textBoxSend.Text);
         }
         private void button_excel_4_Click(object sender, EventArgs e)
         {
@@ -513,7 +528,7 @@ namespace WindowsFormsApp1
         }
         private void button_excel_5_Click(object sender, EventArgs e)
         {
-            getExcelFile();
+            //getExcelFile();
         }
         private void button_Command_3_Click(object sender, EventArgs e)
         {
@@ -526,16 +541,23 @@ namespace WindowsFormsApp1
         }
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            int RowInd = dataGridView1.CurrentCell.RowIndex;
-            int ColInd = dataGridView1.CurrentCell.ColumnIndex;
-            Console.WriteLine(RowInd + " "+ ColInd);
-            Excel_loca.Rows = RowInd + 2;
-            Excel_loca.Columns = ColInd + 1;
-            Console.WriteLine("Excel_loca " + Excel_loca.Rows + " " + Excel_loca.Columns);
-            if (dataGridView1.Rows[RowInd].Cells[2].Value != null && dataGridView1.Rows[RowInd].Cells[3].Value != null)
-                label_excel_2.Text = dataGridView1.Rows[RowInd].Cells[2].Value.ToString() + "       " + dataGridView1.Rows[RowInd].Cells[3].Value.ToString() + "       " + "Row" + RowInd.ToString() + "Column" + ColInd.ToString();
+            GwRowInd = dataGridView1.CurrentCell.RowIndex;
+            GwColInd = dataGridView1.CurrentCell.ColumnIndex;
+            if (GwColInd > (4 + TotalRuns - 1)) GwColInd = (4 + TotalRuns - 1);
+            if (GwColInd < 4) GwColInd = 4;
+
+            xlCells.Rows = GwRowInd + 2;
+            xlCells.Columns = GwColInd + 1;
+            //Console.WriteLine(GwRowInd + " "+ GwColInd);
+            //Console.WriteLine("Excel_loca " + xlCells.Rows + " " + xlCells.Columns);
+            if (dataGridView1.Rows[GwRowInd].Cells[2].Value != null && dataGridView1.Rows[GwRowInd].Cells[3].Value != null)
+                label_excel_2.Text = dataGridView1.Rows[GwRowInd].Cells[2].Value.ToString() + "           " 
+                    + dataGridView1.Rows[GwRowInd].Cells[3].Value.ToString() + "                      " 
+                    + this.dataGridView1.Columns[GwColInd].HeaderText + "           " 
+                    + "Row" + GwRowInd.ToString() 
+                    + "Column" + GwColInd.ToString();
             else
-                label_excel_2.Text = "Row" + RowInd.ToString() + "Column" + ColInd.ToString();
+                label_excel_2.Text = "Row" + "           " + GwRowInd.ToString() + "Column" + GwColInd.ToString();
         }
 
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)

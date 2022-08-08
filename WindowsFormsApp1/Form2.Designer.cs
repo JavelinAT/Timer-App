@@ -73,8 +73,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Size = new System.Drawing.Size(898, 521);
-            this.splitContainer1.SplitterDistance = 92;
+            this.splitContainer1.Size = new System.Drawing.Size(984, 561);
+            this.splitContainer1.SplitterDistance = 99;
             this.splitContainer1.TabIndex = 0;
             // 
             // splitContainer2
@@ -90,8 +90,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.label_Round_Time);
-            this.splitContainer2.Size = new System.Drawing.Size(898, 92);
-            this.splitContainer2.SplitterDistance = 227;
+            this.splitContainer2.Size = new System.Drawing.Size(984, 99);
+            this.splitContainer2.SplitterDistance = 248;
             this.splitContainer2.TabIndex = 0;
             // 
             // label_Team_Information
@@ -129,8 +129,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer5);
-            this.splitContainer3.Size = new System.Drawing.Size(898, 425);
-            this.splitContainer3.SplitterDistance = 229;
+            this.splitContainer3.Size = new System.Drawing.Size(984, 458);
+            this.splitContainer3.SplitterDistance = 250;
             this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer4
@@ -147,8 +147,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.label_Total_Time);
-            this.splitContainer4.Size = new System.Drawing.Size(229, 425);
-            this.splitContainer4.SplitterDistance = 193;
+            this.splitContainer4.Size = new System.Drawing.Size(250, 458);
+            this.splitContainer4.SplitterDistance = 207;
             this.splitContainer4.TabIndex = 0;
             // 
             // label_Round
@@ -182,8 +182,8 @@
             // splitContainer5.Panel1
             // 
             this.splitContainer5.Panel1.Controls.Add(this.label_Score);
-            this.splitContainer5.Size = new System.Drawing.Size(665, 425);
-            this.splitContainer5.SplitterDistance = 320;
+            this.splitContainer5.Size = new System.Drawing.Size(730, 458);
+            this.splitContainer5.SplitterDistance = 351;
             this.splitContainer5.TabIndex = 0;
             // 
             // label_Score
@@ -201,9 +201,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(898, 521);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
