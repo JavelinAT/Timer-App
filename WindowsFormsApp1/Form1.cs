@@ -77,8 +77,8 @@ namespace WindowsFormsApp1
                             Counting = false;
                             State_Ready = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
-                            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns, label_display.Text);
                             Write_dataGridView(GwRowInd, GwColInd, label_display.Text);
+                            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns, label_display.Text);
                             GwColInd += 1;
                             break;
                         case "C":
@@ -95,6 +95,8 @@ namespace WindowsFormsApp1
                             State_Ready = false;
                             label_display.BackColor = Color.FromArgb(192, 0, 0);
                             label_display.Text = "Fail";
+                            Write_dataGridView(GwRowInd, GwColInd, "XX:XX.XXX");
+                            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns, label_display.Text);
                             break;
                         
                     }
