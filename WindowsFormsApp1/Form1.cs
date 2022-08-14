@@ -29,7 +29,7 @@ namespace WindowsFormsApp1
         public int GwRowInd;
         public int GwColInd;
         public int TotalRuns = 3;
-        
+        public Form2 F2 = new Form2();
         private Thread t;
         private string ExcelFilePath;
         ExcelLoca xlCells = new ExcelLoca(0, 0);
@@ -44,7 +44,7 @@ namespace WindowsFormsApp1
             }
         }
         delegate void Display(string buffer);//1    //使用委派顯示
-        public Form2 F2 = new Form2();
+
         public FrontPage()
         {
             InitializeComponent();
@@ -60,7 +60,8 @@ namespace WindowsFormsApp1
             {
                 if (str.Length == 8)
                 {
-                        label_display.Text = Format_MilliSecond(HexToUint(str));
+                    label_display.Text = Format_MilliSecond(HexToUint(str));
+                    F2.Round_Time = label_display.Text;
                 }
                 else if(str.Length == 1)
                 {
@@ -77,7 +78,6 @@ namespace WindowsFormsApp1
                             Counting = false;
                             State_Ready = false;
                             label_display.BackColor = Color.FromArgb(128, 255, 128);
-                            Write_dataGridView(GwRowInd, GwColInd, label_display.Text);
                             SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns, label_display.Text);
                             GwColInd += 1;
                             break;
@@ -534,7 +534,7 @@ namespace WindowsFormsApp1
         }
         private void button_Command_3_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button_Command_4_Click(object sender, EventArgs e)

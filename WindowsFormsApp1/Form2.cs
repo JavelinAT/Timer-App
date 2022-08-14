@@ -31,5 +31,10 @@ namespace WindowsFormsApp1
             SendToBack();
             //BringToFront();
         }
+        public string Round_Time//Form1 to Form2
+        {
+            get { return textBox_Round_Time.Text; }
+            set { textBox_Round_Time.Text = value; }
+        }
     }
 }

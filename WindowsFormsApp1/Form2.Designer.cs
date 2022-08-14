@@ -38,6 +38,7 @@
             this.label_Total_Time = new System.Windows.Forms.Label();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.label_Score = new System.Windows.Forms.Label();
+            this.textBox_Round_Time = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,6 +90,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.textBox_Round_Time);
             this.splitContainer2.Panel2.Controls.Add(this.label_Round_Time);
             this.splitContainer2.Size = new System.Drawing.Size(984, 99);
             this.splitContainer2.SplitterDistance = 248;
@@ -197,6 +199,18 @@
             this.label_Score.TabIndex = 0;
             this.label_Score.Text = "Score";
             // 
+            // textBox_Round_Time
+            // 
+            this.textBox_Round_Time.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBox_Round_Time.Font = new System.Drawing.Font("新細明體", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.textBox_Round_Time.Location = new System.Drawing.Point(0, 34);
+            this.textBox_Round_Time.Name = "textBox_Round_Time";
+            this.textBox_Round_Time.ReadOnly = true;
+            this.textBox_Round_Time.Size = new System.Drawing.Size(732, 65);
+            this.textBox_Round_Time.TabIndex = 1;
+            this.textBox_Round_Time.TabStop = false;
+            this.textBox_Round_Time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -248,5 +262,6 @@
         private System.Windows.Forms.Label label_Total_Time;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.Label label_Score;
+        private System.Windows.Forms.TextBox textBox_Round_Time;
     }
 }
