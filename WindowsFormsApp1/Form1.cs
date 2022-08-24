@@ -15,35 +15,30 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Data.OleDb;
-
+using System.Management;
+using System.Diagnostics;
 
 namespace WindowsFormsApp1
 {
     public partial class FrontPage : Form
     {
         private SerialPort My_SerialPort;
+        private ComboBox ComPortName = new ComboBox();
         private bool Console_receiving = false;
-        private bool Counting = false;
+        //private bool Counting = false;
         private bool State_Ready = false;
         private bool State_Failing = false;
-        public int GwRowInd;
-        public int GwColInd;
+        private int DataGvRowInd;
+        private int DataGvColInd;
+        private bool DataGvLoaded;
         public int TotalRuns = 3;
         public Form2 F2 = new Form2();
         private Thread t;
         private string ExcelFilePath;
-        ExcelLoca xlCells = new ExcelLoca(0, 0);
-        public struct ExcelLoca
-        {
-            public int Rows;
-            public int Columns;
-            public ExcelLoca(int Rows, int Columns)
-            {
-                this.Rows = Rows;
-                this.Columns = Columns;
-            }
-        }
-        delegate void Display(string buffer);//1    //使用委派顯示
+        public bool ExcelIsUsing;
+        private int xlCells_RowInd, xlCells_ColInd;
+        delegate void Display(string str);
+        delegate void Control(string cmd);
 
         public FrontPage()
         {
@@ -52,65 +47,51 @@ namespace WindowsFormsApp1
 
             F2.MainForm = this;//Form2 to Form1
         }
-        public void ConsoleShow(string buffer)//3
+        public void ShowTime(string str)//3
         {
-            //textBoxReceive.Text = buffer + "\r\n";
-            string[] StrArr = buffer.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-            foreach (string str in StrArr)
-            {
-                if (str.Length == 8)
-                {
-                    label_display.Text = Format_MilliSecond(HexToUint(str));
-                    F2.Round_Time = label_display.Text;
-                }
-                else if(str.Length == 1)
-                {
-                    textBoxReceive.Text += str + "\r\n";
-                    textBoxReceive.SelectionStart = textBoxReceive.Text.Length;
-                    textBoxReceive.ScrollToCaret();
-                    switch (str)
-                    {
-                        case "S":
-                            Counting = true;
-                            label_display.BackColor = Color.FromArgb(0, 225, 255);
-                            break;
-                        case "G":
-                            Counting = false;
-                            State_Ready = false;
-                            label_display.BackColor = Color.FromArgb(128, 255, 128);
-                            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns, label_display.Text);
-                            GwColInd += 1;
-                            break;
-                        case "C":
-                            label_display.BackColor = Color.Transparent;
-                            break;
-                        case "R":   //Ready
-                            State_Ready = true;
-                            State_Failing = false;
-                            label_display.BackColor = Color.FromArgb(128, 255, 128);
-                            label_display.Text = "Ready";
-                            break;
-                        case "F":   //Fail
-                            State_Failing = true;
-                            State_Ready = false;
-                            label_display.BackColor = Color.FromArgb(192, 0, 0);
-                            label_display.Text = "Fail";
-                            Write_dataGridView(GwRowInd, GwColInd, "XX:XX.XXX");
-                            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns, label_display.Text);
-                            break;
-                        
-                    }
-                }
-            }
-            /*
-            System.Console.WriteLine(buffer);
-            textBoxReceive.Text += buffer + "\r\n";
-            /*
-            //滾動至最下方
+            label_display.Text = str;
+            F2.Round_Time = str;
+        }
+        public void Command(string cmd)
+        {
+            textBoxReceive.Text += cmd + "\r\n";
             textBoxReceive.SelectionStart = textBoxReceive.Text.Length;
             textBoxReceive.ScrollToCaret();
-            */
+            switch (cmd)
+            {
+                case "S":
+                    //Counting = true;
+                    label_display.BackColor = Color.FromArgb(0, 225, 255);
+                    break;
+                case "G":
+                    //Counting = false;
+                    State_Ready = false;
+                    label_display.BackColor = Color.FromArgb(128, 255, 128);
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_display.Text);
+                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_display.Text);
+                    DataGvColInd += 1; xlCells_ColInd += 1;
+                    break;
+                case "C":
+                    label_display.BackColor = Color.Transparent;
+                    break;
+                case "R":   //Ready
+                    State_Ready = true;
+                    State_Failing = false;
+                    label_display.BackColor = Color.FromArgb(128, 255, 128);
+                    label_display.Text = "Ready";
+                    break;
+                case "F":   //Fail
+                    State_Failing = true;
+                    State_Ready = false;
+                    label_display.BackColor = Color.FromArgb(192, 0, 0);
+                    label_display.Text = "Fail";
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, "XX:XX.XXX");
+                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_display.Text);
+                    break;
+            }
         }
+
+
         public void Reset()
         {
             State_Ready = false;
@@ -143,8 +124,10 @@ namespace WindowsFormsApp1
                     Console_receiving = true;
 
                     //開啟執行續做接收動作
-                    t = new Thread(DoReceive);
-                    t.IsBackground = true;
+                    t = new Thread(DoReceive)
+                    {
+                        IsBackground = true
+                    };
                     t.Start();
 
                 }
@@ -186,9 +169,9 @@ namespace WindowsFormsApp1
         {
             //運算後的位元組長度:16進位數字字串長/2
             byte[] byteOUT = new byte[4];
-            uint data = 0;
+            uint data;
 
-            for (int i = 0; i < hexString.Length; i = i + 2)
+            for (int i = 0; i < hexString.Length; i += 2)
             {
                 //每2位16進位數字轉換為一個10進位整數
                 byteOUT[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
@@ -202,22 +185,46 @@ namespace WindowsFormsApp1
             Byte[] buffer = new Byte[1024];
             try
             {
+
                 while (Console_receiving)
                 {
                     if (My_SerialPort.BytesToRead > 0)
                     {
+                        Stopwatch stopWatch = new Stopwatch();
+                        stopWatch.Start();
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
                         Array.Resize(ref buffer, length);
 
                         string buf = Encoding.UTF8.GetString(buffer);
+                        string[] StrArr = buf.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
-                        Display d = new Display(ConsoleShow);//2
-                        this.Invoke(d, new Object[] { buf });
+                        bool EnDisplay = true;
+                        foreach (string str in StrArr)
+                        {
 
+                            // for 60Hz display
+                            if (str.Length == 8 && EnDisplay)
+                            {
+
+                                EnDisplay = false;
+                                Display d = new Display(ShowTime);
+                                string time = Format_MilliSecond(HexToUint(str));
+                                this.Invoke(d, new Object[] { time });
+                            }
+                            else if (str.Length == 1)
+                            {
+                                Control c = new Control(Command);
+                                this.Invoke(c, new Object[] { str });
+                            }
+
+                        }
                         Array.Resize(ref buffer, 1024);
+                        stopWatch.Stop();
+                        Console.WriteLine(stopWatch.ElapsedMilliseconds);
                     }
-                    Thread.Sleep(20);
+                    Thread.Sleep(16);
                 }
+
             }
             catch (Exception ex)
             {
@@ -248,7 +255,13 @@ namespace WindowsFormsApp1
         private void PorSelector_DropDown(object sender, EventArgs e)
         {
             PorSelector.Items.Clear();
-            PorSelector.Items.AddRange(SerialPort.GetPortNames());
+            var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
+            foreach (ManagementObject port in searcher.Get())
+            {
+                ComPortName.Items.Add(port.GetPropertyValue("DeviceID").ToString());
+                // ex: Arduino Uno (COM7)
+                PorSelector.Items.Add(port.GetPropertyValue("Caption").ToString());
+            }
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -262,7 +275,8 @@ namespace WindowsFormsApp1
                 Console_receiving = false;
                 CloseComport();//關閉 Serial Port
             }
-            Console_Connect(PorSelector.Text, 115200);
+            ComPortName.SelectedIndex = PorSelector.SelectedIndex;
+            Console_Connect(ComPortName.Text, 115200);
             if (Console_receiving == true)
             {
                 label_ComState.Text = PorSelector.Text + " is Opened,Click again to disconnect";
@@ -295,7 +309,7 @@ namespace WindowsFormsApp1
         }
         private void button_Command_Fail_Click(object sender, EventArgs e)
         {
-            if(State_Failing == false)
+            if (State_Failing == false)
             {
                 SendString("F\n");
                 //My_SerialPort.Write("F\n");
@@ -322,7 +336,7 @@ namespace WindowsFormsApp1
             //string strPath = System.Environment.CurrentDirectory;
             //string strPath = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
-            label_excel_1.Text = strPath;
+            //label_excel_1.Text = strPath;
 
             //畫面開啟時直接連接Com10
             //Console_Connect("COM10", 115200);
@@ -337,8 +351,10 @@ namespace WindowsFormsApp1
             try
             {
                 //Start Excel and get Application object.
-                oXL = new Excel.Application();
-                oXL.Visible = true;
+                oXL = new Excel.Application
+                {
+                    Visible = true
+                };
 
                 //Get a new workbook.
                 oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
@@ -349,9 +365,9 @@ namespace WindowsFormsApp1
                     "Score 1","Score 2","Score 3","Score 4","Score 5",
                     "Bouns2","Bouns3","Bouns4","Bouns5","Best score"};
                 oSheet.get_Range("A1", "W1").Value2 = saNames;
-                for(int i = 2; i < 7; i++)
+                for (int i = 2; i < 7; i++)
                 {
-                    oSheet.Cells[i, 1] = (i-1);
+                    oSheet.Cells[i, 1] = (i - 1);
                 }
 
                 oSheet.Cells[2, 2] = "Team-A";
@@ -398,42 +414,50 @@ namespace WindowsFormsApp1
                 MessageBox.Show(errorMessage, "Error");
             }
         }
-        private void SaveToExcel(string path, int xlRows,int xlColumns, string Value)
+        private void SaveToExcel(string path, int xlRows, int xlColumns, string Value)
         {
-            try
+            if (!ExcelIsUsing)
             {
-                Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(path);
-                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-                xlApp.Visible = false;
-                xlWorksheet.Cells[xlRows, xlColumns].NumberFormat = "@";
-                xlWorksheet.Cells[xlRows, xlColumns].Value = Value;
-                xlWorkbook.Save();
-                //cleanup
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                try
+                {
+                    ExcelIsUsing = true;
+                    Excel.Application xlApp = new Excel.Application();
+                    Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(path);
+                    Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+                    xlApp.Visible = false;
+                    xlWorksheet.Cells[xlRows, xlColumns].NumberFormat = "@";
+                    xlWorksheet.Cells[xlRows, xlColumns].Value = Value;
+                    xlWorkbook.Save();
+                    //cleanup
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
 
-                Marshal.ReleaseComObject(xlWorksheet);
-                //close and release
-                xlWorkbook.Close();
-                Marshal.ReleaseComObject(xlWorkbook);
+                    Marshal.ReleaseComObject(xlWorksheet);
+                    //close and release
+                    xlWorkbook.Close();
+                    Marshal.ReleaseComObject(xlWorkbook);
 
-                //quit and release
-                xlApp.Quit();
-                Marshal.ReleaseComObject(xlApp);
+                    //quit and release
+                    xlApp.Quit();
+                    Marshal.ReleaseComObject(xlApp);
+                    ExcelIsUsing = false;
+                }
+                catch (Exception theException)
+                {
+                    String errorMessage;
+                    errorMessage = "Error: ";
+                    errorMessage = String.Concat(errorMessage, theException.Message);
+                    errorMessage = String.Concat(errorMessage, " Line: ");
+                    errorMessage = String.Concat(errorMessage, theException.Source);
+                    MessageBox.Show(errorMessage, "Error");
+                    ExcelIsUsing = false;
+                }
             }
-            catch (Exception theException)
-            {
-                String errorMessage;
-                errorMessage = "Error: ";
-                errorMessage = String.Concat(errorMessage, theException.Message);
-                errorMessage = String.Concat(errorMessage, " Line: ");
-                errorMessage = String.Concat(errorMessage, theException.Source);
-                MessageBox.Show(errorMessage, "Error");
-            }
+            else MessageBox.Show("Excel File Is Using");
         }
         public void getExcelFile(string xlFilePath)
         {
+            ExcelIsUsing = true;
             //Create COM Objects. Create a COM object for everything that is referenced
             Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(xlFilePath);
@@ -458,7 +482,7 @@ namespace WindowsFormsApp1
                             this.dataGridView1.Rows[i - 2].Cells[j - 1].Value = strdata;
                     }
                 }
-                if(i != rowCount) this.dataGridView1.Rows.Add();
+                if (i != rowCount) this.dataGridView1.Rows.Add();
             }
             foreach (DataGridViewColumn column in dataGridView1.Columns)
 
@@ -483,10 +507,13 @@ namespace WindowsFormsApp1
             //quit and release
             xlApp.Quit();
             Marshal.ReleaseComObject(xlApp);
+            ExcelIsUsing = false;
+            DataGvLoaded = true;
         }
         public void Write_dataGridView(int GwRows, int GwColumns, string GwScore)
         {
-            dataGridView1.Rows[GwRows].Cells[GwColumns].Value = GwScore;
+            if (DataGvLoaded)
+                dataGridView1.Rows[GwRows].Cells[GwColumns].Value = GwScore;
         }
         private void button_excel_1_Click(object sender, EventArgs e)
         {
@@ -513,8 +540,8 @@ namespace WindowsFormsApp1
         }
         private void button_excel_3_Click(object sender, EventArgs e)
         {
-            SaveToExcel(ExcelFilePath, xlCells.Rows, xlCells.Columns,textBoxSend.Text);
-            Write_dataGridView(GwRowInd,GwColInd, textBoxSend.Text);
+            SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
+            Write_dataGridView(DataGvRowInd, DataGvColInd, textBoxSend.Text);
         }
         private void button_excel_4_Click(object sender, EventArgs e)
         {
@@ -530,11 +557,15 @@ namespace WindowsFormsApp1
         }
         private void button_excel_5_Click(object sender, EventArgs e)
         {
-            //getExcelFile();
+            getExcelFile(ExcelFilePath);
         }
+
         private void button_Command_3_Click(object sender, EventArgs e)
         {
-            
+            //dataGridView1.Focus();
+            //GwColInd += 1;
+            //dataGridView1.CurrentCell = dataGridView1[GwColInd, DataGvRowInd];
+            //dataGridView1.BeginEdit(true);
         }
 
         private void button_Command_4_Click(object sender, EventArgs e)
@@ -543,28 +574,32 @@ namespace WindowsFormsApp1
         }
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            GwRowInd = dataGridView1.CurrentCell.RowIndex;
-            GwColInd = dataGridView1.CurrentCell.ColumnIndex;
-            if (GwColInd > (4 + TotalRuns - 1)) GwColInd = (4 + TotalRuns - 1);
-            if (GwColInd < 4) GwColInd = 4;
-
-            xlCells.Rows = GwRowInd + 2;
-            xlCells.Columns = GwColInd + 1;
-            //Console.WriteLine(GwRowInd + " "+ GwColInd);
-            //Console.WriteLine("Excel_loca " + xlCells.Rows + " " + xlCells.Columns);
-            if (dataGridView1.Rows[GwRowInd].Cells[2].Value != null && dataGridView1.Rows[GwRowInd].Cells[3].Value != null)
-                label_excel_2.Text = dataGridView1.Rows[GwRowInd].Cells[2].Value.ToString() + "           " 
-                    + dataGridView1.Rows[GwRowInd].Cells[3].Value.ToString() + "                      " 
-                    + this.dataGridView1.Columns[GwColInd].HeaderText + "           " 
-                    + "Row" + GwRowInd.ToString() 
-                    + "Column" + GwColInd.ToString();
-            else
-                label_excel_2.Text = "Row" + "           " + GwRowInd.ToString() + "Column" + GwColInd.ToString();
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
+            if (ExcelIsUsing == false)
+            {
+                DataGvRowInd = dataGridView1.CurrentCell.RowIndex;
+                DataGvColInd = dataGridView1.CurrentCell.ColumnIndex;
+                if (DataGvColInd > (4 + TotalRuns - 1)) DataGvColInd = (4 + TotalRuns - 1);
+                if (DataGvColInd < 4) DataGvColInd = 4;
+                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                dataGridView1.BeginEdit(true);
+                xlCells_RowInd = DataGvRowInd + 2;
+                xlCells_ColInd = DataGvColInd + 1;
+                //Console.WriteLine(DataGvRowInd + " "+ GwColInd);
+                //Console.WriteLine("Excel_loca " + xlCells.Rows + " " + xlCells.Columns);
+                if (dataGridView1.Rows[DataGvRowInd].Cells[2].Value != null && dataGridView1.Rows[DataGvRowInd].Cells[3].Value != null)
+                {
+                    textBox_Team_Information.Text = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
+                        "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
+                    F2.Team_Information = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
+                        "\t" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
+                    F2.Round = dataGridView1.Columns[DataGvColInd].HeaderText;
+                    label_excel_2.Text = /*dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() + "           " + 
+                    dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString() + "                      " +*/
+                        dataGridView1.Columns[DataGvColInd].HeaderText + "           " +
+                        "Row" + DataGvRowInd.ToString() +
+                        "Column" + DataGvColInd.ToString();
+                }
+            }
         }
     }
 }

@@ -27,7 +27,6 @@ namespace WindowsFormsApp1
 
         private void Form2_Load(object sender, EventArgs e)
         {
-
             SendToBack();
             //BringToFront();
         }
@@ -35,6 +34,26 @@ namespace WindowsFormsApp1
         {
             get { return textBox_Round_Time.Text; }
             set { textBox_Round_Time.Text = value; }
+        }
+        public string Team_Information//Form1 to Form2
+        {
+            get { return textBox_Team_Information.Text; }
+            set { textBox_Team_Information.Text = value; }
+        }
+        public string Round//Form1 to Form2
+        {
+            get { return textBox_Round.Text; }
+            set { textBox_Round.Text = value; }
+        }
+        public string Total_time//Form1 to Form2
+        {
+            get { return textBox_Total_Time.Text; }
+            set { textBox_Total_Time.Text = value; }
+        }
+        public string Score//Form1 to Form2
+        {
+            get { return textBox_Score.Text; }
+            set { textBox_Score.Text = value; }
         }
     }
 }
