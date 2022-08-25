@@ -31,6 +31,7 @@ namespace WindowsFormsApp1
         private int DataGvRowInd;
         private int DataGvColInd;
         private bool DataGvLoaded;
+        private bool DataGv_Get_Current_Location = true;
         public int TotalRuns = 3;
         public Form2 F2 = new Form2();
         private Thread t;
@@ -222,7 +223,7 @@ namespace WindowsFormsApp1
                         stopWatch.Stop();
                         Console.WriteLine(stopWatch.ElapsedMilliseconds);
                     }
-                    Thread.Sleep(16);
+                    Thread.Sleep(40);
                 }
 
             }
@@ -562,36 +563,71 @@ namespace WindowsFormsApp1
 
         private void button_Command_3_Click(object sender, EventArgs e)
         {
-            //dataGridView1.Focus();
-            //GwColInd += 1;
-            //dataGridView1.CurrentCell = dataGridView1[GwColInd, DataGvRowInd];
-            //dataGridView1.BeginEdit(true);
+            
         }
 
         private void button_Command_4_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void button_Inf_Previous_Click(object sender, EventArgs e)
+        {
 
         }
+
+        private void button_Inf_Next_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Round_Previous_Click(object sender, EventArgs e)
+        {
+            if (DataGvLoaded == true)
+            {
+                DataGvColInd += -1;
+                DataGv_Get_Current_Location = false;
+                dataGridView1.Focus();
+                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                dataGridView1.BeginEdit(true);
+                DataGv_Get_Current_Location = true;
+            }
+        }
+
+        private void button_Round_Next_Click(object sender, EventArgs e)
+        {
+            if (DataGvLoaded == true)
+            {
+                DataGvColInd += 1;
+                DataGv_Get_Current_Location = false;
+                dataGridView1.Focus();
+                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                dataGridView1.BeginEdit(true);
+                DataGv_Get_Current_Location = true;
+            }
+        }
+
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (ExcelIsUsing == false)
             {
                 DataGvRowInd = dataGridView1.CurrentCell.RowIndex;
-                DataGvColInd = dataGridView1.CurrentCell.ColumnIndex;
+                if (DataGv_Get_Current_Location == true)
+                {
+                    DataGvColInd = dataGridView1.CurrentCell.ColumnIndex;
+                }
+
                 if (DataGvColInd > (4 + TotalRuns - 1)) DataGvColInd = (4 + TotalRuns - 1);
                 if (DataGvColInd < 4) DataGvColInd = 4;
-                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
-                dataGridView1.BeginEdit(true);
+
                 xlCells_RowInd = DataGvRowInd + 2;
                 xlCells_ColInd = DataGvColInd + 1;
-                //Console.WriteLine(DataGvRowInd + " "+ GwColInd);
-                //Console.WriteLine("Excel_loca " + xlCells.Rows + " " + xlCells.Columns);
                 if (dataGridView1.Rows[DataGvRowInd].Cells[2].Value != null && dataGridView1.Rows[DataGvRowInd].Cells[3].Value != null)
                 {
                     textBox_Team_Information.Text = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
                         "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
                     F2.Team_Information = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
-                        "\t" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
+                        "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
                     F2.Round = dataGridView1.Columns[DataGvColInd].HeaderText;
                     label_excel_2.Text = /*dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() + "           " + 
                     dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString() + "                      " +*/
