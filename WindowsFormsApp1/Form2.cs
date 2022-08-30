@@ -14,40 +14,53 @@ using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Diagnostics;
+using System.Timers;
 
 namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
         public FrontPage MainForm;//Form2 to Form1
-        private Thread t;
-        delegate void Get_Data_To_Display(string str);
+        delegate void Get_Data_To_Display();
+        System.Timers.Timer timer;
         public Form2()
         {
             InitializeComponent();
-            t = new Thread(Display_Data)
-            {
-                IsBackground = true
-            };
-            t.Start();
+            
         }
-        private void Display_Data()
+        public void Flash()
         {
-            try
-            {
-                //MainForm
-                Thread.Sleep(40);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            textBox_Round_Time.Text = MainForm.Time_For_F2;
+            textBox_Team_Information.Text = MainForm.Team_Information_For_F2;
+            textBox_Round.Text = MainForm.Round_For_F2;
+            textBox_Total_Time.Text = MainForm.TotalTimes_For_F2;
         }
         private void Form2_Load(object sender, EventArgs e)
         {
             SendToBack();
+            InitTimer();
+            //t = new Thread(Display_Data)
+            //{
+            //    IsBackground = true
+            //};
+            //t.Start();
+
             //BringToFront();
         }
+
+        private void InitTimer()
+        {
+            timer = new System.Timers.Timer(16);
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
+        }
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Get_Data_To_Display d = new Get_Data_To_Display(Flash);
+            this.Invoke(d, new Object[] {  });
+        }
+
         public string Round_Time//Form1 to Form2
         {
             get { return textBox_Round_Time.Text; }

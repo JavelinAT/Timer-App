@@ -658,14 +658,15 @@ namespace WindowsFormsApp1
                 {
                     textBox_Team_Information.Text = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
                         "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
-                    F2.Team_Information = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
-                        "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
-                    F2.Round = dataGridView1.Columns[DataGvColInd].HeaderText;
-                    label_excel_2.Text = /*dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() + "           " + 
-                    dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString() + "                      " +*/
-                        dataGridView1.Columns[DataGvColInd].HeaderText + "           " +
-                        "Row" + DataGvRowInd.ToString() +
-                        "Column" + DataGvColInd.ToString();
+                    //F2.Team_Information = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
+                    //    "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
+                    //F2.Round = textBox_Round.Text;
+                    //label_excel_2.Text = 
+                    ////    dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() + "           " + 
+                    ////    dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString() + "                      " +
+                    //    dataGridView1.Columns[DataGvColInd].HeaderText + "           " +
+                    //    "Row" + DataGvRowInd.ToString() +
+                    //    "Column" + DataGvColInd.ToString();
                 }
             }
         }
