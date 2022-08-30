@@ -20,11 +20,29 @@ namespace WindowsFormsApp1
     public partial class Form2 : Form
     {
         public FrontPage MainForm;//Form2 to Form1
+        private Thread t;
+        delegate void Get_Data_To_Display(string str);
         public Form2()
         {
             InitializeComponent();
+            t = new Thread(Display_Data)
+            {
+                IsBackground = true
+            };
+            t.Start();
         }
-
+        private void Display_Data()
+        {
+            try
+            {
+                //MainForm
+                Thread.Sleep(40);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void Form2_Load(object sender, EventArgs e)
         {
             SendToBack();

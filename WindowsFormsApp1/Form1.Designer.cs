@@ -39,11 +39,11 @@
             this.button_Command_4 = new System.Windows.Forms.Button();
             this.button_Command_Restart = new System.Windows.Forms.Button();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.label_excel_2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Information = new System.Windows.Forms.TableLayoutPanel();
             this.Total_Times = new System.Windows.Forms.SplitContainer();
             this.textBox_TotalTimes = new System.Windows.Forms.TextBox();
+            this.button_Total_Times = new System.Windows.Forms.Button();
             this.Excel_Control_Panel = new System.Windows.Forms.TableLayoutPanel();
             this.button_excel_5 = new System.Windows.Forms.Button();
             this.button_excel_1 = new System.Windows.Forms.Button();
@@ -53,13 +53,13 @@
             this.Round = new System.Windows.Forms.SplitContainer();
             this.textBox_Round = new System.Windows.Forms.TextBox();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
+            this.button_Round_Previous = new System.Windows.Forms.Button();
+            this.button_Round_Next = new System.Windows.Forms.Button();
+            this.Team_Information = new System.Windows.Forms.SplitContainer();
             this.textBox_Team_Information = new System.Windows.Forms.TextBox();
             this.Information_Button = new System.Windows.Forms.SplitContainer();
             this.button_Inf_Previous = new System.Windows.Forms.Button();
             this.button_Inf_Next = new System.Windows.Forms.Button();
-            this.button_Round_Previous = new System.Windows.Forms.Button();
-            this.button_Round_Next = new System.Windows.Forms.Button();
-            this.Team_Information = new System.Windows.Forms.SplitContainer();
             this.tabPage_Setting = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label_ComState = new System.Windows.Forms.Label();
@@ -70,9 +70,9 @@
             this.button_Sand = new System.Windows.Forms.Button();
             this.textBoxReceive = new System.Windows.Forms.TextBox();
             this.button_Clear = new System.Windows.Forms.Button();
-            this.label_display = new System.Windows.Forms.Label();
+            this.label_excel_2 = new System.Windows.Forms.Label();
+            this.label_Time_display = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button_Total_Times = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
@@ -99,14 +99,14 @@
             this.splitContainer9.Panel1.SuspendLayout();
             this.splitContainer9.Panel2.SuspendLayout();
             this.splitContainer9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Information_Button)).BeginInit();
-            this.Information_Button.Panel1.SuspendLayout();
-            this.Information_Button.Panel2.SuspendLayout();
-            this.Information_Button.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Team_Information)).BeginInit();
             this.Team_Information.Panel1.SuspendLayout();
             this.Team_Information.Panel2.SuspendLayout();
             this.Team_Information.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Information_Button)).BeginInit();
+            this.Information_Button.Panel1.SuspendLayout();
+            this.Information_Button.Panel2.SuspendLayout();
+            this.Information_Button.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -287,18 +287,9 @@
             // 
             this.splitContainer6.Panel2.Controls.Add(this.Information);
             this.splitContainer6.Size = new System.Drawing.Size(831, 412);
-            this.splitContainer6.SplitterDistance = 202;
+            this.splitContainer6.SplitterDistance = 252;
             this.splitContainer6.SplitterWidth = 3;
             this.splitContainer6.TabIndex = 0;
-            // 
-            // label_excel_2
-            // 
-            this.label_excel_2.AutoSize = true;
-            this.label_excel_2.Location = new System.Drawing.Point(12, 94);
-            this.label_excel_2.Name = "label_excel_2";
-            this.label_excel_2.Size = new System.Drawing.Size(45, 19);
-            this.label_excel_2.TabIndex = 5;
-            this.label_excel_2.Text = "label2";
             // 
             // dataGridView1
             // 
@@ -312,7 +303,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(831, 202);
+            this.dataGridView1.Size = new System.Drawing.Size(831, 252);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             // 
@@ -332,7 +323,7 @@
             this.Information.Name = "Information";
             this.Information.RowCount = 1;
             this.Information.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Information.Size = new System.Drawing.Size(831, 207);
+            this.Information.Size = new System.Drawing.Size(831, 157);
             this.Information.TabIndex = 1;
             // 
             // Total_Times
@@ -349,56 +340,64 @@
             // Total_Times.Panel2
             // 
             this.Total_Times.Panel2.Controls.Add(this.button_Total_Times);
-            this.Total_Times.Size = new System.Drawing.Size(160, 201);
-            this.Total_Times.SplitterDistance = 127;
+            this.Total_Times.Size = new System.Drawing.Size(160, 151);
+            this.Total_Times.SplitterDistance = 95;
             this.Total_Times.TabIndex = 0;
             // 
             // textBox_TotalTimes
             // 
             this.textBox_TotalTimes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_TotalTimes.Enabled = false;
-            this.textBox_TotalTimes.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_TotalTimes.Font = new System.Drawing.Font("Times New Roman", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_TotalTimes.Location = new System.Drawing.Point(0, 0);
             this.textBox_TotalTimes.Multiline = true;
             this.textBox_TotalTimes.Name = "textBox_TotalTimes";
             this.textBox_TotalTimes.ReadOnly = true;
-            this.textBox_TotalTimes.Size = new System.Drawing.Size(160, 127);
+            this.textBox_TotalTimes.Size = new System.Drawing.Size(160, 95);
             this.textBox_TotalTimes.TabIndex = 1;
             this.textBox_TotalTimes.TabStop = false;
             this.textBox_TotalTimes.Text = "Total Times";
             this.textBox_TotalTimes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // button_Total_Times
+            // 
+            this.button_Total_Times.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Total_Times.Location = new System.Drawing.Point(0, 0);
+            this.button_Total_Times.Name = "button_Total_Times";
+            this.button_Total_Times.Size = new System.Drawing.Size(160, 52);
+            this.button_Total_Times.TabIndex = 0;
+            this.button_Total_Times.Text = "button";
+            this.button_Total_Times.UseVisualStyleBackColor = true;
+            // 
             // Excel_Control_Panel
             // 
             this.Excel_Control_Panel.ColumnCount = 1;
             this.Excel_Control_Panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_5, 0, 6);
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_1, 0, 0);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_5, 0, 4);
             this.Excel_Control_Panel.Controls.Add(this.button_excel_2, 0, 3);
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_3, 0, 5);
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_4, 0, 4);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_4, 0, 0);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_1, 0, 2);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_3, 0, 1);
             this.Excel_Control_Panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Excel_Control_Panel.Location = new System.Drawing.Point(625, 3);
             this.Excel_Control_Panel.Name = "Excel_Control_Panel";
-            this.Excel_Control_Panel.RowCount = 7;
+            this.Excel_Control_Panel.RowCount = 5;
             this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.Excel_Control_Panel.Size = new System.Drawing.Size(203, 201);
+            this.Excel_Control_Panel.Size = new System.Drawing.Size(203, 151);
             this.Excel_Control_Panel.TabIndex = 0;
             // 
             // button_excel_5
             // 
             this.button_excel_5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_excel_5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_excel_5.Location = new System.Drawing.Point(1, 170);
+            this.button_excel_5.Location = new System.Drawing.Point(1, 122);
             this.button_excel_5.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_5.Name = "button_excel_5";
-            this.button_excel_5.Size = new System.Drawing.Size(201, 29);
+            this.button_excel_5.Size = new System.Drawing.Size(201, 27);
             this.button_excel_5.TabIndex = 4;
             this.button_excel_5.Text = "ReadFile";
             this.button_excel_5.UseVisualStyleBackColor = true;
@@ -407,10 +406,10 @@
             // button_excel_1
             // 
             this.button_excel_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_1.Location = new System.Drawing.Point(1, 2);
+            this.button_excel_1.Location = new System.Drawing.Point(1, 62);
             this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_1.Name = "button_excel_1";
-            this.button_excel_1.Size = new System.Drawing.Size(201, 24);
+            this.button_excel_1.Size = new System.Drawing.Size(201, 26);
             this.button_excel_1.TabIndex = 0;
             this.button_excel_1.Text = "Create Excel template";
             this.button_excel_1.UseVisualStyleBackColor = true;
@@ -419,10 +418,10 @@
             // button_excel_2
             // 
             this.button_excel_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_2.Location = new System.Drawing.Point(1, 86);
+            this.button_excel_2.Location = new System.Drawing.Point(1, 92);
             this.button_excel_2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_2.Name = "button_excel_2";
-            this.button_excel_2.Size = new System.Drawing.Size(201, 24);
+            this.button_excel_2.Size = new System.Drawing.Size(201, 26);
             this.button_excel_2.TabIndex = 1;
             this.button_excel_2.Text = "Select Excel";
             this.button_excel_2.UseVisualStyleBackColor = true;
@@ -432,10 +431,10 @@
             // 
             this.button_excel_3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_excel_3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_excel_3.Location = new System.Drawing.Point(1, 142);
+            this.button_excel_3.Location = new System.Drawing.Point(1, 32);
             this.button_excel_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_3.Name = "button_excel_3";
-            this.button_excel_3.Size = new System.Drawing.Size(201, 24);
+            this.button_excel_3.Size = new System.Drawing.Size(201, 26);
             this.button_excel_3.TabIndex = 3;
             this.button_excel_3.Text = "SaveOnExcel";
             this.button_excel_3.UseVisualStyleBackColor = true;
@@ -444,10 +443,10 @@
             // button_excel_4
             // 
             this.button_excel_4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_4.Location = new System.Drawing.Point(1, 114);
+            this.button_excel_4.Location = new System.Drawing.Point(1, 2);
             this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_4.Name = "button_excel_4";
-            this.button_excel_4.Size = new System.Drawing.Size(201, 24);
+            this.button_excel_4.Size = new System.Drawing.Size(201, 26);
             this.button_excel_4.TabIndex = 2;
             this.button_excel_4.Text = "OpenFile";
             this.button_excel_4.UseVisualStyleBackColor = true;
@@ -467,20 +466,20 @@
             // Round.Panel2
             // 
             this.Round.Panel2.Controls.Add(this.splitContainer9);
-            this.Round.Size = new System.Drawing.Size(201, 201);
-            this.Round.SplitterDistance = 129;
+            this.Round.Size = new System.Drawing.Size(201, 151);
+            this.Round.SplitterDistance = 96;
             this.Round.TabIndex = 0;
             // 
             // textBox_Round
             // 
             this.textBox_Round.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_Round.Enabled = false;
-            this.textBox_Round.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Round.Font = new System.Drawing.Font("Times New Roman", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Round.Location = new System.Drawing.Point(0, 0);
             this.textBox_Round.Multiline = true;
             this.textBox_Round.Name = "textBox_Round";
             this.textBox_Round.ReadOnly = true;
-            this.textBox_Round.Size = new System.Drawing.Size(201, 129);
+            this.textBox_Round.Size = new System.Drawing.Size(201, 96);
             this.textBox_Round.TabIndex = 1;
             this.textBox_Round.TabStop = false;
             this.textBox_Round.Text = "Round";
@@ -499,70 +498,16 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.button_Round_Next);
-            this.splitContainer9.Size = new System.Drawing.Size(201, 68);
+            this.splitContainer9.Size = new System.Drawing.Size(201, 51);
             this.splitContainer9.SplitterDistance = 98;
             this.splitContainer9.TabIndex = 0;
-            // 
-            // textBox_Team_Information
-            // 
-            this.textBox_Team_Information.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_Team_Information.Enabled = false;
-            this.textBox_Team_Information.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Team_Information.Location = new System.Drawing.Point(0, 0);
-            this.textBox_Team_Information.Multiline = true;
-            this.textBox_Team_Information.Name = "textBox_Team_Information";
-            this.textBox_Team_Information.ReadOnly = true;
-            this.textBox_Team_Information.Size = new System.Drawing.Size(243, 128);
-            this.textBox_Team_Information.TabIndex = 0;
-            this.textBox_Team_Information.TabStop = false;
-            this.textBox_Team_Information.Text = "Team Information";
-            this.textBox_Team_Information.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Information_Button
-            // 
-            this.Information_Button.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Information_Button.Location = new System.Drawing.Point(0, 0);
-            this.Information_Button.Name = "Information_Button";
-            // 
-            // Information_Button.Panel1
-            // 
-            this.Information_Button.Panel1.Controls.Add(this.button_Inf_Previous);
-            // 
-            // Information_Button.Panel2
-            // 
-            this.Information_Button.Panel2.Controls.Add(this.button_Inf_Next);
-            this.Information_Button.Size = new System.Drawing.Size(243, 69);
-            this.Information_Button.SplitterDistance = 116;
-            this.Information_Button.TabIndex = 0;
-            // 
-            // button_Inf_Previous
-            // 
-            this.button_Inf_Previous.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Inf_Previous.Location = new System.Drawing.Point(0, 0);
-            this.button_Inf_Previous.Name = "button_Inf_Previous";
-            this.button_Inf_Previous.Size = new System.Drawing.Size(116, 69);
-            this.button_Inf_Previous.TabIndex = 0;
-            this.button_Inf_Previous.Text = "Previous";
-            this.button_Inf_Previous.UseVisualStyleBackColor = true;
-            this.button_Inf_Previous.Click += new System.EventHandler(this.button_Inf_Previous_Click);
-            // 
-            // button_Inf_Next
-            // 
-            this.button_Inf_Next.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Inf_Next.Location = new System.Drawing.Point(0, 0);
-            this.button_Inf_Next.Name = "button_Inf_Next";
-            this.button_Inf_Next.Size = new System.Drawing.Size(123, 69);
-            this.button_Inf_Next.TabIndex = 0;
-            this.button_Inf_Next.Text = "Next";
-            this.button_Inf_Next.UseVisualStyleBackColor = true;
-            this.button_Inf_Next.Click += new System.EventHandler(this.button_Inf_Next_Click);
             // 
             // button_Round_Previous
             // 
             this.button_Round_Previous.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Round_Previous.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Previous.Name = "button_Round_Previous";
-            this.button_Round_Previous.Size = new System.Drawing.Size(98, 68);
+            this.button_Round_Previous.Size = new System.Drawing.Size(98, 51);
             this.button_Round_Previous.TabIndex = 1;
             this.button_Round_Previous.Text = "Previous";
             this.button_Round_Previous.UseVisualStyleBackColor = true;
@@ -573,7 +518,7 @@
             this.button_Round_Next.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Round_Next.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Next.Name = "button_Round_Next";
-            this.button_Round_Next.Size = new System.Drawing.Size(99, 68);
+            this.button_Round_Next.Size = new System.Drawing.Size(99, 51);
             this.button_Round_Next.TabIndex = 1;
             this.button_Round_Next.Text = "Next";
             this.button_Round_Next.UseVisualStyleBackColor = true;
@@ -593,9 +538,63 @@
             // Team_Information.Panel2
             // 
             this.Team_Information.Panel2.Controls.Add(this.Information_Button);
-            this.Team_Information.Size = new System.Drawing.Size(243, 201);
-            this.Team_Information.SplitterDistance = 128;
+            this.Team_Information.Size = new System.Drawing.Size(243, 151);
+            this.Team_Information.SplitterDistance = 96;
             this.Team_Information.TabIndex = 0;
+            // 
+            // textBox_Team_Information
+            // 
+            this.textBox_Team_Information.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox_Team_Information.Enabled = false;
+            this.textBox_Team_Information.Font = new System.Drawing.Font("Times New Roman", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Team_Information.Location = new System.Drawing.Point(0, 0);
+            this.textBox_Team_Information.Multiline = true;
+            this.textBox_Team_Information.Name = "textBox_Team_Information";
+            this.textBox_Team_Information.ReadOnly = true;
+            this.textBox_Team_Information.Size = new System.Drawing.Size(243, 96);
+            this.textBox_Team_Information.TabIndex = 0;
+            this.textBox_Team_Information.TabStop = false;
+            this.textBox_Team_Information.Text = "Team Information";
+            this.textBox_Team_Information.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Information_Button
+            // 
+            this.Information_Button.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Information_Button.Location = new System.Drawing.Point(0, 0);
+            this.Information_Button.Name = "Information_Button";
+            // 
+            // Information_Button.Panel1
+            // 
+            this.Information_Button.Panel1.Controls.Add(this.button_Inf_Previous);
+            // 
+            // Information_Button.Panel2
+            // 
+            this.Information_Button.Panel2.Controls.Add(this.button_Inf_Next);
+            this.Information_Button.Size = new System.Drawing.Size(243, 51);
+            this.Information_Button.SplitterDistance = 116;
+            this.Information_Button.TabIndex = 0;
+            // 
+            // button_Inf_Previous
+            // 
+            this.button_Inf_Previous.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Inf_Previous.Location = new System.Drawing.Point(0, 0);
+            this.button_Inf_Previous.Name = "button_Inf_Previous";
+            this.button_Inf_Previous.Size = new System.Drawing.Size(116, 51);
+            this.button_Inf_Previous.TabIndex = 0;
+            this.button_Inf_Previous.Text = "Previous";
+            this.button_Inf_Previous.UseVisualStyleBackColor = true;
+            this.button_Inf_Previous.Click += new System.EventHandler(this.button_Inf_Previous_Click);
+            // 
+            // button_Inf_Next
+            // 
+            this.button_Inf_Next.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Inf_Next.Location = new System.Drawing.Point(0, 0);
+            this.button_Inf_Next.Name = "button_Inf_Next";
+            this.button_Inf_Next.Size = new System.Drawing.Size(123, 51);
+            this.button_Inf_Next.TabIndex = 0;
+            this.button_Inf_Next.Text = "Next";
+            this.button_Inf_Next.UseVisualStyleBackColor = true;
+            this.button_Inf_Next.Click += new System.EventHandler(this.button_Inf_Next_Click);
             // 
             // tabPage_Setting
             // 
@@ -749,18 +748,27 @@
             this.button_Clear.UseVisualStyleBackColor = true;
             this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
             // 
-            // label_display
+            // label_excel_2
             // 
-            this.label_display.BackColor = System.Drawing.Color.Transparent;
-            this.label_display.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_display.Font = new System.Drawing.Font("Times New Roman", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_display.Location = new System.Drawing.Point(0, 0);
-            this.label_display.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label_display.Name = "label_display";
-            this.label_display.Size = new System.Drawing.Size(984, 113);
-            this.label_display.TabIndex = 5;
-            this.label_display.Text = "00:00.000";
-            this.label_display.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_excel_2.AutoSize = true;
+            this.label_excel_2.Location = new System.Drawing.Point(12, 94);
+            this.label_excel_2.Name = "label_excel_2";
+            this.label_excel_2.Size = new System.Drawing.Size(45, 19);
+            this.label_excel_2.TabIndex = 5;
+            this.label_excel_2.Text = "label2";
+            // 
+            // label_Time_display
+            // 
+            this.label_Time_display.BackColor = System.Drawing.Color.Transparent;
+            this.label_Time_display.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_Time_display.Font = new System.Drawing.Font("Times New Roman", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Time_display.Location = new System.Drawing.Point(0, 0);
+            this.label_Time_display.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label_Time_display.Name = "label_Time_display";
+            this.label_Time_display.Size = new System.Drawing.Size(984, 113);
+            this.label_Time_display.TabIndex = 5;
+            this.label_Time_display.Text = "00:00.000";
+            this.label_Time_display.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // splitContainer1
             // 
@@ -775,7 +783,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.label_excel_2);
-            this.splitContainer1.Panel1.Controls.Add(this.label_display);
+            this.splitContainer1.Panel1.Controls.Add(this.label_Time_display);
             // 
             // splitContainer1.Panel2
             // 
@@ -785,16 +793,6 @@
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 6;
             this.splitContainer1.TabStop = false;
-            // 
-            // button_Total_Times
-            // 
-            this.button_Total_Times.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Total_Times.Location = new System.Drawing.Point(0, 0);
-            this.button_Total_Times.Name = "button_Total_Times";
-            this.button_Total_Times.Size = new System.Drawing.Size(160, 70);
-            this.button_Total_Times.TabIndex = 0;
-            this.button_Total_Times.Text = "button";
-            this.button_Total_Times.UseVisualStyleBackColor = true;
             // 
             // FrontPage
             // 
@@ -841,15 +839,15 @@
             this.splitContainer9.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
             this.splitContainer9.ResumeLayout(false);
-            this.Information_Button.Panel1.ResumeLayout(false);
-            this.Information_Button.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Information_Button)).EndInit();
-            this.Information_Button.ResumeLayout(false);
             this.Team_Information.Panel1.ResumeLayout(false);
             this.Team_Information.Panel1.PerformLayout();
             this.Team_Information.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Team_Information)).EndInit();
             this.Team_Information.ResumeLayout(false);
+            this.Information_Button.Panel1.ResumeLayout(false);
+            this.Information_Button.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Information_Button)).EndInit();
+            this.Information_Button.ResumeLayout(false);
             this.tabPage_Setting.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -881,7 +879,7 @@
         private System.Windows.Forms.Label label_ComState;
         private System.Windows.Forms.ComboBox PorSelector;
         private System.Windows.Forms.TabPage tabPage_Setting;
-        private System.Windows.Forms.Label label_display;
+        private System.Windows.Forms.Label label_Time_display;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;

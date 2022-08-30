@@ -32,6 +32,8 @@ namespace WindowsFormsApp1
         private int DataGvColInd;
         private bool DataGvLoaded;
         private bool DataGv_Get_Current_Location = true;
+        private bool DataGv_Get_Rows_Location = true;
+        private int totalrowCount;
         public int TotalRuns = 3;
         public Form2 F2 = new Form2();
         private Thread t;
@@ -50,7 +52,7 @@ namespace WindowsFormsApp1
         }
         public void ShowTime(string str)//3
         {
-            label_display.Text = str;
+            label_Time_display.Text = str;
             F2.Round_Time = str;
         }
         public void Command(string cmd)
@@ -62,32 +64,32 @@ namespace WindowsFormsApp1
             {
                 case "S":
                     //Counting = true;
-                    label_display.BackColor = Color.FromArgb(0, 225, 255);
+                    label_Time_display.BackColor = Color.FromArgb(0, 225, 255);
                     break;
                 case "G":
                     //Counting = false;
                     State_Ready = false;
-                    label_display.BackColor = Color.FromArgb(128, 255, 128);
-                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_display.Text);
-                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_display.Text);
+                    label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
+                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     DataGvColInd += 1; xlCells_ColInd += 1;
                     break;
                 case "C":
-                    label_display.BackColor = Color.Transparent;
+                    label_Time_display.BackColor = Color.Transparent;
                     break;
                 case "R":   //Ready
                     State_Ready = true;
                     State_Failing = false;
-                    label_display.BackColor = Color.FromArgb(128, 255, 128);
-                    label_display.Text = "Ready";
+                    label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
+                    label_Time_display.Text = "Ready";
                     break;
                 case "F":   //Fail
                     State_Failing = true;
                     State_Ready = false;
-                    label_display.BackColor = Color.FromArgb(192, 0, 0);
-                    label_display.Text = "Fail";
+                    label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
+                    label_Time_display.Text = "Fail";
                     Write_dataGridView(DataGvRowInd, DataGvColInd, "XX:XX.XXX");
-                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_display.Text);
+                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     break;
             }
         }
@@ -97,8 +99,8 @@ namespace WindowsFormsApp1
         {
             State_Ready = false;
             State_Failing = false;
-            label_display.Text = "00:00.000";
-            label_display.BackColor = Color.Transparent;
+            label_Time_display.Text = "00:00.000";
+            label_Time_display.BackColor = Color.Transparent;
         }
         public void Console_Connect(string COM, Int32 baud)
         {
@@ -464,9 +466,10 @@ namespace WindowsFormsApp1
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(xlFilePath);
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
-            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Clear(); 
             int rowCount = xlRange.Rows.Count;
             int colCount = xlRange.Columns.Count;
+            totalrowCount = rowCount - 2;
             //--------------------------------------
             for (int i = 1; i <= rowCount; i++)
             {
@@ -510,6 +513,13 @@ namespace WindowsFormsApp1
             Marshal.ReleaseComObject(xlApp);
             ExcelIsUsing = false;
             DataGvLoaded = true;
+            DataGv_Get_Rows_Location = false;
+            DataGv_Get_Current_Location = false;
+            dataGridView1.Focus();
+            dataGridView1.CurrentCell = dataGridView1[4, 0];
+            dataGridView1.BeginEdit(true);
+            DataGv_Get_Rows_Location = true;
+            DataGv_Get_Current_Location = true;
         }
         public void Write_dataGridView(int GwRows, int GwColumns, string GwScore)
         {
@@ -573,12 +583,28 @@ namespace WindowsFormsApp1
 
         private void button_Inf_Previous_Click(object sender, EventArgs e)
         {
-
+            if (DataGvLoaded == true)
+            {
+                DataGvRowInd += -1;
+                DataGv_Get_Rows_Location = false;
+                dataGridView1.Focus();
+                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                dataGridView1.BeginEdit(true);
+                DataGv_Get_Rows_Location = true;
+            }
         }
 
         private void button_Inf_Next_Click(object sender, EventArgs e)
         {
-
+            if (DataGvLoaded == true)
+            {
+                DataGvRowInd += 1;
+                DataGv_Get_Rows_Location = false;
+                dataGridView1.Focus();
+                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                dataGridView1.BeginEdit(true);
+                DataGv_Get_Rows_Location = true;
+            }
         }
 
         private void button_Round_Previous_Click(object sender, EventArgs e)
@@ -611,17 +637,23 @@ namespace WindowsFormsApp1
         {
             if (ExcelIsUsing == false)
             {
-                DataGvRowInd = dataGridView1.CurrentCell.RowIndex;
+                if (DataGv_Get_Rows_Location == true)
+                {
+                    DataGvRowInd = dataGridView1.CurrentCell.RowIndex;
+                }
+                
                 if (DataGv_Get_Current_Location == true)
                 {
                     DataGvColInd = dataGridView1.CurrentCell.ColumnIndex;
                 }
 
                 if (DataGvColInd > (4 + TotalRuns - 1)) DataGvColInd = (4 + TotalRuns - 1);
-                if (DataGvColInd < 4) DataGvColInd = 4;
-
+                else if (DataGvColInd < 4) DataGvColInd = 4;
+                if (DataGvRowInd > totalrowCount) DataGvRowInd = totalrowCount;
+                else if (DataGvRowInd < 0) DataGvRowInd = 0;
                 xlCells_RowInd = DataGvRowInd + 2;
                 xlCells_ColInd = DataGvColInd + 1;
+                textBox_Round.Text = "Rund\r\n "+ (DataGvColInd - 3);
                 if (dataGridView1.Rows[DataGvRowInd].Cells[2].Value != null && dataGridView1.Rows[DataGvRowInd].Cells[3].Value != null)
                 {
                     textBox_Team_Information.Text = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
@@ -637,5 +669,26 @@ namespace WindowsFormsApp1
                 }
             }
         }
+        public string Team_Information_For_F2
+        {
+            get { return textBox_Team_Information.Text; }
+            set { textBox_Team_Information.Text = value; }
+        }
+        public string Round_For_F2
+        {
+            get { return textBox_Round.Text; }
+            set { textBox_Round.Text = value; }
+        }
+        public string Time_For_F2
+        {
+            get { return label_Time_display.Text; }
+            set { label_Time_display.Text = value; }
+        }
+        public string TotalTimes_For_F2
+        {
+            get { return textBox_TotalTimes.Text; }
+            set { textBox_TotalTimes.Text = value; }
+        }
+        
     }
 }
