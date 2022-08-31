@@ -1,20 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using System.IO;
-using Excel = Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Diagnostics;
-using System.Timers;
 
 namespace WindowsFormsApp1
 {
@@ -26,7 +11,7 @@ namespace WindowsFormsApp1
         public Form2()
         {
             InitializeComponent();
-            
+
         }
         public void Flash()
         {
@@ -39,18 +24,12 @@ namespace WindowsFormsApp1
         {
             SendToBack();
             InitTimer();
-            //t = new Thread(Display_Data)
-            //{
-            //    IsBackground = true
-            //};
-            //t.Start();
-
             //BringToFront();
         }
 
         private void InitTimer()
         {
-            timer = new System.Timers.Timer(16);
+            timer = new System.Timers.Timer(20);
             timer.AutoReset = true;
             timer.Enabled = true;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
@@ -58,7 +37,7 @@ namespace WindowsFormsApp1
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             Get_Data_To_Display d = new Get_Data_To_Display(Flash);
-            this.Invoke(d, new Object[] {  });
+            this.Invoke(d, new Object[] { });
         }
 
         public string Round_Time//Form1 to Form2
@@ -66,25 +45,50 @@ namespace WindowsFormsApp1
             get { return textBox_Round_Time.Text; }
             set { textBox_Round_Time.Text = value; }
         }
-        public string Team_Information//Form1 to Form2
+        //public string Team_Information//Form1 to Form2
+        //{
+        //    get { return textBox_Team_Information.Text; }
+        //    set { textBox_Team_Information.Text = value; }
+        //}
+        //public string Round//Form1 to Form2
+        //{
+        //    get { return textBox_Round.Text; }
+        //    set { textBox_Round.Text = value; }
+        //}
+        //public string Total_time//Form1 to Form2
+        //{
+        //    get { return textBox_Total_Time.Text; }
+        //    set { textBox_Total_Time.Text = value; }
+        //}
+        //public string Score//Form1 to Form2
+        //{
+        //    get { return textBox_Score.Text; }
+        //    set { textBox_Score.Text = value; }
+        //}
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            get { return textBox_Team_Information.Text; }
-            set { textBox_Team_Information.Text = value; }
+            timer.AutoReset = false;
+            timer.Enabled = false;
         }
-        public string Round//Form1 to Form2
+
+        private void button1_Click(object sender, EventArgs e)
         {
-            get { return textBox_Round.Text; }
-            set { textBox_Round.Text = value; }
+            if (FormBorderStyle == FormBorderStyle.None)
+            {
+                this.FormBorderStyle = FormBorderStyle.Sizable;     //設定窗體為無邊框樣式
+                this.WindowState = FormWindowState.Normal;    //最大化窗體
+            }
+            else
+            {
+                this.FormBorderStyle = FormBorderStyle.None;     //設定窗體為無邊框樣式
+                this.WindowState = FormWindowState.Maximized;    //最大化窗體
+            }
         }
-        public string Total_time//Form1 to Form2
+
+        private void Form2_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            get { return textBox_Total_Time.Text; }
-            set { textBox_Total_Time.Text = value; }
-        }
-        public string Score//Form1 to Form2
-        {
-            get { return textBox_Score.Text; }
-            set { textBox_Score.Text = value; }
+            MainForm.Close();
         }
     }
 }

@@ -46,10 +46,10 @@
             this.button_Total_Times = new System.Windows.Forms.Button();
             this.Excel_Control_Panel = new System.Windows.Forms.TableLayoutPanel();
             this.button_excel_5 = new System.Windows.Forms.Button();
-            this.button_excel_1 = new System.Windows.Forms.Button();
             this.button_excel_2 = new System.Windows.Forms.Button();
-            this.button_excel_3 = new System.Windows.Forms.Button();
             this.button_excel_4 = new System.Windows.Forms.Button();
+            this.button_excel_1 = new System.Windows.Forms.Button();
+            this.button_excel_3 = new System.Windows.Forms.Button();
             this.Round = new System.Windows.Forms.SplitContainer();
             this.textBox_Round = new System.Windows.Forms.TextBox();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
@@ -70,7 +70,6 @@
             this.button_Sand = new System.Windows.Forms.Button();
             this.textBoxReceive = new System.Windows.Forms.TextBox();
             this.button_Clear = new System.Windows.Forms.Button();
-            this.label_excel_2 = new System.Windows.Forms.Label();
             this.label_Time_display = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1.SuspendLayout();
@@ -203,7 +202,7 @@
             this.button_Command_Ready.TabIndex = 0;
             this.button_Command_Ready.Text = "Ready";
             this.button_Command_Ready.UseVisualStyleBackColor = false;
-            this.button_Command_Ready.Click += new System.EventHandler(this.button_Command_Ready_Click);
+            this.button_Command_Ready.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_Command_Fail
             // 
@@ -220,7 +219,7 @@
             this.button_Command_Fail.TabIndex = 1;
             this.button_Command_Fail.Text = "Fail";
             this.button_Command_Fail.UseVisualStyleBackColor = false;
-            this.button_Command_Fail.Click += new System.EventHandler(this.button_Command_Fail_Click);
+            this.button_Command_Fail.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_Command_3
             // 
@@ -236,7 +235,7 @@
             this.button_Command_3.TabIndex = 2;
             this.button_Command_3.Text = "button3";
             this.button_Command_3.UseVisualStyleBackColor = false;
-            this.button_Command_3.Click += new System.EventHandler(this.button_Command_3_Click);
+            this.button_Command_3.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_Command_4
             // 
@@ -252,7 +251,7 @@
             this.button_Command_4.TabIndex = 3;
             this.button_Command_4.Text = "button4";
             this.button_Command_4.UseVisualStyleBackColor = false;
-            this.button_Command_4.Click += new System.EventHandler(this.button_Command_4_Click);
+            this.button_Command_4.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_Command_Restart
             // 
@@ -269,7 +268,7 @@
             this.button_Command_Restart.TabIndex = 4;
             this.button_Command_Restart.Text = "Restart";
             this.button_Command_Restart.UseVisualStyleBackColor = false;
-            this.button_Command_Restart.Click += new System.EventHandler(this.button_Command_Restart_Click);
+            this.button_Command_Restart.Click += new System.EventHandler(this.ButtonClick);
             // 
             // splitContainer6
             // 
@@ -368,6 +367,7 @@
             this.button_Total_Times.TabIndex = 0;
             this.button_Total_Times.Text = "button";
             this.button_Total_Times.UseVisualStyleBackColor = true;
+            this.button_Total_Times.Click += new System.EventHandler(this.ButtonClick);
             // 
             // Excel_Control_Panel
             // 
@@ -401,19 +401,7 @@
             this.button_excel_5.TabIndex = 4;
             this.button_excel_5.Text = "ReadFile";
             this.button_excel_5.UseVisualStyleBackColor = true;
-            this.button_excel_5.Click += new System.EventHandler(this.button_excel_5_Click);
-            // 
-            // button_excel_1
-            // 
-            this.button_excel_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_1.Location = new System.Drawing.Point(1, 62);
-            this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_1.Name = "button_excel_1";
-            this.button_excel_1.Size = new System.Drawing.Size(201, 26);
-            this.button_excel_1.TabIndex = 0;
-            this.button_excel_1.Text = "Create Excel template";
-            this.button_excel_1.UseVisualStyleBackColor = true;
-            this.button_excel_1.Click += new System.EventHandler(this.button_excel_1_Click);
+            this.button_excel_5.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_excel_2
             // 
@@ -425,7 +413,31 @@
             this.button_excel_2.TabIndex = 1;
             this.button_excel_2.Text = "Select Excel";
             this.button_excel_2.UseVisualStyleBackColor = true;
-            this.button_excel_2.Click += new System.EventHandler(this.button_excel_2_Click);
+            this.button_excel_2.Click += new System.EventHandler(this.ButtonClick);
+            // 
+            // button_excel_4
+            // 
+            this.button_excel_4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_excel_4.Location = new System.Drawing.Point(1, 2);
+            this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_4.Name = "button_excel_4";
+            this.button_excel_4.Size = new System.Drawing.Size(201, 26);
+            this.button_excel_4.TabIndex = 2;
+            this.button_excel_4.Text = "OpenFile";
+            this.button_excel_4.UseVisualStyleBackColor = true;
+            this.button_excel_4.Click += new System.EventHandler(this.ButtonClick);
+            // 
+            // button_excel_1
+            // 
+            this.button_excel_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_excel_1.Location = new System.Drawing.Point(1, 62);
+            this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_1.Name = "button_excel_1";
+            this.button_excel_1.Size = new System.Drawing.Size(201, 26);
+            this.button_excel_1.TabIndex = 0;
+            this.button_excel_1.Text = "Create Excel template";
+            this.button_excel_1.UseVisualStyleBackColor = true;
+            this.button_excel_1.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_excel_3
             // 
@@ -438,19 +450,7 @@
             this.button_excel_3.TabIndex = 3;
             this.button_excel_3.Text = "SaveOnExcel";
             this.button_excel_3.UseVisualStyleBackColor = true;
-            this.button_excel_3.Click += new System.EventHandler(this.button_excel_3_Click);
-            // 
-            // button_excel_4
-            // 
-            this.button_excel_4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_4.Location = new System.Drawing.Point(1, 2);
-            this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_4.Name = "button_excel_4";
-            this.button_excel_4.Size = new System.Drawing.Size(201, 26);
-            this.button_excel_4.TabIndex = 2;
-            this.button_excel_4.Text = "OpenFile";
-            this.button_excel_4.UseVisualStyleBackColor = true;
-            this.button_excel_4.Click += new System.EventHandler(this.button_excel_4_Click);
+            this.button_excel_3.Click += new System.EventHandler(this.ButtonClick);
             // 
             // Round
             // 
@@ -511,7 +511,7 @@
             this.button_Round_Previous.TabIndex = 1;
             this.button_Round_Previous.Text = "Previous";
             this.button_Round_Previous.UseVisualStyleBackColor = true;
-            this.button_Round_Previous.Click += new System.EventHandler(this.button_Round_Previous_Click);
+            this.button_Round_Previous.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_Round_Next
             // 
@@ -522,7 +522,7 @@
             this.button_Round_Next.TabIndex = 1;
             this.button_Round_Next.Text = "Next";
             this.button_Round_Next.UseVisualStyleBackColor = true;
-            this.button_Round_Next.Click += new System.EventHandler(this.button_Round_Next_Click);
+            this.button_Round_Next.Click += new System.EventHandler(this.ButtonClick);
             // 
             // Team_Information
             // 
@@ -583,7 +583,7 @@
             this.button_Inf_Previous.TabIndex = 0;
             this.button_Inf_Previous.Text = "Previous";
             this.button_Inf_Previous.UseVisualStyleBackColor = true;
-            this.button_Inf_Previous.Click += new System.EventHandler(this.button_Inf_Previous_Click);
+            this.button_Inf_Previous.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_Inf_Next
             // 
@@ -594,7 +594,7 @@
             this.button_Inf_Next.TabIndex = 0;
             this.button_Inf_Next.Text = "Next";
             this.button_Inf_Next.UseVisualStyleBackColor = true;
-            this.button_Inf_Next.Click += new System.EventHandler(this.button_Inf_Next_Click);
+            this.button_Inf_Next.Click += new System.EventHandler(this.ButtonClick);
             // 
             // tabPage_Setting
             // 
@@ -721,7 +721,7 @@
             this.button_Sand.TabIndex = 0;
             this.button_Sand.Text = "Sand Text";
             this.button_Sand.UseVisualStyleBackColor = true;
-            this.button_Sand.Click += new System.EventHandler(this.button_Sand_Click);
+            this.button_Sand.Click += new System.EventHandler(this.ButtonClick);
             // 
             // textBoxReceive
             // 
@@ -746,16 +746,7 @@
             this.button_Clear.Text = "Clear Receive Box";
             this.button_Clear.UseCompatibleTextRendering = true;
             this.button_Clear.UseVisualStyleBackColor = true;
-            this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
-            // 
-            // label_excel_2
-            // 
-            this.label_excel_2.AutoSize = true;
-            this.label_excel_2.Location = new System.Drawing.Point(12, 94);
-            this.label_excel_2.Name = "label_excel_2";
-            this.label_excel_2.Size = new System.Drawing.Size(45, 19);
-            this.label_excel_2.TabIndex = 5;
-            this.label_excel_2.Text = "label2";
+            this.button_Clear.Click += new System.EventHandler(this.ButtonClick);
             // 
             // label_Time_display
             // 
@@ -782,7 +773,6 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.label_excel_2);
             this.splitContainer1.Panel1.Controls.Add(this.label_Time_display);
             // 
             // splitContainer1.Panel2
@@ -861,7 +851,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -898,7 +887,6 @@
         private System.Windows.Forms.Label label_excel_1;
         private System.Windows.Forms.Button button_excel_5;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Label label_excel_2;
         private System.Windows.Forms.TableLayoutPanel Excel_Control_Panel;
         private System.Windows.Forms.SplitContainer splitContainer6;
         private System.Windows.Forms.TextBox textBox_Team_Information;

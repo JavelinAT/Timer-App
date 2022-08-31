@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using System.Data.OleDb;
 using System.Management;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace WindowsFormsApp1
 {
@@ -25,6 +26,8 @@ namespace WindowsFormsApp1
         private SerialPort My_SerialPort;
         private ComboBox ComPortName = new ComboBox();
         private bool Console_receiving = false;
+        //宣告 Regex 忽略大小寫 
+        private Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
         //private bool Counting = false;
         private bool State_Ready = false;
         private bool State_Failing = false;
@@ -50,10 +53,17 @@ namespace WindowsFormsApp1
 
             F2.MainForm = this;//Form2 to Form1
         }
-        public void ShowTime(string str)//3
+        private void FrontPage_Load(object sender, EventArgs e)
+        {
+            //string strPath = System.Environment.CurrentDirectory;
+            //string strPath = System.Windows.Forms.Application.StartupPath;//啟動路徑
+            string strPath = System.Windows.Forms.Application.ExecutablePath;
+            Console.WriteLine(strPath);
+            Auto_Connect();
+        }
+        public void ShowTime(string str)
         {
             label_Time_display.Text = str;
-            F2.Round_Time = str;
         }
         public void Command(string cmd)
         {
@@ -71,8 +81,8 @@ namespace WindowsFormsApp1
                     State_Ready = false;
                     label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
+                    F2.Round_Time = label_Time_display.Text;
                     SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                    DataGvColInd += 1; xlCells_ColInd += 1;
                     break;
                 case "C":
                     label_Time_display.BackColor = Color.Transparent;
@@ -87,14 +97,13 @@ namespace WindowsFormsApp1
                     State_Failing = true;
                     State_Ready = false;
                     label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
-                    label_Time_display.Text = "Fail";
+                    label_Time_display.Text = "XX:XX.XXX";
                     Write_dataGridView(DataGvRowInd, DataGvColInd, "XX:XX.XXX");
+                    F2.Round_Time = "XX:XX.XXX";
                     SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     break;
             }
         }
-
-
         public void Reset()
         {
             State_Ready = false;
@@ -102,6 +111,221 @@ namespace WindowsFormsApp1
             label_Time_display.Text = "00:00.000";
             label_Time_display.BackColor = Color.Transparent;
         }
+        public static string Format_MilliSecond(uint TimeMs)
+        {
+            string T_ms = Convert.ToString(TimeMs % 1000);
+            T_ms = T_ms.PadLeft(3, '0');
+
+            string T_Second = Convert.ToString((TimeMs % 60000) / 1000);
+            T_Second = T_Second.PadLeft(2, '0');
+
+            string T_minute = Convert.ToString((int)TimeMs / 60000);
+            T_minute = T_minute.PadLeft(2, '0');
+
+            string Time = T_minute + ':' + T_Second + '.' + T_ms;
+            return Time;
+        }
+        public static uint HexToUint(string hexString)
+        {
+            //運算後的位元組長度:16進位數字字串長/2
+            byte[] byteOUT = new byte[4];
+            uint data;
+
+            for (int i = 0; i < hexString.Length; i += 2)
+            {
+                //每2位16進位數字轉換為一個10進位整數
+                byteOUT[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+            }
+            data = BitConverter.ToUInt32(byteOUT, 0);
+
+            return data;
+        }
+        private void PorSelector_DropDown(object sender, EventArgs e)
+        {
+            PorSelector.Items.Clear();
+            var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
+            foreach (ManagementObject port in searcher.Get())
+            {
+                ComPortName.Items.Add(port.GetPropertyValue("DeviceID").ToString());
+                // ex: Arduino Uno (COM7)
+                PorSelector.Items.Add(port.GetPropertyValue("Caption").ToString());
+            }
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //關閉 Serial Port
+            CloseComport();
+        }
+        private void PorSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Console_receiving == true)
+            {
+                Console_receiving = false;
+                CloseComport();//關閉 Serial Port
+            }
+            MatchCollection matches = regex.Matches(PorSelector.Text);
+            string portName = "";
+            foreach (Match match in matches)
+            {
+                portName = match.Groups[1].Value;
+                break;
+            }
+            if (portName == "")
+            {
+                MessageBox.Show("請選則正確的計時器");
+                return;
+            }
+
+            Console_Connect(portName, 115200);
+            if (Console_receiving == true)
+            {
+                label_ComState.Text = PorSelector.Text + " is Opened,Click again to disconnect";
+                label_ComState.BackColor = Color.FromArgb(128, 255, 128);
+                //Console.WriteLine(PorSelector.Text + " is Opened,Click again to disconnect");
+            }
+            else
+            {
+                label_ComState.Text = "Fail to connect " + PorSelector.Text + ", Check for occupancy and try again";
+                label_ComState.BackColor = Color.FromArgb(200, 0, 0);
+                //Console.WriteLine("Fail to connect " + PorSelector.Text + ", Check for occupancy and try again");
+            }
+        }
+        private void label_ComState_Click(object sender, EventArgs e)
+        {
+            if (Console_receiving == true)
+            {
+                CloseComport();//關閉 Serial Port
+                Console_receiving = false;
+                label_ComState.Text = "Click to select Com Port";
+                label_ComState.BackColor = Color.Transparent;
+            }
+            else this.PorSelector.DroppedDown = true;
+        }
+        /////////////////////////////////////////  Button   ///////////////////////////////////////////////
+        private void ButtonClick(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            Console.WriteLine(btn.Text);
+            switch (btn.Name)
+            {
+                ///////////////////////////////////////////////////////////////
+                /////  Command   //////////////////////////////////////////////
+                case "button_Command_Ready":
+                    if (State_Ready == false)   SendString("R\n");
+                    break;
+                case "button_Command_Fail":
+                    if (State_Failing == false) SendString("F\n");
+                    break;
+                case "button_Command_Restart":
+                    Reset();
+                    break;
+                case "button_Command_3":
+                    break;
+                case "button_Command_4":
+                    break;
+                /////  Command   //////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////
+                /////  dataGridView   /////////////////////////////////////////
+                case "button_Inf_Previous":
+                    if (DataGvLoaded == true)
+                    {
+                        DataGvRowInd += -1;
+                        DataGv_Get_Rows_Location = false;
+                        dataGridView1.Focus();
+                        dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                        dataGridView1.BeginEdit(true);
+                        DataGv_Get_Rows_Location = true;
+                    }
+                    break;
+                case "button_Inf_Next":
+                    if (DataGvLoaded == true)
+                    {
+                        DataGvRowInd += 1;
+                        DataGv_Get_Rows_Location = false;
+                        dataGridView1.Focus();
+                        dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                        dataGridView1.BeginEdit(true);
+                        DataGv_Get_Rows_Location = true;
+                    }
+                    break;
+                case "button_Round_Previous":
+                    if (DataGvLoaded == true)
+                    {
+                        DataGvColInd += -1;
+                        DataGv_Get_Current_Location = false;
+                        dataGridView1.Focus();
+                        dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                        dataGridView1.BeginEdit(true);
+                        DataGv_Get_Current_Location = true;
+                    }
+                    break;
+                case "button_Round_Next":
+                    if (DataGvLoaded == true)
+                    {
+                        DataGvColInd += 1;
+                        DataGv_Get_Current_Location = false;
+                        dataGridView1.Focus();
+                        dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                        dataGridView1.BeginEdit(true);
+                        DataGv_Get_Current_Location = true;
+                    }
+                    break;
+                /////  dataGridView   /////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////
+                /////  Excel   ////////////////////////////////////////////////
+                case "button_excel_1":
+                    Create_Excel_template();
+                    break;
+                case "button_excel_2":
+                    using (OpenFileDialog ofd = new OpenFileDialog())
+                    {
+                        ofd.Filter = "Excel 活頁簿 (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|文字檔 (Tab 字元分隔) (*.txt)|*.txt";
+                        ofd.Title = "Select Excel file";
+                        if (ofd.ShowDialog() == DialogResult.OK)
+                        {
+                            ExcelFilePath = ofd.FileName;
+                            label_excel_1.Text = ExcelFilePath;
+                            getExcelFile(ExcelFilePath);
+                        }
+                        else
+                        {
+                            ExcelFilePath = string.Empty;
+                            label_excel_1.Text = ExcelFilePath;
+                        }
+                    }
+                    break;
+                case "button_excel_3":
+                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, textBoxSend.Text);
+                    break;
+                case "button_excel_4":
+                    Excel.Application oXL;
+                    Excel._Workbook oWB;
+                    string path = ExcelFilePath;
+                    //Start Excel and get Application object.
+                    oXL = new Excel.Application();
+                    //Get a new workbook.
+                    oWB = oXL.Workbooks.Open(path);
+                    oXL.Visible = true;
+                    oXL.UserControl = true;
+                    break;
+                case "button_excel_5":
+                    getExcelFile(ExcelFilePath);
+                    break;
+                /////  Excel   ////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////
+                case "button_Sand":
+                    SendString(textBoxSend.Text);
+                    textBoxSend.Clear();
+                    break;
+                case "button_Clear":
+                    textBoxReceive.Clear();
+                    break;
+            }
+        }
+        /////////////////////////////////////////  Button   ///////////////////////////////////////////////
+        ///
+        /////////////////////////////////////////  ComPort   //////////////////////////////////////////////
         public void Console_Connect(string COM, Int32 baud)
         {
             try
@@ -154,35 +378,6 @@ namespace WindowsFormsApp1
                 }
             }
         }                         //關閉 Console
-        public static string Format_MilliSecond(uint TimeMs)
-        {
-            string T_ms = Convert.ToString(TimeMs % 1000);
-            T_ms = T_ms.PadLeft(3, '0');
-
-            string T_Second = Convert.ToString((TimeMs % 60000) / 1000);
-            T_Second = T_Second.PadLeft(2, '0');
-
-            string T_minute = Convert.ToString((int)TimeMs / 60000);
-            T_minute = T_minute.PadLeft(2, '0');
-
-            string Time = T_minute + ':' + T_Second + '.' + T_ms;
-            return Time;
-        }
-        public static uint HexToUint(string hexString)
-        {
-            //運算後的位元組長度:16進位數字字串長/2
-            byte[] byteOUT = new byte[4];
-            uint data;
-
-            for (int i = 0; i < hexString.Length; i += 2)
-            {
-                //每2位16進位數字轉換為一個10進位整數
-                byteOUT[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-            }
-            data = BitConverter.ToUInt32(byteOUT, 0);
-
-            return data;
-        }
         private void DoReceive()
         {
             Byte[] buffer = new Byte[1024];
@@ -194,38 +389,38 @@ namespace WindowsFormsApp1
                     if (My_SerialPort.BytesToRead > 0)
                     {
                         Stopwatch stopWatch = new Stopwatch();
-                        stopWatch.Start();
+                        //stopWatch.Start();
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
                         Array.Resize(ref buffer, length);
 
                         string buf = Encoding.UTF8.GetString(buffer);
                         string[] StrArr = buf.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
+                        Console.WriteLine(buf);
                         bool EnDisplay = true;
+                        //string last = StrArr.Last();
+
+                        Display d = new Display(ShowTime);
+                        Control c = new Control(Command);
                         foreach (string str in StrArr)
                         {
-
-                            // for 60Hz display
                             if (str.Length == 8 && EnDisplay)
                             {
-
                                 EnDisplay = false;
-                                Display d = new Display(ShowTime);
+                                //Display d = new Display(ShowTime);
                                 string time = Format_MilliSecond(HexToUint(str));
                                 this.Invoke(d, new Object[] { time });
                             }
                             else if (str.Length == 1)
                             {
-                                Control c = new Control(Command);
+                                //Control c = new Control(Command);
                                 this.Invoke(c, new Object[] { str });
                             }
-
                         }
                         Array.Resize(ref buffer, 1024);
-                        stopWatch.Stop();
-                        Console.WriteLine(stopWatch.ElapsedMilliseconds);
+                        //stopWatch.Stop();
+                        //Console.WriteLine(stopWatch.ElapsedMilliseconds);
                     }
-                    Thread.Sleep(40);
+                    Thread.Sleep(20);
                 }
 
             }
@@ -255,95 +450,48 @@ namespace WindowsFormsApp1
                 this.PorSelector.DroppedDown = true;
             }
         }//Console 發送資料
-        private void PorSelector_DropDown(object sender, EventArgs e)
+
+        private void Auto_Connect()
         {
-            PorSelector.Items.Clear();
+            string portMsg = "";
             var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
             foreach (ManagementObject port in searcher.Get())
             {
-                ComPortName.Items.Add(port.GetPropertyValue("DeviceID").ToString());
-                // ex: Arduino Uno (COM7)
-                PorSelector.Items.Add(port.GetPropertyValue("Caption").ToString());
+                portMsg += port.GetPropertyValue("Caption").ToString() + "\n";
             }
-        }
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //關閉 Serial Port
-            CloseComport();
-        }
-        private void PorSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
             if (Console_receiving == true)
             {
                 Console_receiving = false;
                 CloseComport();//關閉 Serial Port
             }
-            ComPortName.SelectedIndex = PorSelector.SelectedIndex;
-            Console_Connect(ComPortName.Text, 115200);
+            MatchCollection matches = regex.Matches(portMsg);
+            string portName = "";
+            foreach (Match match in matches)
+            {
+                portName = match.Groups[1].Value;
+                portMsg = match.Groups[0].Value;
+                break;
+            }
+            if (portName == "")
+                return;
+
+            Console_Connect(portName, 115200);
             if (Console_receiving == true)
             {
-                label_ComState.Text = PorSelector.Text + " is Opened,Click again to disconnect";
+                label_ComState.Text = portMsg + " is Opened,Click again to disconnect";
                 label_ComState.BackColor = Color.FromArgb(128, 255, 128);
                 //Console.WriteLine(PorSelector.Text + " is Opened,Click again to disconnect");
             }
             else
             {
-                label_ComState.Text = "Fail to connect " + PorSelector.Text + ", Check for occupancy and try again";
+                label_ComState.Text = "Fail to connect " + portMsg + ", Check for occupancy and try again";
                 label_ComState.BackColor = Color.FromArgb(200, 0, 0);
                 //Console.WriteLine("Fail to connect " + PorSelector.Text + ", Check for occupancy and try again");
             }
         }
-        private void button_Sand_Click(object sender, EventArgs e)
-        {
-            SendString(textBoxSend.Text);
-            textBoxSend.Clear();
-        }
-        private void button_Clear_Click(object sender, EventArgs e)
-        {
-            textBoxReceive.Clear();
-        }
-        private void button_Command_Ready_Click(object sender, EventArgs e)
-        {
-            if (State_Ready == false)
-            {
-                SendString("R\n");
-            }
-            //My_SerialPort.Write("R\n");
-        }
-        private void button_Command_Fail_Click(object sender, EventArgs e)
-        {
-            if (State_Failing == false)
-            {
-                SendString("F\n");
-                //My_SerialPort.Write("F\n");
-            }
-        }
-        private void button_Command_Restart_Click(object sender, EventArgs e)
-        {
-            Reset();
-            //My_SerialPort.Write("S\n");
-        }
-        private void label_ComState_Click(object sender, EventArgs e)
-        {
-            if (Console_receiving == true)
-            {
-                CloseComport();//關閉 Serial Port
-                Console_receiving = false;
-                label_ComState.Text = "Click to select Com Port";
-                label_ComState.BackColor = Color.Transparent;
-            }
-            else this.PorSelector.DroppedDown = true;
-        }
-        private void FrontPage_Load(object sender, EventArgs e)
-        {
-            //string strPath = System.Environment.CurrentDirectory;
-            //string strPath = System.Windows.Forms.Application.StartupPath;//啟動路徑
-            string strPath = System.Windows.Forms.Application.ExecutablePath;
-            //label_excel_1.Text = strPath;
-
-            //畫面開啟時直接連接Com10
-            //Console_Connect("COM10", 115200);
-        }
+        /////////////////////////////////////////  ComPort   //////////////////////////////////////////////
+        ///
+        /////////////////////////////////////////  Excel   ////////////////////////////////////////////////
         private void Create_Excel_template()
         {
             Excel.Application oXL;
@@ -466,7 +614,7 @@ namespace WindowsFormsApp1
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(xlFilePath);
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
-            dataGridView1.Columns.Clear(); 
+            dataGridView1.Columns.Clear();
             int rowCount = xlRange.Rows.Count;
             int colCount = xlRange.Columns.Count;
             totalrowCount = rowCount - 2;
@@ -521,118 +669,14 @@ namespace WindowsFormsApp1
             DataGv_Get_Rows_Location = true;
             DataGv_Get_Current_Location = true;
         }
+        /////////////////////////////////////////  Excel   ////////////////////////////////////////////////
+        ///
+        /////////////////////////////////////////  DataGridView   /////////////////////////////////////////
         public void Write_dataGridView(int GwRows, int GwColumns, string GwScore)
         {
             if (DataGvLoaded)
                 dataGridView1.Rows[GwRows].Cells[GwColumns].Value = GwScore;
         }
-        private void button_excel_1_Click(object sender, EventArgs e)
-        {
-            Create_Excel_template();
-        }
-        private void button_excel_2_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Filter = "Excel 活頁簿 (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|文字檔 (Tab 字元分隔) (*.txt)|*.txt";
-                ofd.Title = "Select Excel file";
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    ExcelFilePath = ofd.FileName;
-                    label_excel_1.Text = ExcelFilePath;
-                    getExcelFile(ExcelFilePath);
-                }
-                else
-                {
-                    ExcelFilePath = string.Empty;
-                    label_excel_1.Text = ExcelFilePath;
-                }
-            }
-        }
-        private void button_excel_3_Click(object sender, EventArgs e)
-        {
-            SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
-            Write_dataGridView(DataGvRowInd, DataGvColInd, textBoxSend.Text);
-        }
-        private void button_excel_4_Click(object sender, EventArgs e)
-        {
-            Excel.Application oXL;
-            Excel._Workbook oWB;
-            string path = ExcelFilePath;
-            //Start Excel and get Application object.
-            oXL = new Excel.Application();
-            //Get a new workbook.
-            oWB = oXL.Workbooks.Open(path);
-            oXL.Visible = true;
-            oXL.UserControl = true;
-        }
-        private void button_excel_5_Click(object sender, EventArgs e)
-        {
-            getExcelFile(ExcelFilePath);
-        }
-
-        private void button_Command_3_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button_Command_4_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button_Inf_Previous_Click(object sender, EventArgs e)
-        {
-            if (DataGvLoaded == true)
-            {
-                DataGvRowInd += -1;
-                DataGv_Get_Rows_Location = false;
-                dataGridView1.Focus();
-                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
-                dataGridView1.BeginEdit(true);
-                DataGv_Get_Rows_Location = true;
-            }
-        }
-
-        private void button_Inf_Next_Click(object sender, EventArgs e)
-        {
-            if (DataGvLoaded == true)
-            {
-                DataGvRowInd += 1;
-                DataGv_Get_Rows_Location = false;
-                dataGridView1.Focus();
-                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
-                dataGridView1.BeginEdit(true);
-                DataGv_Get_Rows_Location = true;
-            }
-        }
-
-        private void button_Round_Previous_Click(object sender, EventArgs e)
-        {
-            if (DataGvLoaded == true)
-            {
-                DataGvColInd += -1;
-                DataGv_Get_Current_Location = false;
-                dataGridView1.Focus();
-                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
-                dataGridView1.BeginEdit(true);
-                DataGv_Get_Current_Location = true;
-            }
-        }
-
-        private void button_Round_Next_Click(object sender, EventArgs e)
-        {
-            if (DataGvLoaded == true)
-            {
-                DataGvColInd += 1;
-                DataGv_Get_Current_Location = false;
-                dataGridView1.Focus();
-                dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
-                dataGridView1.BeginEdit(true);
-                DataGv_Get_Current_Location = true;
-            }
-        }
-
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (ExcelIsUsing == false)
@@ -641,7 +685,7 @@ namespace WindowsFormsApp1
                 {
                     DataGvRowInd = dataGridView1.CurrentCell.RowIndex;
                 }
-                
+
                 if (DataGv_Get_Current_Location == true)
                 {
                     DataGvColInd = dataGridView1.CurrentCell.ColumnIndex;
@@ -653,23 +697,17 @@ namespace WindowsFormsApp1
                 else if (DataGvRowInd < 0) DataGvRowInd = 0;
                 xlCells_RowInd = DataGvRowInd + 2;
                 xlCells_ColInd = DataGvColInd + 1;
-                textBox_Round.Text = "Rund\r\n "+ (DataGvColInd - 3);
+                textBox_Round.Text = "Round\r\n " + (DataGvColInd - 3) + "/" + TotalRuns;
                 if (dataGridView1.Rows[DataGvRowInd].Cells[2].Value != null && dataGridView1.Rows[DataGvRowInd].Cells[3].Value != null)
                 {
                     textBox_Team_Information.Text = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
                         "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
-                    //F2.Team_Information = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
-                    //    "\r\n" + dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString();
-                    //F2.Round = textBox_Round.Text;
-                    //label_excel_2.Text = 
-                    ////    dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() + "           " + 
-                    ////    dataGridView1.Rows[DataGvRowInd].Cells[3].Value.ToString() + "                      " +
-                    //    dataGridView1.Columns[DataGvColInd].HeaderText + "           " +
-                    //    "Row" + DataGvRowInd.ToString() +
-                    //    "Column" + DataGvColInd.ToString();
                 }
             }
         }
+        /////////////////////////////////////////  DataGridView   /////////////////////////////////////////
+        ///
+        /////////////////////////////////////////  Form 2   ///////////////////////////////////////////////
         public string Team_Information_For_F2
         {
             get { return textBox_Team_Information.Text; }
@@ -690,6 +728,7 @@ namespace WindowsFormsApp1
             get { return textBox_TotalTimes.Text; }
             set { textBox_TotalTimes.Text = value; }
         }
-        
+        /////////////////////////////////////////  Form 2   ///////////////////////////////////////////////
+
     }
 }
