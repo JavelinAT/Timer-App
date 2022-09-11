@@ -18,6 +18,14 @@ using System.Data.OleDb;
 using System.Management;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Configuration;
+using System.Reflection.Emit;
+using ComboBox = System.Windows.Forms.ComboBox;
+using Button = System.Windows.Forms.Button;
+using Microsoft.Office.Interop.Excel;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace WindowsFormsApp1
 {
@@ -26,6 +34,7 @@ namespace WindowsFormsApp1
         private SerialPort My_SerialPort;
         private ComboBox ComPortName = new ComboBox();
         private bool Console_receiving = false;
+        // Regex 正規表達式 ( Regular Expression )
         //宣告 Regex 忽略大小寫 
         private Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
         //private bool Counting = false;
@@ -37,11 +46,12 @@ namespace WindowsFormsApp1
         private bool DataGv_Get_Current_Location = true;
         private bool DataGv_Get_Rows_Location = true;
         private int totalrowCount;
-        public int TotalRuns = 3;
+        public int TotalRuns;           //總次數
+        public int TotalTimes;          //總時間
         public Form2 F2 = new Form2();
         private Thread t;
-        private string ExcelFilePath;
-        public bool ExcelIsUsing;
+        private string ExcelFilePath;   //Excel檔案路徑
+        public bool ExcelIsUsing;       //Excel狀態
         private int xlCells_RowInd, xlCells_ColInd;
         delegate void Display(string str);
         delegate void Control(string cmd);
@@ -49,9 +59,9 @@ namespace WindowsFormsApp1
         public FrontPage()
         {
             InitializeComponent();
-            F2.Show();
+            //F2.Show();
 
-            F2.MainForm = this;//Form2 to Form1
+            //F2.MainForm = this;//Form2 to Form1
         }
         private void FrontPage_Load(object sender, EventArgs e)
         {
@@ -60,6 +70,8 @@ namespace WindowsFormsApp1
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             Console.WriteLine(strPath);
             Auto_Connect();
+            Apply_Settings();
+            //InitTimer();
         }
         public void ShowTime(string str)
         {
@@ -144,7 +156,7 @@ namespace WindowsFormsApp1
         {
             PorSelector.Items.Clear();
             var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
-            foreach (ManagementObject port in searcher.Get())
+            foreach (ManagementObject port in searcher.Get().Cast<ManagementObject>())
             {
                 ComPortName.Items.Add(port.GetPropertyValue("DeviceID").ToString());
                 // ex: Arduino Uno (COM7)
@@ -455,7 +467,7 @@ namespace WindowsFormsApp1
         {
             string portMsg = "";
             var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
-            foreach (ManagementObject port in searcher.Get())
+            foreach (ManagementObject port in searcher.Get().Cast<ManagementObject>())
             {
                 portMsg += port.GetPropertyValue("Caption").ToString() + "\n";
             }
@@ -707,6 +719,71 @@ namespace WindowsFormsApp1
         }
         /////////////////////////////////////////  DataGridView   /////////////////////////////////////////
         ///
+        /////////////////////////////////////////  AppSettings   //////////////////////////////////////////
+        private void button_SettingPage_Apply_Click(object sender, EventArgs e)
+        {
+            // 讀取設定檔
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            // 移除指定的AppSettings
+            config.AppSettings.Settings.Remove(comboBox_SettingPage_class.Text);
+            config.AppSettings.Settings.Remove("Mode");
+
+            // 新增指定的appSettings
+            config.AppSettings.Settings.Add("Mode", comboBox_SettingPage_class.Text);
+            config.AppSettings.Settings.Add(comboBox_SettingPage_class.Text, textBox_SettingPage_TotalTimes.Text);
+            config.AppSettings.Settings.Add(comboBox_SettingPage_class.Text, comboBox_SettingPage_TotalRound.Text);
+
+            // 儲存設定
+            config.Save(ConfigurationSaveMode.Modified);
+
+            //套用設定
+            Apply_Settings();
+
+            MessageBox.Show("Applied");
+        }
+        private void Apply_Settings()
+        {
+            ConfigurationManager.RefreshSection("appSettings");
+            comboBox_SettingPage_class.SelectedItem = ConfigurationManager.AppSettings["Mode"];
+            string[] Settings = ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text].Split('\u002C');
+
+            TotalRuns = Int32.Parse(Settings[1]);
+            TotalTimes = Int32.Parse(Settings[0]);
+            Console.WriteLine(ConfigurationManager.AppSettings["Mode"]+ "\tTotalRuns\t" + TotalRuns+ "\tTotalTimes\t" + TotalTimes);
+        }
+        private void comboBox_SettingPage_class_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ConfigurationManager.RefreshSection("appSettings");
+            Console.WriteLine("目前在App.Config數值為：" + ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text]);
+            string[] Settings = ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text].Split('\u002C');
+            Console.WriteLine(Settings);
+            textBox_SettingPage_TotalTimes.Text = Settings[0];
+            comboBox_SettingPage_TotalRound.SelectedItem = Settings[1];
+        }
+        /////////////////////////////////////////  AppSettings   //////////////////////////////////////////
+        ///
+        /////////////////////////////////////////  timer   ////////////////////////////////////////////////
+        private void InitTimer()
+        {
+            //設定 定時間隔(毫秒為單位)
+            int interval = 1000;
+            Timer timer = new System.Timers.Timer(interval);
+            //設定執行一次（false）或一直執行(true)
+            timer.AutoReset = true;
+            //設定是否執行System.Timers.Timer.Elapsed事件
+            timer.Enabled = true;
+            //綁定Elapsed事件
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
+        }
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            int intHour = e.SignalTime.Hour;
+            int intMinute = e.SignalTime.Minute;
+            int intSecond = e.SignalTime.Second;
+            Console.WriteLine(intHour+":"+ intMinute+"."+ intSecond);
+        }
+        /////////////////////////////////////////  timer   ////////////////////////////////////////////////
+        ///
         /////////////////////////////////////////  Form 2   ///////////////////////////////////////////////
         public string Team_Information_For_F2
         {
@@ -729,6 +806,5 @@ namespace WindowsFormsApp1
             set { textBox_TotalTimes.Text = value; }
         }
         /////////////////////////////////////////  Form 2   ///////////////////////////////////////////////
-
     }
 }

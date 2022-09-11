@@ -32,6 +32,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.label_Team_Information = new System.Windows.Forms.Label();
             this.textBox_Team_Information = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.label_Round_Time = new System.Windows.Forms.Label();
             this.textBox_Round_Time = new System.Windows.Forms.TextBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -43,7 +44,6 @@
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.label_Score = new System.Windows.Forms.Label();
             this.textBox_Score = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -127,6 +127,16 @@
             this.textBox_Team_Information.TabIndex = 2;
             this.textBox_Team_Information.TabStop = false;
             this.textBox_Team_Information.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Location = new System.Drawing.Point(1332, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(52, 65);
+            this.button1.TabIndex = 0;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label_Round_Time
             // 
@@ -274,16 +284,6 @@
             this.textBox_Score.Size = new System.Drawing.Size(678, 623);
             this.textBox_Score.TabIndex = 4;
             this.textBox_Score.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(1332, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 65);
-            this.button1.TabIndex = 0;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form2
             // 
