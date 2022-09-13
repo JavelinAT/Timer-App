@@ -26,6 +26,12 @@ using Button = System.Windows.Forms.Button;
 using Microsoft.Office.Interop.Excel;
 using System.Timers;
 using Timer = System.Timers.Timer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using WindowsFormsApp1.Properties;
+using static WindowsFormsApp1.FrontPage;
+using System.Windows.Forms.VisualStyles;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace WindowsFormsApp1
 {
@@ -72,6 +78,46 @@ namespace WindowsFormsApp1
             Auto_Connect();
             Apply_Settings();
             //InitTimer();
+
+            //JObject jobj = ReadJson("123");
+            //Console.WriteLine(jobj["ClassicMouse"]);
+            //Console.WriteLine(jobj["ROBOTRACE"]);
+            //Console.WriteLine(jobj["ClassicMouse"]["time"]);
+            //jobj["ROBOTRACE"] = 50;
+            //WriteJson(jobj);
+        }
+        public JObject ReadJson(String Filename)
+        {
+            try
+            {
+                JObject jobj = JObject.Parse(File.ReadAllText(Filename + ".json"));
+                return jobj;
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                var json = new
+                {
+                    ClassicMouse = new
+                    {
+                        time = 0,
+                        aaaa = "123456"
+                    },
+                    ROBOTRACE = 100
+                };
+                File.WriteAllText(Filename +".json", JsonConvert.SerializeObject(json, Formatting.Indented));
+                JObject jobj = JObject.Parse(JsonConvert.SerializeObject(json, Formatting.Indented));
+                return jobj;
+            }
+            catch (Newtonsoft.Json.JsonReaderException ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return null;
+            }
+        }
+        public void WriteJson(JObject jobj, String Filename)
+        {
+            File.WriteAllText(Filename + ".json", JsonConvert.SerializeObject(jobj, Formatting.Indented));
+
         }
         public void ShowTime(string str)
         {
@@ -94,7 +140,7 @@ namespace WindowsFormsApp1
                     label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
                     F2.Round_Time = label_Time_display.Text;
-                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     break;
                 case "C":
                     label_Time_display.BackColor = Color.Transparent;
@@ -112,7 +158,7 @@ namespace WindowsFormsApp1
                     label_Time_display.Text = "XX:XX.XXX";
                     Write_dataGridView(DataGvRowInd, DataGvColInd, "XX:XX.XXX");
                     F2.Round_Time = "XX:XX.XXX";
-                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     break;
             }
         }
@@ -749,7 +795,7 @@ namespace WindowsFormsApp1
 
             TotalRuns = Int32.Parse(Settings[1]);
             TotalTimes = Int32.Parse(Settings[0]);
-            Console.WriteLine(ConfigurationManager.AppSettings["Mode"]+ "\tTotalRuns\t" + TotalRuns+ "\tTotalTimes\t" + TotalTimes);
+            Console.WriteLine(ConfigurationManager.AppSettings["Mode"] + "\tTotalRuns\t" + TotalRuns + "\tTotalTimes\t" + TotalTimes);
         }
         private void comboBox_SettingPage_class_SelectedIndexChanged(object sender, EventArgs e)
         {

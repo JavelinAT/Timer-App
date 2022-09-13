@@ -285,7 +285,7 @@
             // 
             this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer6.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer6.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer6.Name = "splitContainer6";
             this.splitContainer6.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -791,7 +791,7 @@
             this.PorSelector.FormattingEnabled = true;
             this.PorSelector.IntegralHeight = false;
             this.PorSelector.Location = new System.Drawing.Point(0, 25);
-            this.PorSelector.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.PorSelector.Margin = new System.Windows.Forms.Padding(1);
             this.PorSelector.Name = "PorSelector";
             this.PorSelector.Size = new System.Drawing.Size(528, 24);
             this.PorSelector.Sorted = true;
@@ -819,7 +819,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.textBoxReceive);
             this.splitContainer2.Panel2.Controls.Add(this.button_Clear);
             this.splitContainer2.Size = new System.Drawing.Size(528, 362);
-            this.splitContainer2.SplitterDistance = 246;
+            this.splitContainer2.SplitterDistance = 245;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -830,7 +830,7 @@
             this.textBoxSend.Multiline = true;
             this.textBoxSend.Name = "textBoxSend";
             this.textBoxSend.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxSend.Size = new System.Drawing.Size(246, 318);
+            this.textBoxSend.Size = new System.Drawing.Size(245, 318);
             this.textBoxSend.TabIndex = 3;
             // 
             // button_Sand
@@ -840,7 +840,7 @@
             this.button_Sand.Location = new System.Drawing.Point(0, 0);
             this.button_Sand.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button_Sand.Name = "button_Sand";
-            this.button_Sand.Size = new System.Drawing.Size(246, 44);
+            this.button_Sand.Size = new System.Drawing.Size(245, 44);
             this.button_Sand.TabIndex = 0;
             this.button_Sand.Text = "Sand Text";
             this.button_Sand.UseVisualStyleBackColor = true;
@@ -855,7 +855,7 @@
             this.textBoxReceive.Name = "textBoxReceive";
             this.textBoxReceive.ReadOnly = true;
             this.textBoxReceive.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxReceive.Size = new System.Drawing.Size(281, 318);
+            this.textBoxReceive.Size = new System.Drawing.Size(282, 318);
             this.textBoxReceive.TabIndex = 4;
             // 
             // button_Clear
@@ -864,7 +864,7 @@
             this.button_Clear.Location = new System.Drawing.Point(0, 0);
             this.button_Clear.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Clear.Name = "button_Clear";
-            this.button_Clear.Size = new System.Drawing.Size(281, 44);
+            this.button_Clear.Size = new System.Drawing.Size(282, 44);
             this.button_Clear.TabIndex = 5;
             this.button_Clear.Text = "Clear Receive Box";
             this.button_Clear.UseCompatibleTextRendering = true;
