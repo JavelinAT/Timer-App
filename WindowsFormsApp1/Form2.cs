@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
@@ -8,6 +9,7 @@ namespace WindowsFormsApp1
         public FrontPage MainForm;//Form2 to Form1
         delegate void Get_Data_To_Display();
         System.Timers.Timer timer;
+        private Regex roundRE = new Regex(@"Round (\d)", RegexOptions.IgnoreCase);
         public Form2()
         {
             InitializeComponent();

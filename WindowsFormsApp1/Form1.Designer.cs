@@ -694,8 +694,8 @@
             this.comboBox_SettingPage_class.FormattingEnabled = true;
             this.comboBox_SettingPage_class.Items.AddRange(new object[] {
             "ROBOTRACE",
-            "Classic Mouse",
-            "Line Mouse"});
+            "Classic_Mouse",
+            "Line_Mouse"});
             this.comboBox_SettingPage_class.Location = new System.Drawing.Point(166, 5);
             this.comboBox_SettingPage_class.Name = "comboBox_SettingPage_class";
             this.comboBox_SettingPage_class.Size = new System.Drawing.Size(154, 27);

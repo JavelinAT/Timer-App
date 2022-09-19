@@ -1,37 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-using Excel = Microsoft.Office.Interop.Excel;
+using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Data.OleDb;
-using System.Management;
-using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Configuration;
-using System.Reflection.Emit;
-using ComboBox = System.Windows.Forms.ComboBox;
+using System.Threading;
+using System.Windows.Forms;
 using Button = System.Windows.Forms.Button;
-using Microsoft.Office.Interop.Excel;
-using System.Timers;
+using ComboBox = System.Windows.Forms.ComboBox;
+using Excel = Microsoft.Office.Interop.Excel;
 using Timer = System.Timers.Timer;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using WindowsFormsApp1.Properties;
-using static WindowsFormsApp1.FrontPage;
-using System.Windows.Forms.VisualStyles;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace WindowsFormsApp1
 {
@@ -59,6 +45,7 @@ namespace WindowsFormsApp1
         private string ExcelFilePath;   //Excel檔案路徑
         public bool ExcelIsUsing;       //Excel狀態
         private int xlCells_RowInd, xlCells_ColInd;
+        public JObject SetJobj;
         delegate void Display(string str);
         delegate void Control(string cmd);
 
@@ -66,7 +53,6 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             //F2.Show();
-
             //F2.MainForm = this;//Form2 to Form1
         }
         private void FrontPage_Load(object sender, EventArgs e)
@@ -76,48 +62,11 @@ namespace WindowsFormsApp1
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             Console.WriteLine(strPath);
             Auto_Connect();
-            Apply_Settings();
+            SetJobj = ReadJson("Settings");
+            comboBox_SettingPage_class.SelectedItem = (string)SetJobj["Mode"];
+            Console.WriteLine("Settings：" + SetJobj);
+            //Apply_Settings();
             //InitTimer();
-
-            //JObject jobj = ReadJson("123");
-            //Console.WriteLine(jobj["ClassicMouse"]);
-            //Console.WriteLine(jobj["ROBOTRACE"]);
-            //Console.WriteLine(jobj["ClassicMouse"]["time"]);
-            //jobj["ROBOTRACE"] = 50;
-            //WriteJson(jobj);
-        }
-        public JObject ReadJson(String Filename)
-        {
-            try
-            {
-                JObject jobj = JObject.Parse(File.ReadAllText(Filename + ".json"));
-                return jobj;
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                var json = new
-                {
-                    ClassicMouse = new
-                    {
-                        time = 0,
-                        aaaa = "123456"
-                    },
-                    ROBOTRACE = 100
-                };
-                File.WriteAllText(Filename +".json", JsonConvert.SerializeObject(json, Formatting.Indented));
-                JObject jobj = JObject.Parse(JsonConvert.SerializeObject(json, Formatting.Indented));
-                return jobj;
-            }
-            catch (Newtonsoft.Json.JsonReaderException ex)
-            {
-                MessageBox.Show(ex.ToString());
-                return null;
-            }
-        }
-        public void WriteJson(JObject jobj, String Filename)
-        {
-            File.WriteAllText(Filename + ".json", JsonConvert.SerializeObject(jobj, Formatting.Indented));
-
         }
         public void ShowTime(string str)
         {
@@ -269,7 +218,7 @@ namespace WindowsFormsApp1
                 ///////////////////////////////////////////////////////////////
                 /////  Command   //////////////////////////////////////////////
                 case "button_Command_Ready":
-                    if (State_Ready == false)   SendString("R\n");
+                    if (State_Ready == false) SendString("R\n");
                     break;
                 case "button_Command_Fail":
                     if (State_Failing == false) SendString("F\n");
@@ -755,7 +704,7 @@ namespace WindowsFormsApp1
                 else if (DataGvRowInd < 0) DataGvRowInd = 0;
                 xlCells_RowInd = DataGvRowInd + 2;
                 xlCells_ColInd = DataGvColInd + 1;
-                textBox_Round.Text = "Round\r\n " + (DataGvColInd - 3) + "/" + TotalRuns;
+                textBox_Round.Text = /*"Round\r\n " +*/ (DataGvColInd - 3) + "/" + TotalRuns;
                 if (dataGridView1.Rows[DataGvRowInd].Cells[2].Value != null && dataGridView1.Rows[DataGvRowInd].Cells[3].Value != null)
                 {
                     textBox_Team_Information.Text = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
@@ -766,47 +715,122 @@ namespace WindowsFormsApp1
         /////////////////////////////////////////  DataGridView   /////////////////////////////////////////
         ///
         /////////////////////////////////////////  AppSettings   //////////////////////////////////////////
+        //private void button_SettingPage_Apply_Click(object sender, EventArgs e)
+        //{
+        //    // 讀取設定檔
+        //    Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        //    // 移除指定的AppSettings
+        //    config.AppSettings.Settings.Remove(comboBox_SettingPage_class.Text);
+        //    config.AppSettings.Settings.Remove("Mode");
+
+        //    // 新增指定的appSettings
+        //    config.AppSettings.Settings.Add("Mode", comboBox_SettingPage_class.Text);
+        //    config.AppSettings.Settings.Add(comboBox_SettingPage_class.Text, textBox_SettingPage_TotalTimes.Text);
+        //    config.AppSettings.Settings.Add(comboBox_SettingPage_class.Text, comboBox_SettingPage_TotalRound.Text);
+
+        //    // 儲存設定
+        //    config.Save(ConfigurationSaveMode.Modified);
+
+        //    //套用設定
+        //    Apply_Settings();
+
+        //    MessageBox.Show("Applied");
+        //}
+        //private void Apply_Settings()
+        //{
+        //    ConfigurationManager.RefreshSection("appSettings");
+        //    comboBox_SettingPage_class.SelectedItem = ConfigurationManager.AppSettings["Mode"];
+        //    string[] Settings = ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text].Split('\u002C');
+
+        //    TotalRuns = Int32.Parse(Settings[1]);
+        //    TotalTimes = Int32.Parse(Settings[0]);
+        //    Console.WriteLine(ConfigurationManager.AppSettings["Mode"] + "\tTotalRuns\t" + TotalRuns + "\tTotalTimes\t" + TotalTimes);
+        //}
+        //private void comboBox_SettingPage_class_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    ConfigurationManager.RefreshSection("appSettings");
+        //    Console.WriteLine("目前在App.Config數值為：" + ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text]);
+        //    string[] Settings = ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text].Split('\u002C');
+        //    Console.WriteLine(Settings);
+        //    textBox_SettingPage_TotalTimes.Text = Settings[0];
+        //    comboBox_SettingPage_TotalRound.SelectedItem = Settings[1];
+        //}
+        /////////////////////////////////////////  AppSettings   //////////////////////////////////////////
+        ///
+        /////////////////////////////////////////  Settings.json   ////////////////////////////////////////
+        //JObject SetJobj = ReadJson("Settings");
+        //Console.WriteLine(SetJobj["ClassicMouse"]);
+        //Console.WriteLine(SetJobj["ClassicMouse"]["TotalTimes"]);
+        //Console.WriteLine(SetJobj["ROBOTRACE"]["TotalTimes"]);
+        //SetJobj["ROBOTRACE"]["TotalTimes"] = 50;
+        //WriteJson(SetJobj, "Settings");
         private void button_SettingPage_Apply_Click(object sender, EventArgs e)
         {
-            // 讀取設定檔
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            // 移除指定的AppSettings
-            config.AppSettings.Settings.Remove(comboBox_SettingPage_class.Text);
-            config.AppSettings.Settings.Remove("Mode");
-
-            // 新增指定的appSettings
-            config.AppSettings.Settings.Add("Mode", comboBox_SettingPage_class.Text);
-            config.AppSettings.Settings.Add(comboBox_SettingPage_class.Text, textBox_SettingPage_TotalTimes.Text);
-            config.AppSettings.Settings.Add(comboBox_SettingPage_class.Text, comboBox_SettingPage_TotalRound.Text);
-
-            // 儲存設定
-            config.Save(ConfigurationSaveMode.Modified);
-
-            //套用設定
-            Apply_Settings();
-
-            MessageBox.Show("Applied");
-        }
-        private void Apply_Settings()
-        {
-            ConfigurationManager.RefreshSection("appSettings");
-            comboBox_SettingPage_class.SelectedItem = ConfigurationManager.AppSettings["Mode"];
-            string[] Settings = ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text].Split('\u002C');
-
-            TotalRuns = Int32.Parse(Settings[1]);
-            TotalTimes = Int32.Parse(Settings[0]);
-            Console.WriteLine(ConfigurationManager.AppSettings["Mode"] + "\tTotalRuns\t" + TotalRuns + "\tTotalTimes\t" + TotalTimes);
+            SetJobj["Mode"] = comboBox_SettingPage_class.Text;
+            SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"] = textBox_SettingPage_TotalTimes.Text;
+            SetJobj[comboBox_SettingPage_class.Text]["TotalRound"] = comboBox_SettingPage_TotalRound.Text;
+            TotalRuns = Int32.Parse(comboBox_SettingPage_TotalRound.Text);
+            TotalTimes = Int32.Parse(textBox_SettingPage_TotalTimes.Text);
+            Console.WriteLine("TotalRuns" + TotalRuns + "\tTotalTimes" + TotalTimes);
+            MessageBox.Show(
+                    "Mode\t" + SetJobj["Mode"] + "\r\n" +
+                    "TotalTimes\t" + SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"] + "\r\n" +
+                    "TotalRound\t" + SetJobj[comboBox_SettingPage_class.Text]["TotalRound"]);
+            WriteJson(SetJobj, "Settings");
         }
         private void comboBox_SettingPage_class_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ConfigurationManager.RefreshSection("appSettings");
-            Console.WriteLine("目前在App.Config數值為：" + ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text]);
-            string[] Settings = ConfigurationManager.AppSettings[comboBox_SettingPage_class.Text].Split('\u002C');
-            Console.WriteLine(Settings);
-            textBox_SettingPage_TotalTimes.Text = Settings[0];
-            comboBox_SettingPage_TotalRound.SelectedItem = Settings[1];
+            Console.WriteLine("目前在json數值為：" + SetJobj[comboBox_SettingPage_class.Text]);
+            Console.WriteLine("TotalTimes：" + SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"]);
+            Console.WriteLine("TotalRound：" + SetJobj[comboBox_SettingPage_class.Text]["TotalRound"]);
+            textBox_SettingPage_TotalTimes.Text = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"];
+            comboBox_SettingPage_TotalRound.SelectedItem = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalRound"];
         }
-        /////////////////////////////////////////  AppSettings   //////////////////////////////////////////
+        public JObject ReadJson(String Filename)
+        {
+            try
+            {
+                JObject jobj = JObject.Parse(File.ReadAllText(Filename + ".json"));
+                return jobj;
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                var json = new
+                {
+                    Mode = "ROBOTRACE",
+
+                    Classic_Mouse = new
+                    {
+                        TotalTimes = 420,
+                        TotalRound = 7
+                    },
+                    ROBOTRACE = new
+                    {
+                        TotalTimes = 180,
+                        TotalRound = 3
+                    },
+                    Line_Mouse = new
+                    {
+                        TotalTimes = 180,
+                        TotalRound = 3
+                    },
+                };
+                File.WriteAllText(Filename + ".json", JsonConvert.SerializeObject(json, Formatting.Indented));
+                JObject jobj = JObject.Parse(JsonConvert.SerializeObject(json, Formatting.Indented));
+                return jobj;
+            }
+            catch (Newtonsoft.Json.JsonReaderException ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return null;
+            }
+        }
+        public void WriteJson(JObject jobj, String Filename)
+        {
+            File.WriteAllText(Filename + ".json", JsonConvert.SerializeObject(jobj, Formatting.Indented));
+
+        }
+        /////////////////////////////////////////  Settings.json   ////////////////////////////////////////
         ///
         /////////////////////////////////////////  timer   ////////////////////////////////////////////////
         private void InitTimer()
@@ -826,7 +850,7 @@ namespace WindowsFormsApp1
             int intHour = e.SignalTime.Hour;
             int intMinute = e.SignalTime.Minute;
             int intSecond = e.SignalTime.Second;
-            Console.WriteLine(intHour+":"+ intMinute+"."+ intSecond);
+            Console.WriteLine(intHour + ":" + intMinute + "." + intSecond);
         }
         /////////////////////////////////////////  timer   ////////////////////////////////////////////////
         ///
