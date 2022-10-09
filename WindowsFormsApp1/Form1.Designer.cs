@@ -47,10 +47,10 @@
             this.button_Total_Times = new System.Windows.Forms.Button();
             this.Excel_Control_Panel = new System.Windows.Forms.TableLayoutPanel();
             this.button_excel_5 = new System.Windows.Forms.Button();
-            this.button_excel_2 = new System.Windows.Forms.Button();
             this.button_excel_4 = new System.Windows.Forms.Button();
-            this.button_excel_1 = new System.Windows.Forms.Button();
+            this.button_excel_2 = new System.Windows.Forms.Button();
             this.button_excel_3 = new System.Windows.Forms.Button();
+            this.button_excel_1 = new System.Windows.Forms.Button();
             this.Round = new System.Windows.Forms.SplitContainer();
             this.textBox_Round = new System.Windows.Forms.TextBox();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
@@ -376,7 +376,7 @@
             this.button_Total_Times.Name = "button_Total_Times";
             this.button_Total_Times.Size = new System.Drawing.Size(160, 55);
             this.button_Total_Times.TabIndex = 0;
-            this.button_Total_Times.Text = "button";
+            this.button_Total_Times.Text = "Pause";
             this.button_Total_Times.UseVisualStyleBackColor = true;
             this.button_Total_Times.Click += new System.EventHandler(this.ButtonClick);
             // 
@@ -385,10 +385,10 @@
             this.Excel_Control_Panel.ColumnCount = 1;
             this.Excel_Control_Panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.Excel_Control_Panel.Controls.Add(this.button_excel_5, 0, 4);
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_2, 0, 3);
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_4, 0, 0);
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_1, 0, 2);
-            this.Excel_Control_Panel.Controls.Add(this.button_excel_3, 0, 1);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_4, 0, 3);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_2, 0, 1);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_3, 0, 2);
+            this.Excel_Control_Panel.Controls.Add(this.button_excel_1, 0, 0);
             this.Excel_Control_Panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Excel_Control_Panel.Location = new System.Drawing.Point(627, 3);
             this.Excel_Control_Panel.Name = "Excel_Control_Panel";
@@ -404,32 +404,20 @@
             // button_excel_5
             // 
             this.button_excel_5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_excel_5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_excel_5.Location = new System.Drawing.Point(1, 122);
             this.button_excel_5.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_5.Name = "button_excel_5";
             this.button_excel_5.Size = new System.Drawing.Size(202, 30);
             this.button_excel_5.TabIndex = 4;
-            this.button_excel_5.Text = "ReadFile";
+            this.button_excel_5.Text = "EPPlus";
             this.button_excel_5.UseVisualStyleBackColor = true;
             this.button_excel_5.Click += new System.EventHandler(this.ButtonClick);
-            // 
-            // button_excel_2
-            // 
-            this.button_excel_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_2.Location = new System.Drawing.Point(1, 92);
-            this.button_excel_2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_2.Name = "button_excel_2";
-            this.button_excel_2.Size = new System.Drawing.Size(202, 26);
-            this.button_excel_2.TabIndex = 1;
-            this.button_excel_2.Text = "Load Excel";
-            this.button_excel_2.UseVisualStyleBackColor = true;
-            this.button_excel_2.Click += new System.EventHandler(this.ButtonClick);
             // 
             // button_excel_4
             // 
             this.button_excel_4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_4.Location = new System.Drawing.Point(1, 2);
+            this.button_excel_4.Location = new System.Drawing.Point(1, 92);
             this.button_excel_4.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_4.Name = "button_excel_4";
             this.button_excel_4.Size = new System.Drawing.Size(202, 26);
@@ -438,10 +426,35 @@
             this.button_excel_4.UseVisualStyleBackColor = true;
             this.button_excel_4.Click += new System.EventHandler(this.ButtonClick);
             // 
+            // button_excel_2
+            // 
+            this.button_excel_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_excel_2.Location = new System.Drawing.Point(1, 32);
+            this.button_excel_2.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_2.Name = "button_excel_2";
+            this.button_excel_2.Size = new System.Drawing.Size(202, 26);
+            this.button_excel_2.TabIndex = 1;
+            this.button_excel_2.Text = "Load Excel";
+            this.button_excel_2.UseVisualStyleBackColor = true;
+            this.button_excel_2.Click += new System.EventHandler(this.ButtonClick);
+            // 
+            // button_excel_3
+            // 
+            this.button_excel_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_excel_3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_excel_3.Location = new System.Drawing.Point(1, 62);
+            this.button_excel_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.button_excel_3.Name = "button_excel_3";
+            this.button_excel_3.Size = new System.Drawing.Size(202, 26);
+            this.button_excel_3.TabIndex = 3;
+            this.button_excel_3.Text = "TestingSave";
+            this.button_excel_3.UseVisualStyleBackColor = true;
+            this.button_excel_3.Click += new System.EventHandler(this.ButtonClick);
+            // 
             // button_excel_1
             // 
             this.button_excel_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_1.Location = new System.Drawing.Point(1, 62);
+            this.button_excel_1.Location = new System.Drawing.Point(1, 2);
             this.button_excel_1.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_excel_1.Name = "button_excel_1";
             this.button_excel_1.Size = new System.Drawing.Size(202, 26);
@@ -449,19 +462,6 @@
             this.button_excel_1.Text = "Create Excel template";
             this.button_excel_1.UseVisualStyleBackColor = true;
             this.button_excel_1.Click += new System.EventHandler(this.ButtonClick);
-            // 
-            // button_excel_3
-            // 
-            this.button_excel_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_excel_3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_excel_3.Location = new System.Drawing.Point(1, 32);
-            this.button_excel_3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.button_excel_3.Name = "button_excel_3";
-            this.button_excel_3.Size = new System.Drawing.Size(202, 26);
-            this.button_excel_3.TabIndex = 3;
-            this.button_excel_3.Text = "SaveOnExcel";
-            this.button_excel_3.UseVisualStyleBackColor = true;
-            this.button_excel_3.Click += new System.EventHandler(this.ButtonClick);
             // 
             // Round
             // 

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -13,7 +14,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using Button = System.Windows.Forms.Button;
 using ComboBox = System.Windows.Forms.ComboBox;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -32,28 +35,32 @@ namespace WindowsFormsApp1
         //private bool Counting = false;
         private bool State_Ready = false;
         private bool State_Failing = false;
-        private int DataGvRowInd;
-        private int DataGvColInd;
-        private bool DataGvLoaded;
+        private int DataGvRowInd;       //數據網格視圖  行 索引
+        private int DataGvColInd;       //數據網格視圖  列 索引
+        private bool DataGvLoaded;      //數據網格視圖 載入 狀態
         private bool DataGv_Get_Current_Location = true;
         private bool DataGv_Get_Rows_Location = true;
         private int totalrowCount;
         public int TotalRuns;           //總次數
         public int TotalTimes;          //總時間
+        //private bool StartCount;        //開始計數剩餘時間
+        private bool StartCount;
+        private bool PauseCountdown;
         public Form2 F2 = new Form2();
         private Thread t;
-        private string ExcelFilePath;   //Excel檔案路徑
+        private string ExcelFilePath = null;   //Excel檔案路徑
         public bool ExcelIsUsing;       //Excel狀態
         private int xlCells_RowInd, xlCells_ColInd;
         public JObject SetJobj;
         delegate void Display(string str);
+        delegate void DisplayCount(string str);
         delegate void Control(string cmd);
 
         public FrontPage()
         {
             InitializeComponent();
-            //F2.Show();
-            //F2.MainForm = this;//Form2 to Form1
+            F2.Show();
+            F2.MainForm = this;//Form2 to Form1
         }
         private void FrontPage_Load(object sender, EventArgs e)
         {
@@ -62,15 +69,18 @@ namespace WindowsFormsApp1
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             Console.WriteLine(strPath);
             Auto_Connect();
-            SetJobj = ReadJson("Settings");
-            comboBox_SettingPage_class.SelectedItem = (string)SetJobj["Mode"];
-            Console.WriteLine("Settings：" + SetJobj);
+            InitJson();
             //Apply_Settings();
-            //InitTimer();
+            InitTimer();
+            StartCount = true; //測試!
         }
         public void ShowTime(string str)
         {
             label_Time_display.Text = str;
+        }
+        public void ShowCount(string str)
+        {
+            textBox_TotalTimes.Text = str;
         }
         public void Command(string cmd)
         {
@@ -80,16 +90,14 @@ namespace WindowsFormsApp1
             switch (cmd)
             {
                 case "S":
-                    //Counting = true;
+                    StartCount = true;
                     label_Time_display.BackColor = Color.FromArgb(0, 225, 255);
                     break;
                 case "G":
-                    //Counting = false;
                     State_Ready = false;
                     label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
-                    F2.Round_Time = label_Time_display.Text;
-                    //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     break;
                 case "C":
                     label_Time_display.BackColor = Color.Transparent;
@@ -277,6 +285,19 @@ namespace WindowsFormsApp1
                         DataGv_Get_Current_Location = true;
                     }
                     break;
+                case "button_Total_Times":
+                    if (PauseCountdown)
+                    {
+                        PauseCountdown = false;
+                        button_Total_Times.Text = "Pause";
+                    }
+                    else
+                    {
+                        PauseCountdown = true;
+                        button_Total_Times.Text = "Continue";
+
+                    }
+                    break;
                 /////  dataGridView   /////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
                 /////  Excel   ////////////////////////////////////////////////
@@ -302,7 +323,9 @@ namespace WindowsFormsApp1
                     }
                     break;
                 case "button_excel_3":
-                    SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
+                    //WriteToExcelWithEpplus(ExcelFilePath, 0, 0, "0");
+                    //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
                     Write_dataGridView(DataGvRowInd, DataGvColInd, textBoxSend.Text);
                     break;
                 case "button_excel_4":
@@ -317,7 +340,28 @@ namespace WindowsFormsApp1
                     oXL.UserControl = true;
                     break;
                 case "button_excel_5":
-                    getExcelFile(ExcelFilePath);
+                    using (OpenFileDialog ofd = new OpenFileDialog())
+                    {
+                        ofd.Filter = "Excel 活頁簿 (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|文字檔 (Tab 字元分隔) (*.txt)|*.txt";
+                        ofd.Title = "Select Excel file";
+                        if (ofd.ShowDialog() == DialogResult.OK)
+                        {
+                            ExcelFilePath = ofd.FileName;
+                            DataTable dt = null;
+                            var pakge = new ExcelPackage(ExcelFilePath);
+                            ExcelWorkbook workbook = pakge.Workbook;
+                            if (workbook != null)
+                            {
+                                ExcelWorksheet worksheet = workbook.Worksheets.First();
+                                dt = WorksheetToTable(worksheet);
+                                dataGridView1.DataSource = dt;
+                                totalrowCount = dataGridView1.RowCount - 1;
+                                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                                { column.SortMode = DataGridViewColumnSortMode.NotSortable; }
+                                DataGvLoaded = true;
+                            }
+                        }
+                    }
                     break;
                 /////  Excel   ////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
@@ -621,6 +665,7 @@ namespace WindowsFormsApp1
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(xlFilePath);
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
+            dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             int rowCount = xlRange.Rows.Count;
             int colCount = xlRange.Columns.Count;
@@ -678,6 +723,57 @@ namespace WindowsFormsApp1
         }
         /////////////////////////////////////////  Excel   ////////////////////////////////////////////////
         ///
+        /////////////////////////////////////////  EPPlus  ////////////////////////////////////////////////
+        private void WriteToExcelWithEpplus(string Filepath, int Rows, int Columns, string Value)
+        {
+            if (Filepath != null)
+            {
+                using (ExcelPackage ep = new ExcelPackage(Filepath))//載入Excel檔案
+                {
+                    ExcelWorksheet sheet = ep.Workbook.Worksheets[0];//取得Sheet
+                    sheet.Cells[Rows, Columns].Value = Value;//寫入文字
+                    ep.Save();
+                }
+            }
+        }
+        private static DataTable WorksheetToTable(ExcelWorksheet worksheet)
+        {
+            int rows = worksheet.Dimension.End.Row;
+            int cols = worksheet.Dimension.End.Column;
+            DataTable dt = new DataTable(worksheet.Name);
+            DataRow dr = null;
+            DataColumn dc = null;
+
+            //dc = dt.Columns.Add("編號");
+            //dc = dt.Columns.Add("值");
+            for (int c = 1; c <= cols; c++)
+            {
+                dc = dt.Columns.Add(worksheet.Cells[1, c].Value.ToString());
+                Console.WriteLine(worksheet.Cells[1, c].Value.ToString());
+            }
+            for (int i = 2; i <= rows; i++)
+            {
+                if (i >= 1)
+                {
+                    dr = dt.Rows.Add();
+                }
+                for (int j = 1; j <= cols; j++)
+                {
+                    try
+                    {
+                        if (worksheet.Cells[i, j].Value != null)
+                            dr[j - 1] = worksheet.Cells[i, j].Value.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+            return dt;
+        }
+        /////////////////////////////////////////  EPPlus  ////////////////////////////////////////////////
+        ///
         /////////////////////////////////////////  DataGridView   /////////////////////////////////////////
         public void Write_dataGridView(int GwRows, int GwColumns, string GwScore)
         {
@@ -697,14 +793,14 @@ namespace WindowsFormsApp1
                 {
                     DataGvColInd = dataGridView1.CurrentCell.ColumnIndex;
                 }
-
+                Console.WriteLine("RowIndex  {0}, ColumnIndex  {1}", DataGvRowInd, DataGvColInd);
                 if (DataGvColInd > (4 + TotalRuns - 1)) DataGvColInd = (4 + TotalRuns - 1);
                 else if (DataGvColInd < 4) DataGvColInd = 4;
                 if (DataGvRowInd > totalrowCount) DataGvRowInd = totalrowCount;
                 else if (DataGvRowInd < 0) DataGvRowInd = 0;
                 xlCells_RowInd = DataGvRowInd + 2;
                 xlCells_ColInd = DataGvColInd + 1;
-                textBox_Round.Text = /*"Round\r\n " +*/ (DataGvColInd - 3) + "/" + TotalRuns;
+                textBox_Round.Text = "Round\r\n " + (DataGvColInd - 3) + "/" + TotalRuns;
                 if (dataGridView1.Rows[DataGvRowInd].Cells[2].Value != null && dataGridView1.Rows[DataGvRowInd].Cells[3].Value != null)
                 {
                     textBox_Team_Information.Text = dataGridView1.Rows[DataGvRowInd].Cells[2].Value.ToString() +
@@ -780,9 +876,9 @@ namespace WindowsFormsApp1
         }
         private void comboBox_SettingPage_class_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("目前在json數值為：" + SetJobj[comboBox_SettingPage_class.Text]);
-            Console.WriteLine("TotalTimes：" + SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"]);
-            Console.WriteLine("TotalRound：" + SetJobj[comboBox_SettingPage_class.Text]["TotalRound"]);
+            //Console.WriteLine("目前在json數值為：" + SetJobj[comboBox_SettingPage_class.Text]);
+            //Console.WriteLine("TotalTimes：" + SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"]);
+            //Console.WriteLine("TotalRound：" + SetJobj[comboBox_SettingPage_class.Text]["TotalRound"]);
             textBox_SettingPage_TotalTimes.Text = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"];
             comboBox_SettingPage_TotalRound.SelectedItem = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalRound"];
         }
@@ -828,7 +924,14 @@ namespace WindowsFormsApp1
         public void WriteJson(JObject jobj, String Filename)
         {
             File.WriteAllText(Filename + ".json", JsonConvert.SerializeObject(jobj, Formatting.Indented));
-
+        }
+        public void InitJson()
+        {
+            SetJobj = ReadJson("Settings");
+            comboBox_SettingPage_class.SelectedItem = (string)SetJobj["Mode"];
+            TotalRuns = Int32.Parse(comboBox_SettingPage_TotalRound.Text);
+            TotalTimes = Int32.Parse(textBox_SettingPage_TotalTimes.Text);
+            Console.WriteLine("Settings：{0} \nTotalRuns: {1}\nTotalTimes{2}", SetJobj["Mode"], TotalRuns, TotalTimes);
         }
         /////////////////////////////////////////  Settings.json   ////////////////////////////////////////
         ///
@@ -847,10 +950,18 @@ namespace WindowsFormsApp1
         }
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            int intHour = e.SignalTime.Hour;
-            int intMinute = e.SignalTime.Minute;
-            int intSecond = e.SignalTime.Second;
-            Console.WriteLine(intHour + ":" + intMinute + "." + intSecond);
+            DisplayCount d = new DisplayCount(ShowCount);
+            if (StartCount && !PauseCountdown)
+            {
+                TotalTimes -= 1;
+                string str = (TotalTimes / 60).ToString() +":"+ (TotalTimes % 60).ToString();
+                this.Invoke(d, new object[] { str });
+                Console.WriteLine(str);
+            }
+            //int intHour = e.SignalTime.Hour;
+            //int intMinute = e.SignalTime.Minute;
+            //int intSecond = e.SignalTime.Second;
+            //Console.WriteLine(intHour + ":" + intMinute + "." + intSecond);
         }
         /////////////////////////////////////////  timer   ////////////////////////////////////////////////
         ///
