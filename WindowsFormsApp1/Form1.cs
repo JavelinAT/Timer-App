@@ -43,13 +43,14 @@ namespace WindowsFormsApp1
         private int totalrowCount;
         public int TotalRuns;           //總次數
         public int TotalTimes;          //總時間
-        //private bool StartCount;        //開始計數剩餘時間
-        private bool StartCount;
+        private bool TimeOut;
+        private bool StartCount;        //開始計數剩餘時間
         private bool PauseCountdown;
         public Form2 F2 = new Form2();
         private Thread t;
         private string ExcelFilePath = null;   //Excel檔案路徑
         public bool ExcelIsUsing;       //Excel狀態
+        public bool ExcelIsLoaded;       //Excel載入完畢
         private int xlCells_RowInd, xlCells_ColInd;
         public JObject SetJobj;
         delegate void Display(string str);
@@ -72,7 +73,7 @@ namespace WindowsFormsApp1
             InitJson();
             //Apply_Settings();
             InitTimer();
-            StartCount = true; //測試!
+            //StartCount = true; //測試!
         }
         public void ShowTime(string str)
         {
@@ -121,10 +122,16 @@ namespace WindowsFormsApp1
         }
         public void Reset()
         {
+            StartCount = false;
+            TimeOut = false;
             State_Ready = false;
             State_Failing = false;
+            PauseCountdown = false;
             label_Time_display.Text = "00:00.000";
             label_Time_display.BackColor = Color.Transparent;
+            if (ExcelIsLoaded)
+                LodeExcelToDataGridViewWithEpplus(ExcelFilePath);
+            InitJson();
         }
         public static string Format_MilliSecond(uint TimeMs)
         {
@@ -295,7 +302,6 @@ namespace WindowsFormsApp1
                     {
                         PauseCountdown = true;
                         button_Total_Times.Text = "Continue";
-
                     }
                     break;
                 /////  dataGridView   /////////////////////////////////////////
@@ -347,19 +353,7 @@ namespace WindowsFormsApp1
                         if (ofd.ShowDialog() == DialogResult.OK)
                         {
                             ExcelFilePath = ofd.FileName;
-                            DataTable dt = null;
-                            var pakge = new ExcelPackage(ExcelFilePath);
-                            ExcelWorkbook workbook = pakge.Workbook;
-                            if (workbook != null)
-                            {
-                                ExcelWorksheet worksheet = workbook.Worksheets.First();
-                                dt = WorksheetToTable(worksheet);
-                                dataGridView1.DataSource = dt;
-                                totalrowCount = dataGridView1.RowCount - 1;
-                                foreach (DataGridViewColumn column in dataGridView1.Columns)
-                                { column.SortMode = DataGridViewColumnSortMode.NotSortable; }
-                                DataGvLoaded = true;
-                            }
+                            LodeExcelToDataGridViewWithEpplus(ExcelFilePath);
                         }
                     }
                     break;
@@ -724,6 +718,23 @@ namespace WindowsFormsApp1
         /////////////////////////////////////////  Excel   ////////////////////////////////////////////////
         ///
         /////////////////////////////////////////  EPPlus  ////////////////////////////////////////////////
+        private void LodeExcelToDataGridViewWithEpplus(string Filepath)
+        {
+            DataTable dt = null;
+            var pakge = new ExcelPackage(Filepath);
+            ExcelWorkbook workbook = pakge.Workbook;
+            if (workbook != null)
+            {
+                ExcelWorksheet worksheet = workbook.Worksheets.First();
+                dt = WorksheetToTable(worksheet);
+                dataGridView1.DataSource = dt;
+                totalrowCount = dataGridView1.RowCount - 1;
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                { column.SortMode = DataGridViewColumnSortMode.NotSortable; }
+                DataGvLoaded = true;
+                ExcelIsLoaded = true;
+            }
+        }
         private void WriteToExcelWithEpplus(string Filepath, int Rows, int Columns, string Value)
         {
             if (Filepath != null)
@@ -931,6 +942,12 @@ namespace WindowsFormsApp1
             comboBox_SettingPage_class.SelectedItem = (string)SetJobj["Mode"];
             TotalRuns = Int32.Parse(comboBox_SettingPage_TotalRound.Text);
             TotalTimes = Int32.Parse(textBox_SettingPage_TotalTimes.Text);
+            if (TotalTimes % 60 < 10)
+            {
+                textBox_TotalTimes.Text = (TotalTimes / 60).ToString() + ":0" + (TotalTimes % 60).ToString();
+            }
+            else
+                textBox_TotalTimes.Text = (TotalTimes / 60).ToString() + ":" + (TotalTimes % 60).ToString();
             Console.WriteLine("Settings：{0} \nTotalRuns: {1}\nTotalTimes{2}", SetJobj["Mode"], TotalRuns, TotalTimes);
         }
         /////////////////////////////////////////  Settings.json   ////////////////////////////////////////
@@ -951,17 +968,27 @@ namespace WindowsFormsApp1
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             DisplayCount d = new DisplayCount(ShowCount);
-            if (StartCount && !PauseCountdown)
+            if (StartCount && !PauseCountdown && !TimeOut)
             {
                 TotalTimes -= 1;
-                string str = (TotalTimes / 60).ToString() +":"+ (TotalTimes % 60).ToString();
+                string str;
+                if (TotalTimes == 0)
+                {
+                    TimeOut = true;
+                    str = "Time OUT";
+                }
+                else
+                {
+                    if (TotalTimes % 60 < 10)
+                    {
+                        str = (TotalTimes / 60).ToString() + ":0" + (TotalTimes % 60).ToString();
+                    }
+                    else
+                        str = (TotalTimes / 60).ToString() + ":" + (TotalTimes % 60).ToString();
+                }
                 this.Invoke(d, new object[] { str });
                 Console.WriteLine(str);
             }
-            //int intHour = e.SignalTime.Hour;
-            //int intMinute = e.SignalTime.Minute;
-            //int intSecond = e.SignalTime.Second;
-            //Console.WriteLine(intHour + ":" + intMinute + "." + intSecond);
         }
         /////////////////////////////////////////  timer   ////////////////////////////////////////////////
         ///
