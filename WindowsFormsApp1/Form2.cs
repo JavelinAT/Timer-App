@@ -26,7 +26,7 @@ namespace WindowsFormsApp1
                 // 將 Match 內所有值的集合傳給 GroupCollection groups
                 GroupCollection groups = match.Groups;
                 // 印出 Group 內 word 值
-                Console.WriteLine(groups[1].Value.Trim());
+                //Console.WriteLine(groups[1].Value.Trim());
                 textBox_Round.Text = groups[1].Value.Trim();// MainForm.Round_For_F2;
             }
             textBox_Total_Time.Text = MainForm.TotalTimes_For_F2;
@@ -40,7 +40,7 @@ namespace WindowsFormsApp1
 
         private void InitTimer()
         {
-            timer = new System.Timers.Timer(20);
+            timer = new System.Timers.Timer(33);
             timer.AutoReset = true;
             timer.Enabled = true;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);

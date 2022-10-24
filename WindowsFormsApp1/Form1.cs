@@ -14,9 +14,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Timers;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using Button = System.Windows.Forms.Button;
 using ComboBox = System.Windows.Forms.ComboBox;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -27,12 +25,12 @@ namespace WindowsFormsApp1
     public partial class FrontPage : Form
     {
         private SerialPort My_SerialPort;
-        private ComboBox ComPortName = new ComboBox();
         private bool Console_receiving = false;
         // Regex 正規表達式 ( Regular Expression )
         //宣告 Regex 忽略大小寫 
         private Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
         //private bool Counting = false;
+        private string AppName;
         private bool State_Ready = false;
         private bool State_Failing = false;
         private int DataGvRowInd;       //數據網格視圖  行 索引
@@ -69,11 +67,12 @@ namespace WindowsFormsApp1
             //string strPath = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
             Console.WriteLine(strPath);
-            Auto_Connect();
+            AppName = this.Text;
+            Console.WriteLine(AppName);
+            //Auto_Connect();
+            ComPort_Connect(null);
             InitJson();
-            //Apply_Settings();
             InitTimer();
-            //StartCount = true; //測試!
         }
         public void ShowTime(string str)
         {
@@ -91,14 +90,19 @@ namespace WindowsFormsApp1
             switch (cmd)
             {
                 case "S":
-                    StartCount = true;
+                    if (ExcelIsLoaded && !StartCount)
+                        StartCount = true;
                     label_Time_display.BackColor = Color.FromArgb(0, 225, 255);
                     break;
                 case "G":
                     State_Ready = false;
-                    label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
+                    if (TimeOut)
+                        label_Time_display.BackColor = Color.FromArgb(255, 0, 0);
+                    else
+                        label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
                     WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    ButtonClick(button_Round_Next, null);
                     break;
                 case "C":
                     label_Time_display.BackColor = Color.Transparent;
@@ -168,9 +172,8 @@ namespace WindowsFormsApp1
             var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
             foreach (ManagementObject port in searcher.Get().Cast<ManagementObject>())
             {
-                ComPortName.Items.Add(port.GetPropertyValue("DeviceID").ToString());
-                // ex: Arduino Uno (COM7)
-                PorSelector.Items.Add(port.GetPropertyValue("Caption").ToString());
+                PorSelector.Items.Add(port.GetPropertyValue("Caption").ToString()); // ex: Arduino Uno (COM7)
+                //Console.WriteLine("ID   {0},Caption {1}", port.GetPropertyValue("DeviceID"), port.GetPropertyValue("Caption"));
             }
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -185,32 +188,33 @@ namespace WindowsFormsApp1
                 Console_receiving = false;
                 CloseComport();//關閉 Serial Port
             }
-            MatchCollection matches = regex.Matches(PorSelector.Text);
-            string portName = "";
-            foreach (Match match in matches)
-            {
-                portName = match.Groups[1].Value;
-                break;
-            }
-            if (portName == "")
-            {
-                MessageBox.Show("請選則正確的計時器");
-                return;
-            }
+            ComPort_Connect(PorSelector.Text);
+            //MatchCollection matches = regex.Matches(PorSelector.Text);
+            //string portName = "";
+            //foreach (Match match in matches)
+            //{
+            //    portName = match.Groups[1].Value;
+            //    break;
+            //}
+            //if (portName == "")
+            //{
+            //    MessageBox.Show("請選則正確的計時器");
+            //    return;
+            //}
 
-            Console_Connect(portName, 115200);
-            if (Console_receiving == true)
-            {
-                label_ComState.Text = PorSelector.Text + " is Opened,Click again to disconnect";
-                label_ComState.BackColor = Color.FromArgb(128, 255, 128);
-                //Console.WriteLine(PorSelector.Text + " is Opened,Click again to disconnect");
-            }
-            else
-            {
-                label_ComState.Text = "Fail to connect " + PorSelector.Text + ", Check for occupancy and try again";
-                label_ComState.BackColor = Color.FromArgb(200, 0, 0);
-                //Console.WriteLine("Fail to connect " + PorSelector.Text + ", Check for occupancy and try again");
-            }
+            //Console_Connect(portName, 115200);
+            //if (Console_receiving == true)
+            //{
+            //    label_ComState.Text = PorSelector.Text + " is Opened,Click again to disconnect";
+            //    label_ComState.BackColor = Color.FromArgb(128, 255, 128);
+            //    //Console.WriteLine(PorSelector.Text + " is Opened,Click again to disconnect");
+            //}
+            //else
+            //{
+            //    label_ComState.Text = "Fail to connect " + PorSelector.Text + ", Check for occupancy and try again";
+            //    label_ComState.BackColor = Color.FromArgb(200, 0, 0);
+            //    //Console.WriteLine("Fail to connect " + PorSelector.Text + ", Check for occupancy and try again");
+            //}
         }
         private void label_ComState_Click(object sender, EventArgs e)
         {
@@ -218,6 +222,7 @@ namespace WindowsFormsApp1
             {
                 CloseComport();//關閉 Serial Port
                 Console_receiving = false;
+                this.Text = AppName;
                 label_ComState.Text = "Click to select Com Port";
                 label_ComState.BackColor = Color.Transparent;
             }
@@ -296,6 +301,7 @@ namespace WindowsFormsApp1
                     if (PauseCountdown)
                     {
                         PauseCountdown = false;
+                        textBox_TotalTimes.Text += "Pause";
                         button_Total_Times.Text = "Pause";
                     }
                     else
@@ -331,8 +337,8 @@ namespace WindowsFormsApp1
                 case "button_excel_3":
                     //WriteToExcelWithEpplus(ExcelFilePath, 0, 0, "0");
                     //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, textBoxSend.Text);
-                    Write_dataGridView(DataGvRowInd, DataGvColInd, textBoxSend.Text);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
                     break;
                 case "button_excel_4":
                     Excel.Application oXL;
@@ -451,13 +457,15 @@ namespace WindowsFormsApp1
                             if (str.Length == 8 && EnDisplay)
                             {
                                 EnDisplay = false;
-                                //Display d = new Display(ShowTime);
-                                string time = Format_MilliSecond(HexToUint(str));
+                                string time;
+                                if (TimeOut)
+                                    time = Format_MilliSecond(HexToUint(str)) + "   Time OUT";
+                                else
+                                    time = Format_MilliSecond(HexToUint(str));
                                 this.Invoke(d, new Object[] { time });
                             }
                             else if (str.Length == 1)
                             {
-                                //Control c = new Control(Command);
                                 this.Invoke(c, new Object[] { str });
                             }
                         }
@@ -495,7 +503,66 @@ namespace WindowsFormsApp1
                 this.PorSelector.DroppedDown = true;
             }
         }//Console 發送資料
-
+        private void ComPort_Connect(string PorCaption)
+        {
+            string portName = null;
+            string portMsg = null;
+            if (PorCaption != null)
+            {
+                MatchCollection matches = regex.Matches(PorCaption);
+                foreach (Match match in matches)
+                {
+                    portName = match.Groups[1].Value;
+                    break;
+                }
+                if (portName == null)
+                {
+                    MessageBox.Show("請選則正確的計時器");
+                    return;
+                }
+            }
+            else
+            {
+                var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
+                foreach (ManagementObject port in searcher.Get().Cast<ManagementObject>())
+                {
+                    portMsg += port.GetPropertyValue("Caption").ToString() + "\n";
+                }
+                if (portMsg != null)
+                {
+                    MatchCollection matches = regex.Matches(portMsg);
+                    foreach (Match match in matches)
+                    {
+                        portName = match.Groups[1].Value;
+                        portMsg = match.Groups[0].Value;
+                        break;
+                    }
+                    if (portName == null)
+                        return;
+                }
+            }
+            if (portName != null)
+                Console_Connect(portName, 115200);
+            if (Console_receiving == true)
+            {
+                if (portMsg != null)
+                {
+                    label_ComState.Text = portMsg + " is Opened,Click again to disconnect";
+                    this.Text += "      Connect To " + portMsg;
+                }
+                else
+                {
+                    label_ComState.Text = PorCaption + " is Opened,Click again to disconnect";
+                    this.Text += "      Connect To " + PorCaption;
+                }
+                label_ComState.BackColor = Color.FromArgb(128, 255, 128);
+            }
+            else
+            {
+                label_ComState.Text = "Fail to connect " + PorSelector.Text + ", Check for occupancy and try again";
+                label_ComState.BackColor = Color.FromArgb(200, 0, 0);
+            }
+        }
         private void Auto_Connect()
         {
             string portMsg = "";
@@ -525,13 +592,12 @@ namespace WindowsFormsApp1
             {
                 label_ComState.Text = portMsg + " is Opened,Click again to disconnect";
                 label_ComState.BackColor = Color.FromArgb(128, 255, 128);
-                //Console.WriteLine(PorSelector.Text + " is Opened,Click again to disconnect");
+                this.Text += "  Connected" + portMsg;
             }
             else
             {
                 label_ComState.Text = "Fail to connect " + portMsg + ", Check for occupancy and try again";
                 label_ComState.BackColor = Color.FromArgb(200, 0, 0);
-                //Console.WriteLine("Fail to connect " + PorSelector.Text + ", Check for occupancy and try again");
             }
         }
         /////////////////////////////////////////  ComPort   //////////////////////////////////////////////
@@ -737,12 +803,13 @@ namespace WindowsFormsApp1
         }
         private void WriteToExcelWithEpplus(string Filepath, int Rows, int Columns, string Value)
         {
-            if (Filepath != null)
+            if (Filepath != null && ExcelIsLoaded)
             {
                 using (ExcelPackage ep = new ExcelPackage(Filepath))//載入Excel檔案
                 {
                     ExcelWorksheet sheet = ep.Workbook.Worksheets[0];//取得Sheet
                     sheet.Cells[Rows, Columns].Value = Value;//寫入文字
+                    sheet.Cells.AutoFitColumns();
                     ep.Save();
                 }
             }
@@ -760,7 +827,7 @@ namespace WindowsFormsApp1
             for (int c = 1; c <= cols; c++)
             {
                 dc = dt.Columns.Add(worksheet.Cells[1, c].Value.ToString());
-                Console.WriteLine(worksheet.Cells[1, c].Value.ToString());
+                //Console.WriteLine(worksheet.Cells[1, c].Value.ToString());
             }
             for (int i = 2; i <= rows; i++)
             {
@@ -804,7 +871,7 @@ namespace WindowsFormsApp1
                 {
                     DataGvColInd = dataGridView1.CurrentCell.ColumnIndex;
                 }
-                Console.WriteLine("RowIndex  {0}, ColumnIndex  {1}", DataGvRowInd, DataGvColInd);
+                //Console.WriteLine("RowIndex  {0}, ColumnIndex  {1}", DataGvRowInd, DataGvColInd);
                 if (DataGvColInd > (4 + TotalRuns - 1)) DataGvColInd = (4 + TotalRuns - 1);
                 else if (DataGvColInd < 4) DataGvColInd = 4;
                 if (DataGvRowInd > totalrowCount) DataGvRowInd = totalrowCount;
@@ -865,12 +932,6 @@ namespace WindowsFormsApp1
         /////////////////////////////////////////  AppSettings   //////////////////////////////////////////
         ///
         /////////////////////////////////////////  Settings.json   ////////////////////////////////////////
-        //JObject SetJobj = ReadJson("Settings");
-        //Console.WriteLine(SetJobj["ClassicMouse"]);
-        //Console.WriteLine(SetJobj["ClassicMouse"]["TotalTimes"]);
-        //Console.WriteLine(SetJobj["ROBOTRACE"]["TotalTimes"]);
-        //SetJobj["ROBOTRACE"]["TotalTimes"] = 50;
-        //WriteJson(SetJobj, "Settings");
         private void button_SettingPage_Apply_Click(object sender, EventArgs e)
         {
             SetJobj["Mode"] = comboBox_SettingPage_class.Text;
