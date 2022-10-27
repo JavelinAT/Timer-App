@@ -29,6 +29,7 @@ namespace WindowsFormsApp1
         // Regex 正規表達式 ( Regular Expression )
         //宣告 Regex 忽略大小寫 
         private Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
+        private Regex ReScore = new Regex(@"\s*(\d{1,2})\s*:\s*(\d{1,2})\s*.\s*(\d{1,3})", RegexOptions.IgnoreCase);
         //private bool Counting = false;
         private string AppName;
         private bool State_Ready = false;
@@ -41,15 +42,15 @@ namespace WindowsFormsApp1
         private int totalrowCount;
         public int TotalRuns;           //總次數
         public int TotalTimes;          //總時間
-        private bool TimeOut;
+        private bool TimeOut;           //超時表示位元
         private bool StartCount;        //開始計數剩餘時間
-        private bool PauseCountdown;
+        private bool PauseCountdown;    //暫停倒數
         public Form2 F2 = new Form2();
         private Thread t;
-        private string ExcelFilePath = null;   //Excel檔案路徑
-        public bool ExcelIsUsing;       //Excel狀態
-        public bool ExcelIsLoaded;       //Excel載入完畢
-        private int xlCells_RowInd, xlCells_ColInd;
+        private string ExcelFilePath = null;        //Excel檔案路徑
+        public bool ExcelIsUsing;                   //Excel狀態
+        public bool ExcelIsLoaded = false;          //Excel載入完畢
+        private int xlCells_RowInd, xlCells_ColInd; //Excel  行、列指標
         public JObject SetJobj;
         delegate void Display(string str);
         delegate void DisplayCount(string str);
@@ -189,32 +190,6 @@ namespace WindowsFormsApp1
                 CloseComport();//關閉 Serial Port
             }
             ComPort_Connect(PorSelector.Text);
-            //MatchCollection matches = regex.Matches(PorSelector.Text);
-            //string portName = "";
-            //foreach (Match match in matches)
-            //{
-            //    portName = match.Groups[1].Value;
-            //    break;
-            //}
-            //if (portName == "")
-            //{
-            //    MessageBox.Show("請選則正確的計時器");
-            //    return;
-            //}
-
-            //Console_Connect(portName, 115200);
-            //if (Console_receiving == true)
-            //{
-            //    label_ComState.Text = PorSelector.Text + " is Opened,Click again to disconnect";
-            //    label_ComState.BackColor = Color.FromArgb(128, 255, 128);
-            //    //Console.WriteLine(PorSelector.Text + " is Opened,Click again to disconnect");
-            //}
-            //else
-            //{
-            //    label_ComState.Text = "Fail to connect " + PorSelector.Text + ", Check for occupancy and try again";
-            //    label_ComState.BackColor = Color.FromArgb(200, 0, 0);
-            //    //Console.WriteLine("Fail to connect " + PorSelector.Text + ", Check for occupancy and try again");
-            //}
         }
         private void label_ComState_Click(object sender, EventArgs e)
         {
@@ -366,8 +341,9 @@ namespace WindowsFormsApp1
                 /////  Excel   ////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
                 case "button_Sand":
-                    SendString(textBoxSend.Text);
-                    textBoxSend.Clear();
+                    StringScore_To_IntMillisecond(textBoxSend.Text);
+                    //SendString(textBoxSend.Text);
+                    //textBoxSend.Clear();
                     break;
                 case "button_Clear":
                     textBoxReceive.Clear();
@@ -1074,6 +1050,66 @@ namespace WindowsFormsApp1
             get { return textBox_TotalTimes.Text; }
             set { textBox_TotalTimes.Text = value; }
         }
+        public string Score_For_F2
+        {
+            get { return Score(); }
+        }
         /////////////////////////////////////////  Form 2   ///////////////////////////////////////////////
+        ///
+        /////////////////////////////////////////  Score   ////////////////////////////////////////////////
+        public string Best_Score()
+        {
+            string str = "";
+            string First, Second, Third, Fourth, Fifth;
+            if (DataGvLoaded)
+            {
+                for (int j = 0; j <= totalrowCount; j++)
+                {
+                    if (dataGridView1.Rows[j].Cells[4].Value != null && dataGridView1.Rows[j].Cells[4].Value.ToString() != "")
+                    {
+                        for (int i = 4; i <= (4 + TotalRuns - 1); i++)
+                        {
+                            if (dataGridView1.Rows[j].Cells[i].Value != null && dataGridView1.Rows[j].Cells[i].Value.ToString() != "")
+                            {
+                                str += "Round-" + (i - 3) + "\t" + dataGridView1.Rows[j].Cells[i].Value.ToString() + "\r\n";
+                            }
+                        }
+                    }
+                }
+            }
+            return str;
+        }
+        public int StringScore_To_IntMillisecond(string str)
+        {
+            int Millisecond = 0;
+            MatchCollection matches = ReScore.Matches(str);
+            // 一一取出 MatchCollection 內容
+            foreach (Match match in matches)
+            {
+                // 將 Match 內所有值的集合傳給 GroupCollection groups
+                GroupCollection groups = match.Groups;
+                Millisecond = Convert.ToInt32(groups[1].Value.Trim()) * 60 * 1000 + Convert.ToInt32(groups[2].Value.Trim()) * 1000 + Convert.ToInt32(groups[3].Value.Trim());
+                // 印出 Group 內 word 值
+                //Console.WriteLine("{0}  {1}", groups[0].Value.Trim(), Millisecond);
+                break;
+            }
+            return Millisecond;
+        }
+        public string Score()
+        {
+            string str = "";
+            if (DataGvLoaded)
+            {
+                for (int i = 4; i <= (4 + TotalRuns - 1); i++)
+                {
+                    if (dataGridView1.Rows[DataGvRowInd].Cells[i].Value != null && dataGridView1.Rows[DataGvRowInd].Cells[i].Value.ToString() != "")
+                    {
+                        str += "Round-" + (i - 3) + "\t" + dataGridView1.Rows[DataGvRowInd].Cells[i].Value.ToString() + "\r\n";
+                    }
+                }
+            }
+            return str;
+        }
+        /////////////////////////////////////////  Score   ////////////////////////////////////////////////
     }
 }
