@@ -40,6 +40,28 @@ namespace WindowsFormsApp1
                 }
             }
         }
+        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData) //激活回车键
+        {
+            int WM_KEYDOWN = 256;
+            int WM_SYSKEYDOWN = 260;
+
+            if (msg.Msg == WM_KEYDOWN | msg.Msg == WM_SYSKEYDOWN)
+            {
+                switch (keyData)
+                {
+                    case Keys.Escape:
+                        this.Close();//csc关闭窗体
+                        break;
+
+                    case Keys.F12:
+                        MessageBox.Show("F12");
+                        break;
+
+                }
+
+            }
+            return false;
+        }
         private static DataTable WorksheetToTable(ExcelWorksheet worksheet)
         {
             int rows = worksheet.Dimension.End.Row;
@@ -77,6 +99,31 @@ namespace WindowsFormsApp1
                 }
             }
             return dt;
+        }
+
+        private void Form3_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F11:
+                    //if (FormBorderStyle == FormBorderStyle.None)
+                    //{
+                    //    this.FormBorderStyle = FormBorderStyle.Sizable;  //設定窗體為無邊框樣式
+                    //    this.WindowState = FormWindowState.Normal;       //最大化窗體
+                    //}
+                    //else
+                    //{
+                    //    this.FormBorderStyle = FormBorderStyle.None;     //設定窗體為無邊框樣式
+                    //    this.WindowState = FormWindowState.Maximized;    //最大化窗體
+                    //}
+                    MessageBox.Show("F11");
+                    break;
+                case Keys.Enter:
+                    MessageBox.Show("Enter");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

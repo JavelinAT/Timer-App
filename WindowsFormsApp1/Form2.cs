@@ -30,6 +30,7 @@ namespace WindowsFormsApp1
                 textBox_Round.Text = groups[1].Value.Trim();// MainForm.Round_For_F2;
             }
             textBox_Total_Time.Text = MainForm.TotalTimes_For_F2;
+            textBox_Score.Text = MainForm.Score_For_F2;
         }
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -56,45 +57,42 @@ namespace WindowsFormsApp1
             get { return textBox_Round_Time.Text; }
             set { textBox_Round_Time.Text = value; }
         }
-        //public string Team_Information//Form1 to Form2
-        //{
-        //    get { return textBox_Team_Information.Text; }
-        //    set { textBox_Team_Information.Text = value; }
-        //}
-        //public string Round//Form1 to Form2
-        //{
-        //    get { return textBox_Round.Text; }
-        //    set { textBox_Round.Text = value; }
-        //}
-        //public string Total_time//Form1 to Form2
-        //{
-        //    get { return textBox_Total_Time.Text; }
-        //    set { textBox_Total_Time.Text = value; }
-        //}
-        //public string Score//Form1 to Form2
-        //{
-        //    get { return textBox_Score.Text; }
-        //    set { textBox_Score.Text = value; }
-        //}
-
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer.AutoReset = false;
             timer.Enabled = false;
             MainForm.Close();
         }
-        private void button1_Click(object sender, EventArgs e)
+        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
         {
-            if (FormBorderStyle == FormBorderStyle.None)
+            int WM_KEYDOWN = 256;
+            int WM_SYSKEYDOWN = 260;
+
+            if (msg.Msg == WM_KEYDOWN | msg.Msg == WM_SYSKEYDOWN)
             {
-                this.FormBorderStyle = FormBorderStyle.Sizable;     //設定窗體為無邊框樣式
-                this.WindowState = FormWindowState.Normal;    //最大化窗體
+                switch (keyData)
+                {
+                    case Keys.F11:
+                        if (FormBorderStyle == FormBorderStyle.None)
+                        {
+                            this.FormBorderStyle = FormBorderStyle.Sizable;     //設定窗體為無邊框樣式
+                            this.WindowState = FormWindowState.Normal;    //最大化窗體
+                        }
+                        else
+                        {
+                            this.FormBorderStyle = FormBorderStyle.None;     //設定窗體為無邊框樣式
+                            this.WindowState = FormWindowState.Maximized;    //最大化窗體
+                        }
+                        break;
+
+                    case Keys.F12:
+                        MessageBox.Show("F12");
+                        break;
+
+                }
+
             }
-            else
-            {
-                this.FormBorderStyle = FormBorderStyle.None;     //設定窗體為無邊框樣式
-                this.WindowState = FormWindowState.Maximized;    //最大化窗體
-            }
+            return false;
         }
     }
 }
