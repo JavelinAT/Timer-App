@@ -31,6 +31,7 @@ namespace WindowsFormsApp1
             }
             textBox_Total_Time.Text = MainForm.TotalTimes_For_F2;
             textBox_Score.Text = MainForm.Score_For_F2;
+            textBox_Best_Score.Text = MainForm.BestScore_For_F2;
         }
         private void Form2_Load(object sender, EventArgs e)
         {

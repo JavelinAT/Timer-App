@@ -8,11 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
+using TimerLibrary;
+using DataTable = System.Data.DataTable;
+
 namespace WindowsFormsApp1
 {
     public partial class Form3 : Form
     {
+        //public Competition Team_List = new Competition();
+
         public Form3()
         {
             InitializeComponent();
@@ -124,6 +130,60 @@ namespace WindowsFormsApp1
                 default:
                     break;
             }
+        }
+
+        private void Form3_Load(object sender, EventArgs e)
+        {
+            Competition Team_List = new Competition();
+            Team_List.Team.Add(new TEAM("t1"));
+            Team_List.Team[0].Time.Add(new TimerData(154612));
+            Team_List.Team[0].Time.Add(new TimerData(74554));
+            Team_List.Team[0].Time.Add(new TimerData(7867864));
+            Team_List.Team[0].ID = "A1U-054";
+            Team_List.Team[0].Oeder = "1";
+            Team_List.Team[0].Name = "T1";
+            Console.WriteLine(Team_List.Team[0].ID);
+            Console.WriteLine(Team_List.Team[0].Oeder);
+            Console.WriteLine(Team_List.Team[0].Name);
+            Console.WriteLine("\nBefore sort:");
+            foreach (var aPart in Team_List.Team[0].Time)
+            {
+                Console.WriteLine(aPart);
+            }
+            Console.WriteLine(Team_List.Team[0].Time[0]);
+            Team_List.Team[0].Time.Sort();
+            Console.WriteLine("\nAfter sort by part number:");
+            foreach (var aPart in Team_List.Team[0].Time)
+            {
+                Console.WriteLine(aPart);
+            }
+            /*
+            TEAM data = new TEAM("87");
+            data.Time.Add(new TimerData(1234));
+            data.Time.Add(new TimerData(1000));
+            data.Time.Add(new TimerData(1555));
+            data.ID = "A1U-005";
+            Console.WriteLine(data.ID);
+            Console.WriteLine("\nBefore sort:");
+            foreach (var aPart in data.Time)
+            {
+                Console.WriteLine(aPart);
+            }
+            Console.WriteLine();
+            // Call Sort on the list. This will use the
+            // default comparer, which is the Compare method
+            // implemented on Part.
+            data.Time.Sort();
+            Console.WriteLine(data.Time.Max());
+            Console.WriteLine(data.Time.Min());
+            Console.WriteLine();
+
+            Console.WriteLine("\nAfter sort by part number:");
+            foreach (var aPart in data.Time)
+            {
+                Console.WriteLine(aPart);
+            }
+            */
         }
     }
 }

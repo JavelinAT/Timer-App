@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,6 +16,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using TimerLibrary;
+using static OfficeOpenXml.ExcelErrorValue;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using Button = System.Windows.Forms.Button;
 using ComboBox = System.Windows.Forms.ComboBox;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -28,8 +32,8 @@ namespace WindowsFormsApp1
         private bool Console_receiving = false;
         // Regex 正規表達式 ( Regular Expression )
         //宣告 Regex 忽略大小寫 
-        private Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
-        private Regex ReScore = new Regex(@"\s*(\d{1,2})\s*:\s*(\d{1,2})\s*.\s*(\d{1,3})", RegexOptions.IgnoreCase);
+        private readonly Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
+        private readonly Regex ReScore = new Regex(@"\s*(\d{1,2})\s*:\s*(\d{1,2})\s*.\s*(\d{1,3})", RegexOptions.IgnoreCase);
         //private bool Counting = false;
         private string AppName;
         private bool State_Ready = false;
@@ -51,6 +55,9 @@ namespace WindowsFormsApp1
         public bool ExcelIsUsing;                   //Excel狀態
         public bool ExcelIsLoaded = false;          //Excel載入完畢
         private int xlCells_RowInd, xlCells_ColInd; //Excel  行、列指標
+        //public static Competition Team_List = new Competition();
+        //public static Competition Team_List = new Competition("2022");
+        public static Competition Team_List = new Competition();
         public JObject SetJobj;
         delegate void Display(string str);
         delegate void DisplayCount(string str);
@@ -70,7 +77,6 @@ namespace WindowsFormsApp1
             Console.WriteLine(strPath);
             AppName = this.Text;
             Console.WriteLine(AppName);
-            //Auto_Connect();
             ComPort_Connect(null);
             InitJson();
             InitTimer();
@@ -103,6 +109,7 @@ namespace WindowsFormsApp1
                         label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
                     WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
                     ButtonClick(button_Round_Next, null);
                     break;
                 case "C":
@@ -125,6 +132,19 @@ namespace WindowsFormsApp1
                     break;
             }
         }
+        //WriteToTeamList
+        public void WriteToTeamList(int TeamIndex, int RunIndex, int msScore)
+        {
+            Team_List.Team[TeamIndex].Time[RunIndex].mSec = msScore;
+            Team_List.Team[TeamIndex].Minimum = msScore;
+        }
+        public void WriteToTeamList(int TeamIndex, int RunIndex, string Score)
+        {
+            int IntMillisecond = StringScore_To_IntMillisecond(Score.ToString());
+            Team_List.Team[TeamIndex].Time[RunIndex].mSec = IntMillisecond;
+            Team_List.Team[TeamIndex].Minimum = IntMillisecond;
+        }
+        //WriteToTeamList
         public void Reset()
         {
             StartCount = false;
@@ -341,9 +361,9 @@ namespace WindowsFormsApp1
                 /////  Excel   ////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
                 case "button_Sand":
-                    StringScore_To_IntMillisecond(textBoxSend.Text);
-                    //SendString(textBoxSend.Text);
-                    //textBoxSend.Clear();
+                    //textBoxReceive.Text = StringScore_To_IntMillisecond(textBoxSend.Text).ToString();
+                    SendString(textBoxSend.Text);
+                    textBoxSend.Clear();
                     break;
                 case "button_Clear":
                     textBoxReceive.Clear();
@@ -415,7 +435,7 @@ namespace WindowsFormsApp1
                 {
                     if (My_SerialPort.BytesToRead > 0)
                     {
-                        Stopwatch stopWatch = new Stopwatch();
+                        //Stopwatch stopWatch = new Stopwatch();
                         //stopWatch.Start();
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
                         Array.Resize(ref buffer, length);
@@ -536,43 +556,6 @@ namespace WindowsFormsApp1
             else
             {
                 label_ComState.Text = "Fail to connect " + PorSelector.Text + ", Check for occupancy and try again";
-                label_ComState.BackColor = Color.FromArgb(200, 0, 0);
-            }
-        }
-        private void Auto_Connect()
-        {
-            string portMsg = "";
-            var searcher = new ManagementObjectSearcher("SELECT DeviceID,Caption FROM WIN32_SerialPort");
-            foreach (ManagementObject port in searcher.Get().Cast<ManagementObject>())
-            {
-                portMsg += port.GetPropertyValue("Caption").ToString() + "\n";
-            }
-            if (Console_receiving == true)
-            {
-                Console_receiving = false;
-                CloseComport();//關閉 Serial Port
-            }
-            MatchCollection matches = regex.Matches(portMsg);
-            string portName = "";
-            foreach (Match match in matches)
-            {
-                portName = match.Groups[1].Value;
-                portMsg = match.Groups[0].Value;
-                break;
-            }
-            if (portName == "")
-                return;
-
-            Console_Connect(portName, 115200);
-            if (Console_receiving == true)
-            {
-                label_ComState.Text = portMsg + " is Opened,Click again to disconnect";
-                label_ComState.BackColor = Color.FromArgb(128, 255, 128);
-                this.Text += "  Connected" + portMsg;
-            }
-            else
-            {
-                label_ComState.Text = "Fail to connect " + portMsg + ", Check for occupancy and try again";
                 label_ComState.BackColor = Color.FromArgb(200, 0, 0);
             }
         }
@@ -762,13 +745,30 @@ namespace WindowsFormsApp1
         /////////////////////////////////////////  EPPlus  ////////////////////////////////////////////////
         private void LodeExcelToDataGridViewWithEpplus(string Filepath)
         {
+            //DataTable dt = null;
+            var pakge = new ExcelPackage(Filepath);
+            ExcelWorkbook workbook = pakge.Workbook;
+            if (workbook != null)
+            {
+                ExcelWorksheet worksheet = workbook.Worksheets.First();
+                DataTable dt = WorksheetToDataTable(worksheet);
+                dataGridView1.DataSource = dt;
+                totalrowCount = dataGridView1.RowCount - 1;
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                { column.SortMode = DataGridViewColumnSortMode.NotSortable; }
+                DataGvLoaded = true;
+                ExcelIsLoaded = true;
+            }
+        }
+        private void Lode_Excel_To_DataGridView_WithEpplus_AND_Create_Data_Class(string Filepath)
+        {
             DataTable dt = null;
             var pakge = new ExcelPackage(Filepath);
             ExcelWorkbook workbook = pakge.Workbook;
             if (workbook != null)
             {
                 ExcelWorksheet worksheet = workbook.Worksheets.First();
-                dt = WorksheetToTable(worksheet);
+                dt = WorksheetToDataTable(worksheet);
                 dataGridView1.DataSource = dt;
                 totalrowCount = dataGridView1.RowCount - 1;
                 foreach (DataGridViewColumn column in dataGridView1.Columns)
@@ -790,22 +790,26 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        private static DataTable WorksheetToTable(ExcelWorksheet worksheet)
+        private DataTable WorksheetToDataTable(ExcelWorksheet worksheet)
         {
             int rows = worksheet.Dimension.End.Row;
             int cols = worksheet.Dimension.End.Column;
             DataTable dt = new DataTable(worksheet.Name);
+            Team_List.Team.Clear();
+            for (int i = 1; i < rows; i++)
+            {
+                Team_List.Team.Add(new TEAM("TEAM" + i.ToString()));
+                for(int j = 0; j < TotalRuns; j++)
+                    Team_List.Team[i-1].Time.Add(new TimerData(0));
+            }
             DataRow dr = null;
             DataColumn dc = null;
 
-            //dc = dt.Columns.Add("編號");
-            //dc = dt.Columns.Add("值");
-            for (int c = 1; c <= cols; c++)
-            {
+            for (int c = 1; c <= cols; c++) //標題  Columns 列  垂直
                 dc = dt.Columns.Add(worksheet.Cells[1, c].Value.ToString());
-                //Console.WriteLine(worksheet.Cells[1, c].Value.ToString());
-            }
-            for (int i = 2; i <= rows; i++)
+
+            int count = 0;
+            for (int i = 2; i <= rows; i++)// rows 行  水平
             {
                 if (i >= 1)
                 {
@@ -816,16 +820,40 @@ namespace WindowsFormsApp1
                     try
                     {
                         if (worksheet.Cells[i, j].Value != null)
-                            dr[j - 1] = worksheet.Cells[i, j].Value.ToString();
+                        {
+                            object Value = worksheet.Cells[i, j].Value;
+                            dr[j - 1] = Value.ToString();
+                            if (worksheet.Cells[1, j].Value.ToString() == "Name")
+                                Team_List.Team[count].Name = worksheet.Cells[i, j].Value.ToString();
+                            //Team_List.Team.Add(new TEAM(worksheet.Cells[i, j].Value.ToString()));
+                            if (worksheet.Cells[1, j].Value.ToString() == "ID")
+                                Team_List.Team[count].ID = worksheet.Cells[i, j].Value.ToString();
+                            if (worksheet.Cells[1, j].Value.ToString() == "隊伍名稱")
+                                Team_List.Team[count].Organize = worksheet.Cells[i, j].Value.ToString();
+                            if (j > 4 && j < 5 + TotalRuns) 
+                            {
+                                int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
+                                Team_List.Team[count].Time[j-5].mSec = IntMillisecond;
+                                Team_List.Team[count].Minimum = IntMillisecond;
+                            }
+                            //int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
+                            //if (IntMillisecond != 0)
+                            //{
+                            //    Team_List.Team[count].Time.Add(new TimerData(IntMillisecond));
+                            //    Team_List.Team[count].Minimum = IntMillisecond;
+                            //}
+                        }
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
                 }
+                count++;
             }
             return dt;
         }
+
         /////////////////////////////////////////  EPPlus  ////////////////////////////////////////////////
         ///
         /////////////////////////////////////////  DataGridView   /////////////////////////////////////////
@@ -980,11 +1008,10 @@ namespace WindowsFormsApp1
             TotalRuns = Int32.Parse(comboBox_SettingPage_TotalRound.Text);
             TotalTimes = Int32.Parse(textBox_SettingPage_TotalTimes.Text);
             if (TotalTimes % 60 < 10)
-            {
                 textBox_TotalTimes.Text = (TotalTimes / 60).ToString() + ":0" + (TotalTimes % 60).ToString();
-            }
             else
                 textBox_TotalTimes.Text = (TotalTimes / 60).ToString() + ":" + (TotalTimes % 60).ToString();
+
             Console.WriteLine("Settings：{0} \nTotalRuns: {1}\nTotalTimes{2}", SetJobj["Mode"], TotalRuns, TotalTimes);
         }
         /////////////////////////////////////////  Settings.json   ////////////////////////////////////////
@@ -1052,33 +1079,15 @@ namespace WindowsFormsApp1
         }
         public string Score_For_F2
         {
-            get { return Score(); }
+            get { return Score_with_TeamClass(); }
+        }
+        public string BestScore_For_F2
+        {
+            get { return BestScore(); }
         }
         /////////////////////////////////////////  Form 2   ///////////////////////////////////////////////
         ///
         /////////////////////////////////////////  Score   ////////////////////////////////////////////////
-        public string Best_Score()
-        {
-            string str = "";
-            string First, Second, Third, Fourth, Fifth;
-            if (DataGvLoaded)
-            {
-                for (int j = 0; j <= totalrowCount; j++)
-                {
-                    if (dataGridView1.Rows[j].Cells[4].Value != null && dataGridView1.Rows[j].Cells[4].Value.ToString() != "")
-                    {
-                        for (int i = 4; i <= (4 + TotalRuns - 1); i++)
-                        {
-                            if (dataGridView1.Rows[j].Cells[i].Value != null && dataGridView1.Rows[j].Cells[i].Value.ToString() != "")
-                            {
-                                str += "Round-" + (i - 3) + "\t" + dataGridView1.Rows[j].Cells[i].Value.ToString() + "\r\n";
-                            }
-                        }
-                    }
-                }
-            }
-            return str;
-        }
         public int StringScore_To_IntMillisecond(string str)
         {
             int Millisecond = 0;
@@ -1109,6 +1118,77 @@ namespace WindowsFormsApp1
                 }
             }
             return str;
+        }
+        public string Score_with_TeamClass()
+        {
+            string str = "";
+            if (DataGvLoaded)
+            {
+                foreach (var item in Team_List.Team[DataGvRowInd].Time)
+                {
+                    str += item.ToString() + "\r\n";
+                }
+            }
+            return str;
+        }
+        public string BestScore_Old()
+        {
+            List<TimerData> Best = new List<TimerData>();
+            string str = "";
+            if (DataGvLoaded)
+            {
+                foreach (var item in Team_List.Team)
+                {
+                    if (item.Minimum != 0)
+                        Best.Add(new TimerData(item.Minimum));
+                }
+                Best.Sort();
+                int count = 1;
+                foreach (var item in Best)
+                {
+                    str += item.ToString() + "\r\n";
+                    if (count < 3)
+                        count++;
+                    else
+                        break;
+                }
+            }
+            return str;
+        }
+        public string BestScore()
+        {
+            Competition BestScore = new Competition();
+            string str = "";
+            int count = 1;
+            if (DataGvLoaded)
+            {
+                foreach (var item in Team_List.Team)
+                {
+                    BestScore.Team.Add(item);
+                }
+                //foreach (var item in BestScore.Team)
+                //{
+                //    Console.WriteLine("Name\t{0}\tMinimum\t{1}", item.Name, item.Minimum.ToString());
+                //}
+                //Console.WriteLine("Sort----------------------------");
+                BestScore.Team.Sort();
+                foreach (var item in BestScore.Team)
+                {
+                    //Console.WriteLine("Name\t{0}\tMinimum\t{1}", item.Name, item.Minimum.ToString());
+                    str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
+                    count++;
+                }
+            }
+            return str;
+        }
+        public class SCORE
+        {
+            public int Millisecond { get; set; }
+            public string Scorestr
+            {
+                set { Scorestr = value; }
+            }
+
         }
         /////////////////////////////////////////  Score   ////////////////////////////////////////////////
     }
