@@ -108,8 +108,8 @@ namespace WindowsFormsApp1
                     else
                         label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     ButtonClick(button_Round_Next, null);
                     break;
                 case "C":
@@ -125,9 +125,12 @@ namespace WindowsFormsApp1
                     State_Failing = true;
                     State_Ready = false;
                     label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
-                    label_Time_display.Text = "XX:XX.XXX";
-                    Write_dataGridView(DataGvRowInd, DataGvColInd, "XX:XX.XXX");
-                    F2.Round_Time = "XX:XX.XXX";
+                    //label_Time_display.Text = "99:59.999";
+                    label_Time_display.Text = "99:99.999";
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
+                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
+                    F2.Round_Time = label_Time_display.Text;
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
                     break;
             }
@@ -154,9 +157,9 @@ namespace WindowsFormsApp1
             PauseCountdown = false;
             label_Time_display.Text = "00:00.000";
             label_Time_display.BackColor = Color.Transparent;
+            InitJson();
             if (ExcelIsLoaded)
                 LodeExcelToDataGridViewWithEpplus(ExcelFilePath);
-            InitJson();
         }
         public static string Format_MilliSecond(uint TimeMs)
         {
@@ -296,13 +299,14 @@ namespace WindowsFormsApp1
                     if (PauseCountdown)
                     {
                         PauseCountdown = false;
-                        textBox_TotalTimes.Text += "Pause";
+
                         button_Total_Times.Text = "Pause";
                     }
                     else
                     {
                         PauseCountdown = true;
                         button_Total_Times.Text = "Continue";
+                        textBox_TotalTimes.Text += "\nPause";
                     }
                     break;
                 /////  dataGridView   /////////////////////////////////////////
@@ -799,8 +803,8 @@ namespace WindowsFormsApp1
             for (int i = 1; i < rows; i++)
             {
                 Team_List.Team.Add(new TEAM("TEAM" + i.ToString()));
-                for(int j = 0; j < TotalRuns; j++)
-                    Team_List.Team[i-1].Time.Add(new TimerData(0));
+                for (int j = 0; j < TotalRuns; j++)
+                    Team_List.Team[i - 1].Time.Add(new TimerData(0));
             }
             DataRow dr = null;
             DataColumn dc = null;
@@ -825,23 +829,16 @@ namespace WindowsFormsApp1
                             dr[j - 1] = Value.ToString();
                             if (worksheet.Cells[1, j].Value.ToString() == "Name")
                                 Team_List.Team[count].Name = worksheet.Cells[i, j].Value.ToString();
-                            //Team_List.Team.Add(new TEAM(worksheet.Cells[i, j].Value.ToString()));
                             if (worksheet.Cells[1, j].Value.ToString() == "ID")
                                 Team_List.Team[count].ID = worksheet.Cells[i, j].Value.ToString();
                             if (worksheet.Cells[1, j].Value.ToString() == "隊伍名稱")
                                 Team_List.Team[count].Organize = worksheet.Cells[i, j].Value.ToString();
-                            if (j > 4 && j < 5 + TotalRuns) 
+                            if (j > 4 && j < 5 + TotalRuns)
                             {
                                 int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
-                                Team_List.Team[count].Time[j-5].mSec = IntMillisecond;
+                                Team_List.Team[count].Time[j - 5].mSec = IntMillisecond;
                                 Team_List.Team[count].Minimum = IntMillisecond;
                             }
-                            //int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
-                            //if (IntMillisecond != 0)
-                            //{
-                            //    Team_List.Team[count].Time.Add(new TimerData(IntMillisecond));
-                            //    Team_List.Team[count].Minimum = IntMillisecond;
-                            //}
                         }
                     }
                     catch (Exception ex)
@@ -952,11 +949,11 @@ namespace WindowsFormsApp1
         }
         private void comboBox_SettingPage_class_SelectedIndexChanged(object sender, EventArgs e)
         {
+            textBox_SettingPage_TotalTimes.Text = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"];
+            comboBox_SettingPage_TotalRound.SelectedItem = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalRound"];
             //Console.WriteLine("目前在json數值為：" + SetJobj[comboBox_SettingPage_class.Text]);
             //Console.WriteLine("TotalTimes：" + SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"]);
             //Console.WriteLine("TotalRound：" + SetJobj[comboBox_SettingPage_class.Text]["TotalRound"]);
-            textBox_SettingPage_TotalTimes.Text = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"];
-            comboBox_SettingPage_TotalRound.SelectedItem = (String)SetJobj[comboBox_SettingPage_class.Text]["TotalRound"];
         }
         public JObject ReadJson(String Filename)
         {
@@ -1122,11 +1119,13 @@ namespace WindowsFormsApp1
         public string Score_with_TeamClass()
         {
             string str = "";
+            int round = 1;
             if (DataGvLoaded)
             {
                 foreach (var item in Team_List.Team[DataGvRowInd].Time)
                 {
-                    str += item.ToString() + "\r\n";
+                    str += "Round " + round.ToString() + "-" + item.ToString() + "\r\n";
+                    round++;
                 }
             }
             return str;
@@ -1159,7 +1158,7 @@ namespace WindowsFormsApp1
         {
             Competition BestScore = new Competition();
             string str = "";
-            int count = 1;
+            int count = 0;
             if (DataGvLoaded)
             {
                 foreach (var item in Team_List.Team)
@@ -1175,8 +1174,12 @@ namespace WindowsFormsApp1
                 foreach (var item in BestScore.Team)
                 {
                     //Console.WriteLine("Name\t{0}\tMinimum\t{1}", item.Name, item.Minimum.ToString());
-                    str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
-                    count++;
+                    if (item.Minimum != 0)
+                    {
+                        count++;
+                        str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
+                        //if (count == 3) break;
+                    }
                 }
             }
             return str;

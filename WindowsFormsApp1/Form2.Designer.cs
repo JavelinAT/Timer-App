@@ -91,8 +91,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Size = new System.Drawing.Size(1904, 852);
-            this.splitContainer1.SplitterDistance = 224;
+            this.splitContainer1.Size = new System.Drawing.Size(1443, 844);
+            this.splitContainer1.SplitterDistance = 221;
             this.splitContainer1.TabIndex = 0;
             // 
             // splitContainer2
@@ -110,8 +110,8 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.label_Round_Time);
             this.splitContainer2.Panel2.Controls.Add(this.textBox_Round_Time);
-            this.splitContainer2.Size = new System.Drawing.Size(1904, 224);
-            this.splitContainer2.SplitterDistance = 515;
+            this.splitContainer2.Size = new System.Drawing.Size(1443, 221);
+            this.splitContainer2.SplitterDistance = 390;
             this.splitContainer2.TabIndex = 0;
             // 
             // label_Team_Information
@@ -130,11 +130,11 @@
             this.textBox_Team_Information.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.textBox_Team_Information.Enabled = false;
             this.textBox_Team_Information.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Team_Information.Location = new System.Drawing.Point(0, 64);
+            this.textBox_Team_Information.Location = new System.Drawing.Point(0, 61);
             this.textBox_Team_Information.Multiline = true;
             this.textBox_Team_Information.Name = "textBox_Team_Information";
             this.textBox_Team_Information.ReadOnly = true;
-            this.textBox_Team_Information.Size = new System.Drawing.Size(515, 160);
+            this.textBox_Team_Information.Size = new System.Drawing.Size(390, 160);
             this.textBox_Team_Information.TabIndex = 2;
             this.textBox_Team_Information.TabStop = false;
             this.textBox_Team_Information.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -156,10 +156,10 @@
             this.textBox_Round_Time.Enabled = false;
             this.textBox_Round_Time.Font = new System.Drawing.Font("Times New Roman", 99.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Round_Time.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textBox_Round_Time.Location = new System.Drawing.Point(0, 64);
+            this.textBox_Round_Time.Location = new System.Drawing.Point(0, 61);
             this.textBox_Round_Time.Name = "textBox_Round_Time";
             this.textBox_Round_Time.ReadOnly = true;
-            this.textBox_Round_Time.Size = new System.Drawing.Size(1385, 160);
+            this.textBox_Round_Time.Size = new System.Drawing.Size(1049, 160);
             this.textBox_Round_Time.TabIndex = 1;
             this.textBox_Round_Time.TabStop = false;
             this.textBox_Round_Time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -177,8 +177,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.Score);
-            this.splitContainer3.Size = new System.Drawing.Size(1904, 624);
-            this.splitContainer3.SplitterDistance = 481;
+            this.splitContainer3.Size = new System.Drawing.Size(1443, 619);
+            this.splitContainer3.SplitterDistance = 364;
             this.splitContainer3.TabIndex = 0;
             // 
             // splitContainer4
@@ -197,8 +197,8 @@
             // 
             this.splitContainer4.Panel2.Controls.Add(this.textBox_Total_Time);
             this.splitContainer4.Panel2.Controls.Add(this.label_Total_Time);
-            this.splitContainer4.Size = new System.Drawing.Size(481, 624);
-            this.splitContainer4.SplitterDistance = 278;
+            this.splitContainer4.Size = new System.Drawing.Size(364, 619);
+            this.splitContainer4.SplitterDistance = 274;
             this.splitContainer4.TabIndex = 0;
             // 
             // textBox_Round
@@ -260,8 +260,8 @@
             // Score.Panel2
             // 
             this.Score.Panel2.Controls.Add(this.BestScore);
-            this.Score.Size = new System.Drawing.Size(1419, 624);
-            this.Score.SplitterDistance = 678;
+            this.Score.Size = new System.Drawing.Size(1075, 619);
+            this.Score.SplitterDistance = 513;
             this.Score.TabIndex = 0;
             // 
             // PersonalScore
@@ -278,8 +278,8 @@
             // PersonalScore.Panel2
             // 
             this.PersonalScore.Panel2.Controls.Add(this.textBox_Score);
-            this.PersonalScore.Size = new System.Drawing.Size(678, 624);
-            this.PersonalScore.SplitterDistance = 59;
+            this.PersonalScore.Size = new System.Drawing.Size(513, 619);
+            this.PersonalScore.SplitterDistance = 58;
             this.PersonalScore.TabIndex = 5;
             // 
             // label_Score
@@ -301,7 +301,7 @@
             this.textBox_Score.Multiline = true;
             this.textBox_Score.Name = "textBox_Score";
             this.textBox_Score.ReadOnly = true;
-            this.textBox_Score.Size = new System.Drawing.Size(678, 561);
+            this.textBox_Score.Size = new System.Drawing.Size(513, 557);
             this.textBox_Score.TabIndex = 4;
             this.textBox_Score.TabStop = false;
             // 
@@ -319,8 +319,8 @@
             // BestScore.Panel2
             // 
             this.BestScore.Panel2.Controls.Add(this.textBox_Best_Score);
-            this.BestScore.Size = new System.Drawing.Size(737, 624);
-            this.BestScore.SplitterDistance = 59;
+            this.BestScore.Size = new System.Drawing.Size(558, 619);
+            this.BestScore.SplitterDistance = 58;
             this.BestScore.TabIndex = 1;
             // 
             // label_Best_Score
@@ -330,9 +330,9 @@
             this.label_Best_Score.Font = new System.Drawing.Font("新細明體", 20.25F);
             this.label_Best_Score.Location = new System.Drawing.Point(0, 0);
             this.label_Best_Score.Name = "label_Best_Score";
-            this.label_Best_Score.Size = new System.Drawing.Size(121, 27);
+            this.label_Best_Score.Size = new System.Drawing.Size(131, 27);
             this.label_Best_Score.TabIndex = 0;
-            this.label_Best_Score.Text = "Best Score";
+            this.label_Best_Score.Text = "Best Scores";
             // 
             // textBox_Best_Score
             // 
@@ -343,7 +343,7 @@
             this.textBox_Best_Score.Multiline = true;
             this.textBox_Best_Score.Name = "textBox_Best_Score";
             this.textBox_Best_Score.ReadOnly = true;
-            this.textBox_Best_Score.Size = new System.Drawing.Size(737, 561);
+            this.textBox_Best_Score.Size = new System.Drawing.Size(558, 557);
             this.textBox_Best_Score.TabIndex = 5;
             this.textBox_Best_Score.TabStop = false;
             // 
@@ -352,7 +352,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1904, 852);
+            this.ClientSize = new System.Drawing.Size(1443, 844);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
