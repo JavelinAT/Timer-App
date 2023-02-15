@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +20,28 @@ namespace WindowsFormsApp1
     {
         //public Competition Team_List = new Competition();
 
+        [StructLayout(LayoutKind.Explicit)]
+        struct byteUnion
+        {
+            [FieldOffset(0)]
+            public byte b0;
+            [FieldOffset(1)]
+            public byte b1;
+            [FieldOffset(2)]
+            public byte b2;
+            [FieldOffset(3)]
+            public byte b3;
+
+            [FieldOffset(0)]
+            public int i;
+
+            [FieldOffset(0)]
+            public float f;
+
+            [FieldOffset(0)]
+            public UInt32 uin;
+        }
+
         public Form3()
         {
             InitializeComponent();
@@ -27,24 +50,13 @@ namespace WindowsFormsApp1
         public string FilePath;
         private void button1_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Filter = "Excel 活頁簿 (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|文字檔 (Tab 字元分隔) (*.txt)|*.txt";
-                ofd.Title = "Select Excel file";
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    FilePath = ofd.FileName;
-                    DataTable dt = null;
-                    var pakge = new ExcelPackage(FilePath);
-                    ExcelWorkbook workbook = pakge.Workbook;
-                    if (workbook != null)
-                    {
-                        ExcelWorksheet worksheet = workbook.Worksheets.First();
-                        dt = WorksheetToTable(worksheet);
-                        dataGridView1.DataSource = dt;
-                    }
-                }
-            }
+            byteUnion a = new byteUnion();
+            a.b0 = 0x00;
+            a.b1 = 0xF0;
+            a.b2 = 0x00;
+            a.b3 = 0x00;
+            UInt32 res = a.uin;
+            Console.WriteLine("uint {0}  float {1}", res, a.f);
         }
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData) //激活回车键
         {
@@ -68,7 +80,25 @@ namespace WindowsFormsApp1
             }
             return false;
         }
-        private static DataTable WorksheetToTable(ExcelWorksheet worksheet)
+        //using (OpenFileDialog ofd = new OpenFileDialog())
+        //{
+        //    ofd.Filter = "Excel 活頁簿 (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|文字檔 (Tab 字元分隔) (*.txt)|*.txt";
+        //    ofd.Title = "Select Excel file";
+        //    if (ofd.ShowDialog() == DialogResult.OK)
+        //    {
+        //        FilePath = ofd.FileName;
+        //        DataTable dt = null;
+        //        var pakge = new ExcelPackage(FilePath);
+        //        ExcelWorkbook workbook = pakge.Workbook;
+        //        if (workbook != null)
+        //        {
+        //            ExcelWorksheet worksheet = workbook.Worksheets.First();
+        //            dt = WorksheetToTable(worksheet);
+        //            dataGridView1.DataSource = dt;
+        //        }
+        //    }
+        //}
+    private static DataTable WorksheetToTable(ExcelWorksheet worksheet)
         {
             int rows = worksheet.Dimension.End.Row;
             int cols = worksheet.Dimension.End.Column;
@@ -134,29 +164,29 @@ namespace WindowsFormsApp1
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            Competition Team_List = new Competition();
-            Team_List.Team.Add(new TEAM("t1"));
-            Team_List.Team[0].Time.Add(new TimerData(154612));
-            Team_List.Team[0].Time.Add(new TimerData(74554));
-            Team_List.Team[0].Time.Add(new TimerData(7867864));
-            Team_List.Team[0].ID = "A1U-054";
-            Team_List.Team[0].Oeder = "1";
-            Team_List.Team[0].Name = "T1";
-            Console.WriteLine(Team_List.Team[0].ID);
-            Console.WriteLine(Team_List.Team[0].Oeder);
-            Console.WriteLine(Team_List.Team[0].Name);
-            Console.WriteLine("\nBefore sort:");
-            foreach (var aPart in Team_List.Team[0].Time)
-            {
-                Console.WriteLine(aPart);
-            }
-            Console.WriteLine(Team_List.Team[0].Time[0]);
-            Team_List.Team[0].Time.Sort();
-            Console.WriteLine("\nAfter sort by part number:");
-            foreach (var aPart in Team_List.Team[0].Time)
-            {
-                Console.WriteLine(aPart);
-            }
+            //Competition Team_List = new Competition();
+            //Team_List.Team.Add(new TEAM("t1"));
+            //Team_List.Team[0].Time.Add(new TimerData(154612));
+            //Team_List.Team[0].Time.Add(new TimerData(74554));
+            //Team_List.Team[0].Time.Add(new TimerData(7867864));
+            //Team_List.Team[0].ID = "A1U-054";
+            //Team_List.Team[0].Oeder = "1";
+            //Team_List.Team[0].Name = "T1";
+            //Console.WriteLine(Team_List.Team[0].ID);
+            //Console.WriteLine(Team_List.Team[0].Oeder);
+            //Console.WriteLine(Team_List.Team[0].Name);
+            //Console.WriteLine("\nBefore sort:");
+            //foreach (var aPart in Team_List.Team[0].Time)
+            //{
+            //    Console.WriteLine(aPart);
+            //}
+            //Console.WriteLine(Team_List.Team[0].Time[0]);
+            //Team_List.Team[0].Time.Sort();
+            //Console.WriteLine("\nAfter sort by part number:");
+            //foreach (var aPart in Team_List.Team[0].Time)
+            //{
+            //    Console.WriteLine(aPart);
+            //}
             /*
             TEAM data = new TEAM("87");
             data.Time.Add(new TimerData(1234));

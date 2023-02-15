@@ -32,7 +32,8 @@ namespace WindowsFormsApp1
         private bool Console_receiving = false;
         // Regex 正規表達式 ( Regular Expression )
         //宣告 Regex 忽略大小寫 
-        private readonly Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
+        //private readonly Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
+        private readonly Regex regex = new Regex(@"[(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
         private readonly Regex ReScore = new Regex(@"\s*(\d{1,2})\s*:\s*(\d{1,2})\s*.\s*(\d{1,3})", RegexOptions.IgnoreCase);
         //private bool Counting = false;
         private string AppName;
@@ -429,6 +430,21 @@ namespace WindowsFormsApp1
                 }
             }
         }                         //關閉 Console
+        [StructLayout(LayoutKind.Explicit)]
+        struct ByteUnion
+        {
+            [FieldOffset(0)]
+            public byte b0;
+            [FieldOffset(1)]
+            public byte b1;
+            [FieldOffset(2)]
+            public byte b2;
+            [FieldOffset(3)]
+            public byte b3;
+
+            [FieldOffset(0)]
+            public UInt32 uinTime;
+        }
         private void DoReceive()
         {
             Byte[] buffer = new Byte[1024];
@@ -439,41 +455,36 @@ namespace WindowsFormsApp1
                 {
                     if (My_SerialPort.BytesToRead > 0)
                     {
-                        //Stopwatch stopWatch = new Stopwatch();
-                        //stopWatch.Start();
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
                         Array.Resize(ref buffer, length);
+                        Byte[] data = buffer;
 
-                        string buf = Encoding.UTF8.GetString(buffer);
-                        string[] StrArr = buf.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                        Console.WriteLine(buf);
-                        bool EnDisplay = true;
-                        //string last = StrArr.Last();
-
-                        Display d = new Display(ShowTime);
-                        Control c = new Control(Command);
-                        foreach (string str in StrArr)
+                        foreach (byte byteb in buffer)
                         {
-                            if (str.Length == 8 && EnDisplay)
+                            Console.WriteLine(byteb);
+                        }
+                        int maximumIndex = length - 8;
+                        ByteUnion byteU = new ByteUnion();
+                        for(int i = 0;i < maximumIndex; i++)
+                        {
+                            if(data[i] == 0x90 && data[i+1] == 0x26 && data[i + 8] == 0xFC)
                             {
-                                EnDisplay = false;
-                                string time;
-                                if (TimeOut)
-                                    time = Format_MilliSecond(HexToUint(str)) + "   Time OUT";
-                                else
-                                    time = Format_MilliSecond(HexToUint(str));
-                                this.Invoke(d, new Object[] { time });
-                            }
-                            else if (str.Length == 1)
-                            {
-                                this.Invoke(c, new Object[] { str });
+                                byteU.b0 = data[i + 2];
+                                byteU.b1 = data[i + 3];
+                                byteU.b2 = data[i + 4];
+                                byteU.b3 = data[i + 5];
                             }
                         }
                         Array.Resize(ref buffer, 1024);
-                        //stopWatch.Stop();
-                        //Console.WriteLine(stopWatch.ElapsedMilliseconds);
                     }
                     Thread.Sleep(20);
+
+                    //    Display d = new Display(ShowTime);
+                    //    Control c = new Control(Command);
+                    //    
+                    //      this.Invoke(d, new Object[] { time });
+                    //      this.Invoke(c, new Object[] { str });
+
                 }
 
             }
