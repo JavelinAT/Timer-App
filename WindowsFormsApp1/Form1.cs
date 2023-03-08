@@ -18,6 +18,7 @@ using System.Threading;
 using System.Windows.Forms;
 using TimerLibrary;
 using static OfficeOpenXml.ExcelErrorValue;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using Button = System.Windows.Forms.Button;
 using ComboBox = System.Windows.Forms.ComboBox;
@@ -67,8 +68,8 @@ namespace WindowsFormsApp1
         public FrontPage()
         {
             InitializeComponent();
-            F2.Show();
-            F2.MainForm = this;//Form2 to Form1
+            //F2.Show();
+            //F2.MainForm = this;//Form2 to Form1
         }
         private void FrontPage_Load(object sender, EventArgs e)
         {
@@ -200,6 +201,8 @@ namespace WindowsFormsApp1
                 PorSelector.Items.Add(port.GetPropertyValue("Caption").ToString()); // ex: Arduino Uno (COM7)
                 //Console.WriteLine("ID   {0},Caption {1}", port.GetPropertyValue("DeviceID"), port.GetPropertyValue("Caption"));
             }
+
+            Console.ReadLine();
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -366,18 +369,73 @@ namespace WindowsFormsApp1
                 /////  Excel   ////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
                 case "button_Sand":
-                    //textBoxReceive.Text = StringScore_To_IntMillisecond(textBoxSend.Text).ToString();
                     SendString(textBoxSend.Text);
                     textBoxSend.Clear();
                     break;
                 case "button_Clear":
                     textBoxReceive.Clear();
+
+                    //textBoxReceive.Clear();
+                    //foreach (Object item in checkedListBox_Setting.CheckedItems)
+                    //{
+                    //    textBoxReceive.Text = textBoxReceive.Text + "\r\n" + item.ToString();
+                    //}
+
+                    break;
+                case "button_setting":
+                    byte[] Setvalue = new byte[4] { 0x6F, 0xD9, 0x00, 0x03 }; ;
+                    int conut = checkedListBox_Setting.Items.Count;
+                    for(int i = 0;i < conut; i++)
+                    {
+                        bool chelist = checkedListBox_Setting.GetItemChecked(i);
+                        if (chelist)
+                            Setvalue[2] |= (byte)(1 << (7 - i));
+                        else
+                            Setvalue[2] &= (byte)~(1 << (7 - i)) ;
+                    }
+                    if (Console_receiving == true)
+                    {
+                        try
+                        {
+                            My_SerialPort.Write(Setvalue, 0, 4);
+                        }
+                        catch (Exception ex)
+                        {
+                            CloseComport();
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
                     break;
             }
         }
         /////////////////////////////////////////  Button   ///////////////////////////////////////////////
         ///
         /////////////////////////////////////////  ComPort   //////////////////////////////////////////////
+        public void SendCommand(byte command)
+        {
+            byte[] Setval = new byte[4] { 0x6F, 0xD9, 0x00, 0x03 }; ;
+            int conut = checkedListBox_Setting.Items.Count;
+            for (int i = 0; i < conut; i++)
+            {
+                bool chelist = checkedListBox_Setting.GetItemChecked(i);
+                if (chelist)
+                    Setval[2] |= (byte)(1 << (7 - i));
+                else
+                    Setval[2] &= (byte)~(1 << (7 - i));
+            }
+            if (Console_receiving == true)
+            {
+                try
+                {
+                    My_SerialPort.Write(Setval, 0, 4);
+                }
+                catch (Exception ex)
+                {
+                    CloseComport();
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
         public void Console_Connect(string COM, Int32 baud)
         {
             try
@@ -445,48 +503,60 @@ namespace WindowsFormsApp1
             [FieldOffset(0)]
             public UInt32 uinTime;
         }
+        enum BoardState
+        {
+            Stan_by,    //  0 待機
+            Timing,     //  1 計時中 (該圈)
+            Start,      //  2 開始時間
+            End,    //  3 結束時間
+        }
         private void DoReceive()
         {
+            Stopwatch stopWatch = new Stopwatch();
             Byte[] buffer = new Byte[1024];
+            UInt32 StartTime, EndTime;
             try
             {
-
                 while (Console_receiving)
                 {
+                    Display d = new Display(ShowTime);
+                    ByteUnion byteU = new ByteUnion();
+                    byte Board_state = new byte();
                     if (My_SerialPort.BytesToRead > 0)
                     {
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
                         Array.Resize(ref buffer, length);
-                        Byte[] data = buffer;
-
-                        foreach (byte byteb in buffer)
-                        {
-                            Console.WriteLine(byteb);
-                        }
                         int maximumIndex = length - 8;
-                        ByteUnion byteU = new ByteUnion();
-                        for(int i = 0;i < maximumIndex; i++)
+                        for (int i = 0; i <= maximumIndex; i++)
                         {
-                            if(data[i] == 0x90 && data[i+1] == 0x26 && data[i + 8] == 0xFC)
+                            if (buffer[i] == 0x90 && buffer[i + 1] == 0x26 && buffer[i + 7] == 0xFC)
                             {
-                                byteU.b0 = data[i + 2];
-                                byteU.b1 = data[i + 3];
-                                byteU.b2 = data[i + 4];
-                                byteU.b3 = data[i + 5];
+                                stopWatch.Start();
+                                byteU.b0 = buffer[i + 2];
+                                byteU.b1 = buffer[i + 3];
+                                byteU.b2 = buffer[i + 4];
+                                byteU.b3 = buffer[i + 5];
+                                Board_state = (byte)(buffer[i + 6] >> 4);
+                                string strTimes = byteU.uinTime.ToString();
+                                //unsafe
+                                //{
+                                //    fixed (byte* p = &buffer[i + 2])
+                                //    {
+                                //        uint t = *(uint*)p;
+                                //        Console.WriteLine("stopWatch:{0}\t", t);
+                                //    }
+                                //}
+                                this.Invoke(d, new object[] { strTimes });
+                                Console.WriteLine("stopWatch:{0}\t\tuinTime:{1}\tBoard_state:{2}", stopWatch.ElapsedMilliseconds, byteU.uinTime, (BoardState) Board_state);
+                                i += 7;
+                                stopWatch.Stop();
+                                stopWatch.Reset();
                             }
                         }
                         Array.Resize(ref buffer, 1024);
                     }
-                    Thread.Sleep(20);
-
-                    //    Display d = new Display(ShowTime);
-                    //    Control c = new Control(Command);
-                    //    
-                    //      this.Invoke(d, new Object[] { time });
-                    //      this.Invoke(c, new Object[] { str });
-
+                    Thread.Sleep(10);
                 }
-
             }
             catch (Exception ex)
             {
@@ -1195,6 +1265,7 @@ namespace WindowsFormsApp1
             }
             return str;
         }
+
         public class SCORE
         {
             public int Millisecond { get; set; }
@@ -1202,7 +1273,6 @@ namespace WindowsFormsApp1
             {
                 set { Scorestr = value; }
             }
-
         }
         /////////////////////////////////////////  Score   ////////////////////////////////////////////////
     }
