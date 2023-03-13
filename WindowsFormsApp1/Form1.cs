@@ -240,7 +240,8 @@ namespace WindowsFormsApp1
                 ///////////////////////////////////////////////////////////////
                 /////  Command   //////////////////////////////////////////////
                 case "button_Command_Ready":
-                    if (State_Ready == false) SendString("R\n");
+                    //if (State_Ready == false) SendString("R\n");
+                    SendCommand(COMMAND.READY);
                     break;
                 case "button_Command_Fail":
                     if (State_Failing == false) SendString("F\n");
@@ -383,28 +384,17 @@ namespace WindowsFormsApp1
 
                     break;
                 case "button_setting":
-                    byte[] Setvalue = new byte[4] { 0x6F, 0xD9, 0x00, 0x03 }; ;
+                    byte Setvalue = new byte();
                     int conut = checkedListBox_Setting.Items.Count;
                     for(int i = 0;i < conut; i++)
                     {
                         bool chelist = checkedListBox_Setting.GetItemChecked(i);
                         if (chelist)
-                            Setvalue[2] |= (byte)(1 << (7 - i));
+                            Setvalue |= (byte)(1 << (3 - i));
                         else
-                            Setvalue[2] &= (byte)~(1 << (7 - i)) ;
+                            Setvalue &= (byte)~(1 << (3 - i)) ;
                     }
-                    if (Console_receiving == true)
-                    {
-                        try
-                        {
-                            My_SerialPort.Write(Setvalue, 0, 4);
-                        }
-                        catch (Exception ex)
-                        {
-                            CloseComport();
-                            MessageBox.Show(ex.Message);
-                        }
-                    }
+                    SendCommand(Setvalue);
                     break;
             }
         }
@@ -414,15 +404,26 @@ namespace WindowsFormsApp1
         public void SendCommand(byte command)
         {
             byte[] Setval = new byte[4] { 0x6F, 0xD9, 0x00, 0x03 }; ;
-            int conut = checkedListBox_Setting.Items.Count;
-            for (int i = 0; i < conut; i++)
+            Setval[2] = command;
+            if (Console_receiving == true)
             {
-                bool chelist = checkedListBox_Setting.GetItemChecked(i);
-                if (chelist)
-                    Setval[2] |= (byte)(1 << (7 - i));
-                else
-                    Setval[2] &= (byte)~(1 << (7 - i));
+                try
+                {
+                    My_SerialPort.Write(Setval, 0, 4);
+                }
+                catch (Exception ex)
+                {
+                    CloseComport();
+                    MessageBox.Show(ex.Message);
+                }
             }
+        }
+        public void SendCommand(COMMAND command)
+        {
+            byte[] Setval = new byte[4] { 0x6F, 0xD9, 0x00, 0x03 }; ;
+            int cmd = (int)command << 4;
+            Setval[2] = (byte)cmd;
+            Console.WriteLine(Setval[2].ToString());
             if (Console_receiving == true)
             {
                 try
@@ -503,25 +504,35 @@ namespace WindowsFormsApp1
             [FieldOffset(0)]
             public UInt32 uinTime;
         }
-        enum BoardState
+        public enum BoardState
         {
             Stan_by,    //  0 待機
             Timing,     //  1 計時中 (該圈)
             Start,      //  2 開始時間
-            End,    //  3 結束時間
+            End,        //  3 結束時間
+            READY = 10
         }
+        public enum COMMAND
+        { 
+            COM_Null = 0,   //  0 待機
+            READY,          //  1 就緒
+            STARTTime,      //  2 開始時間
+            ENDTime,        //  3 結束時間
+            ENDROUND        //  4結束計時
+        };
         private void DoReceive()
         {
             Stopwatch stopWatch = new Stopwatch();
             Byte[] buffer = new Byte[1024];
-            UInt32 StartTime, EndTime;
+            UInt32 StartTime = 0, EndTime = 0, CurrentTime = 0;
             try
             {
                 while (Console_receiving)
                 {
                     Display d = new Display(ShowTime);
+                    Control cmd = new Control(Command);
                     ByteUnion byteU = new ByteUnion();
-                    byte Board_state = new byte();
+                    int Board_state = new int();
                     if (My_SerialPort.BytesToRead > 0)
                     {
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
@@ -537,16 +548,15 @@ namespace WindowsFormsApp1
                                 byteU.b2 = buffer[i + 4];
                                 byteU.b3 = buffer[i + 5];
                                 Board_state = (byte)(buffer[i + 6] >> 4);
-                                string strTimes = byteU.uinTime.ToString();
-                                //unsafe
-                                //{
-                                //    fixed (byte* p = &buffer[i + 2])
-                                //    {
-                                //        uint t = *(uint*)p;
-                                //        Console.WriteLine("stopWatch:{0}\t", t);
-                                //    }
-                                //}
-                                this.Invoke(d, new object[] { strTimes });
+                                if (Board_state == (int)BoardState.READY) Invoke(cmd, new object[] { "R" });
+                                else if (Board_state == (int)BoardState.Start) StartTime = byteU.uinTime;
+                                else if (Board_state == (int)BoardState.End) EndTime = byteU.uinTime;
+                                else if (Board_state == (int)BoardState.Timing)
+                                {
+                                    CurrentTime = byteU.uinTime;
+                                    string strTimes = (CurrentTime - StartTime).ToString();
+                                    this.Invoke(d, new object[] { strTimes });
+                                }
                                 Console.WriteLine("stopWatch:{0}\t\tuinTime:{1}\tBoard_state:{2}", stopWatch.ElapsedMilliseconds, byteU.uinTime, (BoardState) Board_state);
                                 i += 7;
                                 stopWatch.Stop();
