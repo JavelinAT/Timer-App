@@ -386,13 +386,13 @@ namespace WindowsFormsApp1
                 case "button_setting":
                     byte Setvalue = new byte();
                     int conut = checkedListBox_Setting.Items.Count;
-                    for(int i = 0;i < conut; i++)
+                    for (int i = 0; i < conut; i++)
                     {
                         bool chelist = checkedListBox_Setting.GetItemChecked(i);
                         if (chelist)
                             Setvalue |= (byte)(1 << (3 - i));
                         else
-                            Setvalue &= (byte)~(1 << (3 - i)) ;
+                            Setvalue &= (byte)~(1 << (3 - i));
                     }
                     SendCommand(Setvalue);
                     break;
@@ -513,7 +513,7 @@ namespace WindowsFormsApp1
             READY = 10
         }
         public enum COMMAND
-        { 
+        {
             COM_Null = 0,   //  0 待機
             READY,          //  1 就緒
             STARTTime,      //  2 開始時間
@@ -522,50 +522,70 @@ namespace WindowsFormsApp1
         };
         private void DoReceive()
         {
-            Stopwatch stopWatch = new Stopwatch();
             Byte[] buffer = new Byte[1024];
+            Byte[] storebuffer = new Byte[0];
+            ByteUnion byteU = new ByteUnion();
+            int Board_state = 0;
+            Stopwatch stopWatch = new Stopwatch();
+            Display d = new Display(ShowTime);
+            Control cmd = new Control(Command);
             UInt32 StartTime = 0, EndTime = 0, CurrentTime = 0;
             try
             {
                 while (Console_receiving)
                 {
-                    Display d = new Display(ShowTime);
-                    Control cmd = new Control(Command);
-                    ByteUnion byteU = new ByteUnion();
-                    int Board_state = new int();
                     if (My_SerialPort.BytesToRead > 0)
                     {
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
                         Array.Resize(ref buffer, length);
-                        int maximumIndex = length - 8;
-                        for (int i = 0; i <= maximumIndex; i++)
+                        int recindex = 0;
+                        if (storebuffer.Length > 0) 
                         {
-                            if (buffer[i] == 0x90 && buffer[i + 1] == 0x26 && buffer[i + 7] == 0xFC)
+                            Byte[] temporary = new Byte[1024];
+                            buffer.CopyTo(temporary, storebuffer.Length);
+                            Array.Copy(storebuffer, 0, temporary, 0, storebuffer.Length);
+                            length += storebuffer.Length;
+                            Array.Clear(storebuffer, 0, storebuffer.Length);
+                            Array.Resize(ref buffer, length);
+                            Array.Resize(ref temporary, length);
+                            temporary.CopyTo(buffer, 0);
+                        }
+                        if (length >= 8)
+                        {
+                            while (recindex + 8 <= length)
                             {
-                                stopWatch.Start();
-                                byteU.b0 = buffer[i + 2];
-                                byteU.b1 = buffer[i + 3];
-                                byteU.b2 = buffer[i + 4];
-                                byteU.b3 = buffer[i + 5];
-                                Board_state = (byte)(buffer[i + 6] >> 4);
-                                if (Board_state == (int)BoardState.READY) Invoke(cmd, new object[] { "R" });
-                                else if (Board_state == (int)BoardState.Start) StartTime = byteU.uinTime;
-                                else if (Board_state == (int)BoardState.End) EndTime = byteU.uinTime;
-                                else if (Board_state == (int)BoardState.Timing)
+                                if (buffer[recindex] == 0x90 && buffer[recindex + 1] == 0x26 && buffer[recindex + 7] == 0xFC)
                                 {
-                                    CurrentTime = byteU.uinTime;
-                                    string strTimes = (CurrentTime - StartTime).ToString();
-                                    this.Invoke(d, new object[] { strTimes });
+                                    stopWatch.Start();
+                                    byteU.b0 = buffer[recindex + 2];
+                                    byteU.b1 = buffer[recindex + 3];
+                                    byteU.b2 = buffer[recindex + 4];
+                                    byteU.b3 = buffer[recindex + 5];
+                                    Board_state = (byte)(buffer[recindex + 6] >> 4);
+                                    if (Board_state == (int)BoardState.READY) Invoke(cmd, new object[] { "R" });
+                                    else if (Board_state == (int)BoardState.Start) StartTime = byteU.uinTime;
+                                    else if (Board_state == (int)BoardState.End) EndTime = byteU.uinTime;
+                                    else if (Board_state == (int)BoardState.Timing)
+                                    {
+                                        CurrentTime = byteU.uinTime;
+                                        string strTimes = Format_MilliSecond(CurrentTime - StartTime);
+                                        this.Invoke(d, new object[] { strTimes });
+                                    }
+                                    Console.WriteLine("sW:{0}\t\tT:{1}\tBs:{2}", stopWatch.ElapsedMilliseconds, byteU.uinTime, (BoardState)Board_state);
+                                    stopWatch.Stop();
+                                    stopWatch.Reset();
+
+                                    recindex += 8;
                                 }
-                                Console.WriteLine("stopWatch:{0}\t\tuinTime:{1}\tBoard_state:{2}", stopWatch.ElapsedMilliseconds, byteU.uinTime, (BoardState) Board_state);
-                                i += 7;
-                                stopWatch.Stop();
-                                stopWatch.Reset();
+                                else recindex += 1;
                             }
                         }
+                        Array.Resize(ref storebuffer, 1024);
+                        Array.Copy(buffer, recindex, storebuffer, 0, length - recindex);
                         Array.Resize(ref buffer, 1024);
+                        Array.Resize(ref storebuffer, length - recindex);
+                        Thread.Sleep(10);
                     }
-                    Thread.Sleep(10);
                 }
             }
             catch (Exception ex)
