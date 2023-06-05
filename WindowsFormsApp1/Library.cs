@@ -23,8 +23,10 @@ namespace TimerLibrary
         {
             this.Name = _Name;
             this.Time = new List<TimerData>();
+            this.MazeTime = new List<TimerData>();
         }
         public List<TimerData> Time { get; set; }//屬性
+        public List<TimerData> MazeTime { get; set; }//屬性
         public string Oeder { get; set; }//屬性
         public string Name { get; set; }//屬性
         public string ID { get; set; }//屬性

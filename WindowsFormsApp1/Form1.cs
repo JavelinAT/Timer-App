@@ -12,16 +12,11 @@ using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using TimerLibrary;
-using static OfficeOpenXml.ExcelErrorValue;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 using Button = System.Windows.Forms.Button;
-using ComboBox = System.Windows.Forms.ComboBox;
 using Excel = Microsoft.Office.Interop.Excel;
 using Timer = System.Timers.Timer;
 
@@ -46,6 +41,8 @@ namespace WindowsFormsApp1
         private bool DataGv_Get_Current_Location = true;
         private bool DataGv_Get_Rows_Location = true;
         private int totalrowCount;
+        public bool ClassicMouseMode = false;
+        public int ClassicMousebonus = 1;
         public int TotalRuns;           //總次數
         public int TotalTimes;          //總時間
         private bool TimeOut;           //超時表示位元
@@ -63,13 +60,14 @@ namespace WindowsFormsApp1
         public JObject SetJobj;
         delegate void Display(string str);
         delegate void DisplayCount(string str);
-        delegate void Control(string cmd);
+        //delegate void Control(string cmd);
+        delegate void Control(BoardState cmd);
 
         public FrontPage()
         {
             InitializeComponent();
-            //F2.Show();
-            //F2.MainForm = this;//Form2 to Form1
+            F2.Show();
+            F2.MainForm = this;//form2 to form1
         }
         private void FrontPage_Load(object sender, EventArgs e)
         {
@@ -91,50 +89,79 @@ namespace WindowsFormsApp1
         {
             textBox_TotalTimes.Text = str;
         }
-        public void Command(string cmd)
+        public int MazeTimeTP;
+        public void Command(BoardState cmd)
         {
             textBoxReceive.Text += cmd + "\r\n";
             textBoxReceive.SelectionStart = textBoxReceive.Text.Length;
             textBoxReceive.ScrollToCaret();
             switch (cmd)
             {
-                case "S":
+                case BoardState.Start:
                     if (ExcelIsLoaded && !StartCount)
                         StartCount = true;
                     label_Time_display.BackColor = Color.FromArgb(0, 225, 255);
+                    if (ExcelIsLoaded && ClassicMouseMode)
+                    {
+                        Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].mSec = MazeTimeTP;
+                        string strMazeTime = Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].ToString();
+                        Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, strMazeTime);
+                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, strMazeTime);
+                        Console.WriteLine("MazeTimeTP:{2}\tCount:{0}\tMazeTime{1}\t", Team_List.Team[DataGvRowInd].MazeTime.Count, Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].mSec, MazeTimeTP);
+                    }
+                    //Console.WriteLine("MazeTimeTP:{2}\tCount:{0}\tMazeTime{1}\t", Team_List.Team[DataGvRowInd].MazeTime.Count, Team_List.Team[DataGvRowInd].MazeTime[Team_List.Team[DataGvRowInd].MazeTime.Count - 1].mSec, MazeTimeTP);
+
                     break;
-                case "G":
+                case BoardState.End:
                     State_Ready = false;
                     if (TimeOut)
                         label_Time_display.BackColor = Color.FromArgb(255, 0, 0);
                     else
                         label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
-                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
-                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                    ButtonClick(button_Round_Next, null);
+                    if (ExcelIsLoaded)
+                    {
+                        Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
+                        WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
+                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                        TimerData ScoreTime = new TimerData(0);
+                        if (ClassicMouseMode)
+                            ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec + (int)((float)MazeTimeTP / (float)30) - (3000 * ClassicMousebonus);
+                        else
+                            ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
+
+                        string strScore = ScoreTime.ToString();
+                        Write_dataGridView(DataGvRowInd, DataGvColInd + (TotalRuns * 2), strScore);
+                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 2), strScore);
+                        if (ClassicMouseMode)
+                        {
+                            Write_dataGridView(DataGvRowInd, DataGvColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
+                            WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
+                        }
+
+                        ButtonClick(button_Round_Next, null);
+                    }
                     break;
-                case "C":
-                    label_Time_display.BackColor = Color.Transparent;
-                    break;
-                case "R":   //Ready
+                //case "C":
+                //    label_Time_display.BackColor = Color.Transparent;
+                //    break;
+                case BoardState.READY:   //Ready
                     State_Ready = true;
                     State_Failing = false;
                     label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     label_Time_display.Text = "Ready";
                     break;
-                case "F":   //Fail
-                    State_Failing = true;
-                    State_Ready = false;
-                    label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
-                    //label_Time_display.Text = "99:59.999";
-                    label_Time_display.Text = "99:99.999";
-                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
-                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
-                    F2.Round_Time = label_Time_display.Text;
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                    //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                    break;
+                    //case "F":   //Fail
+                    //    State_Failing = true;
+                    //    State_Ready = false;
+                    //    label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
+                    //    //label_Time_display.Text = "99:59.999";
+                    //    label_Time_display.Text = "99:99.999";
+                    //    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
+                    //    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
+                    //    F2.Round_Time = label_Time_display.Text;
+                    //    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    //    //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    //    break;
             }
         }
         //WriteToTeamList
@@ -159,9 +186,14 @@ namespace WindowsFormsApp1
             PauseCountdown = false;
             label_Time_display.Text = "00:00.000";
             label_Time_display.BackColor = Color.Transparent;
+            ClassicMousebonus = 1;
             InitJson();
             if (ExcelIsLoaded)
                 LodeExcelToDataGridViewWithEpplus(ExcelFilePath);
+            if (!Console_receiving)
+                ComPort_Connect(null);
+            if (Console_receiving)
+                SendCommand(COMMAND.RESET);
         }
         public static string Format_MilliSecond(uint TimeMs)
         {
@@ -241,17 +273,29 @@ namespace WindowsFormsApp1
                 /////  Command   //////////////////////////////////////////////
                 case "button_Command_Ready":
                     //if (State_Ready == false) SendString("R\n");
-                    SendCommand(COMMAND.READY);
+                    if (State_Ready == false) SendCommand(COMMAND.READY);
                     break;
                 case "button_Command_Fail":
-                    if (State_Failing == false) SendString("F\n");
+                    //if (State_Failing == false) SendString("F\n");
+                    //if (State_Failing == false) SendCommand(COMMAND.READY);
                     break;
                 case "button_Command_Restart":
                     Reset();
                     break;
-                case "button_Command_3":
+                case "button_Command_LoadExcel":
+                    using (OpenFileDialog ofd = new OpenFileDialog())
+                    {
+                        ofd.Filter = "Excel 活頁簿 (*.xlsx)|*.xlsx|Excel 97-2003 (*.xls)|*.xls|文字檔 (Tab 字元分隔) (*.txt)|*.txt";
+                        ofd.Title = "Select Excel file";
+                        if (ofd.ShowDialog() == DialogResult.OK)
+                        {
+                            ExcelFilePath = ofd.FileName;
+                            LodeExcelToDataGridViewWithEpplus(ExcelFilePath);
+                        }
+                    }
                     break;
-                case "button_Command_4":
+                case "button_Command_NoBonus":
+                    ClassicMousebonus = 0;
                     break;
                 /////  Command   //////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
@@ -350,11 +394,20 @@ namespace WindowsFormsApp1
                     string path = ExcelFilePath;
                     //Start Excel and get Application object.
                     oXL = new Excel.Application();
+                    try
+                    {
+                        oWB = oXL.Workbooks.Open(path);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                     //Get a new workbook.
-                    oWB = oXL.Workbooks.Open(path);
+                    //owb = oxl.workbooks.open(path);
                     oXL.Visible = true;
                     oXL.UserControl = true;
                     break;
+
                 case "button_excel_5":
                     using (OpenFileDialog ofd = new OpenFileDialog())
                     {
@@ -390,10 +443,16 @@ namespace WindowsFormsApp1
                     {
                         bool chelist = checkedListBox_Setting.GetItemChecked(i);
                         if (chelist)
-                            Setvalue |= (byte)(1 << (3 - i));
+                            //Setvalue |= (byte)(1 << (3 - i));
+                            Setvalue |= (byte)(1 << 1);
                         else
-                            Setvalue &= (byte)~(1 << (3 - i));
+                            //Setvalue &= (byte)~(1 << (3 - i));
+                            unchecked
+                            {
+                                Setvalue &= (byte)~(1 << 1);
+                            }
                     }
+                    Setvalue |= 0x60;
                     SendCommand(Setvalue);
                     break;
             }
@@ -518,7 +577,8 @@ namespace WindowsFormsApp1
             READY,          //  1 就緒
             STARTTime,      //  2 開始時間
             ENDTime,        //  3 結束時間
-            ENDROUND        //  4結束計時
+            ENDROUND,       //  4結束計時
+            RESET
         };
         private void DoReceive()
         {
@@ -529,17 +589,18 @@ namespace WindowsFormsApp1
             Stopwatch stopWatch = new Stopwatch();
             Display d = new Display(ShowTime);
             Control cmd = new Control(Command);
-            UInt32 StartTime = 0, EndTime = 0, CurrentTime = 0;
+            uint StartTime = 0, EndTime = 0, CurrentTime = 0;
             try
             {
                 while (Console_receiving)
                 {
                     if (My_SerialPort.BytesToRead > 0)
                     {
+                        stopWatch.Start();
                         Int32 length = My_SerialPort.Read(buffer, 0, buffer.Length);
                         Array.Resize(ref buffer, length);
                         int recindex = 0;
-                        if (storebuffer.Length > 0) 
+                        if (storebuffer.Length > 0)
                         {
                             Byte[] temporary = new Byte[1024];
                             buffer.CopyTo(temporary, storebuffer.Length);
@@ -556,15 +617,15 @@ namespace WindowsFormsApp1
                             {
                                 if (buffer[recindex] == 0x90 && buffer[recindex + 1] == 0x26 && buffer[recindex + 7] == 0xFC)
                                 {
-                                    stopWatch.Start();
+
                                     byteU.b0 = buffer[recindex + 2];
                                     byteU.b1 = buffer[recindex + 3];
                                     byteU.b2 = buffer[recindex + 4];
                                     byteU.b3 = buffer[recindex + 5];
                                     Board_state = (byte)(buffer[recindex + 6] >> 4);
-                                    if (Board_state == (int)BoardState.READY) Invoke(cmd, new object[] { "R" });
-                                    else if (Board_state == (int)BoardState.Start) StartTime = byteU.uinTime;
-                                    else if (Board_state == (int)BoardState.End) EndTime = byteU.uinTime;
+                                    if (Board_state == (int)BoardState.READY) { Invoke(cmd, new object[] { Board_state }); }
+                                    else if (Board_state == (int)BoardState.Start) { StartTime = byteU.uinTime; MazeTimeTP = (int)StartTime; Invoke(cmd, new object[] { Board_state }); }
+                                    else if (Board_state == (int)BoardState.End) { EndTime = byteU.uinTime; Invoke(cmd, new object[] { Board_state }); }
                                     else if (Board_state == (int)BoardState.Timing)
                                     {
                                         CurrentTime = byteU.uinTime;
@@ -572,8 +633,6 @@ namespace WindowsFormsApp1
                                         this.Invoke(d, new object[] { strTimes });
                                     }
                                     Console.WriteLine("sW:{0}\t\tT:{1}\tBs:{2}", stopWatch.ElapsedMilliseconds, byteU.uinTime, (BoardState)Board_state);
-                                    stopWatch.Stop();
-                                    stopWatch.Reset();
 
                                     recindex += 8;
                                 }
@@ -584,6 +643,10 @@ namespace WindowsFormsApp1
                         Array.Copy(buffer, recindex, storebuffer, 0, length - recindex);
                         Array.Resize(ref buffer, 1024);
                         Array.Resize(ref storebuffer, length - recindex);
+
+                        stopWatch.Stop();
+                        stopWatch.Reset();
+
                         Thread.Sleep(10);
                     }
                 }
@@ -915,7 +978,12 @@ namespace WindowsFormsApp1
             {
                 Team_List.Team.Add(new TEAM("TEAM" + i.ToString()));
                 for (int j = 0; j < TotalRuns; j++)
+                {
                     Team_List.Team[i - 1].Time.Add(new TimerData(0));
+                    //-------------------------------------------------------------------------------
+                    Team_List.Team[i - 1].MazeTime.Add(new TimerData(0));
+                    //-------------------------------------------------------------------------------
+                }
             }
             DataRow dr = null;
             DataColumn dc = null;
@@ -1113,6 +1181,8 @@ namespace WindowsFormsApp1
         {
             SetJobj = ReadJson("Settings");
             comboBox_SettingPage_class.SelectedItem = (string)SetJobj["Mode"];
+            if ((string)comboBox_SettingPage_class.SelectedItem == "Classic_Mouse")
+                ClassicMouseMode = true;
             TotalRuns = Int32.Parse(comboBox_SettingPage_TotalRound.Text);
             TotalTimes = Int32.Parse(textBox_SettingPage_TotalTimes.Text);
             if (TotalTimes % 60 < 10)
@@ -1120,7 +1190,7 @@ namespace WindowsFormsApp1
             else
                 textBox_TotalTimes.Text = (TotalTimes / 60).ToString() + ":" + (TotalTimes % 60).ToString();
 
-            Console.WriteLine("Settings：{0} \nTotalRuns: {1}\nTotalTimes{2}", SetJobj["Mode"], TotalRuns, TotalTimes);
+            Console.WriteLine("Settings：{0} \tTotalRuns: {1}\tTotalTimes: {2}\tMode: {3}", SetJobj["Mode"], TotalRuns, TotalTimes, ClassicMouseMode);
         }
         /////////////////////////////////////////  Settings.json   ////////////////////////////////////////
         ///
@@ -1159,7 +1229,7 @@ namespace WindowsFormsApp1
                         str = (TotalTimes / 60).ToString() + ":" + (TotalTimes % 60).ToString();
                 }
                 this.Invoke(d, new object[] { str });
-                Console.WriteLine(str);
+                //Console.WriteLine(str);
             }
         }
         /////////////////////////////////////////  timer   ////////////////////////////////////////////////
@@ -1288,7 +1358,8 @@ namespace WindowsFormsApp1
                     if (item.Minimum != 0)
                     {
                         count++;
-                        str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
+                        //str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
+                        str += count.ToString() + "." + item.Organize + "\t-" + item.ToString() + "\r\n";
                         //if (count == 3) break;
                     }
                 }
