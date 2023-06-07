@@ -62,8 +62,9 @@
             this.button_Inf_Previous = new System.Windows.Forms.Button();
             this.button_Inf_Next = new System.Windows.Forms.Button();
             this.tabPage_Setting = new System.Windows.Forms.TabPage();
-            this.button_setting = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.checkedListBox_Setting = new System.Windows.Forms.CheckedListBox();
+            this.button_setting = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.comboBox_SettingPage_TotalRound = new System.Windows.Forms.ComboBox();
             this.label_SettingPage_TotalTimes = new System.Windows.Forms.Label();
@@ -84,7 +85,6 @@
             this.label_Time_display = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
@@ -120,6 +120,7 @@
             this.Information_Button.Panel2.SuspendLayout();
             this.Information_Button.SuspendLayout();
             this.tabPage_Setting.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -133,7 +134,6 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -626,15 +626,16 @@
             this.tabPage_Setting.Text = "Setting";
             this.tabPage_Setting.UseVisualStyleBackColor = true;
             // 
-            // button_setting
+            // groupBox1
             // 
-            this.button_setting.Location = new System.Drawing.Point(79, 119);
-            this.button_setting.Name = "button_setting";
-            this.button_setting.Size = new System.Drawing.Size(67, 40);
-            this.button_setting.TabIndex = 7;
-            this.button_setting.Text = "Setting";
-            this.button_setting.UseVisualStyleBackColor = true;
-            this.button_setting.Click += new System.EventHandler(this.ButtonClick);
+            this.groupBox1.Controls.Add(this.checkedListBox_Setting);
+            this.groupBox1.Controls.Add(this.button_setting);
+            this.groupBox1.Location = new System.Drawing.Point(33, 292);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(259, 182);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
             // 
             // checkedListBox_Setting
             // 
@@ -645,6 +646,16 @@
             this.checkedListBox_Setting.Name = "checkedListBox_Setting";
             this.checkedListBox_Setting.Size = new System.Drawing.Size(229, 88);
             this.checkedListBox_Setting.TabIndex = 6;
+            // 
+            // button_setting
+            // 
+            this.button_setting.Location = new System.Drawing.Point(79, 119);
+            this.button_setting.Name = "button_setting";
+            this.button_setting.Size = new System.Drawing.Size(67, 40);
+            this.button_setting.TabIndex = 7;
+            this.button_setting.Text = "Setting";
+            this.button_setting.UseVisualStyleBackColor = true;
+            this.button_setting.Click += new System.EventHandler(this.ButtonClick);
             // 
             // tableLayoutPanel2
             // 
@@ -932,17 +943,6 @@
             this.splitContainer1.TabIndex = 6;
             this.splitContainer1.TabStop = false;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.checkedListBox_Setting);
-            this.groupBox1.Controls.Add(this.button_setting);
-            this.groupBox1.Location = new System.Drawing.Point(33, 292);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(259, 182);
-            this.groupBox1.TabIndex = 8;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
             // FrontPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -999,6 +999,7 @@
             this.Information_Button.ResumeLayout(false);
             this.tabPage_Setting.ResumeLayout(false);
             this.tabPage_Setting.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.splitContainer3.Panel1.ResumeLayout(false);
@@ -1015,7 +1016,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="avnx7-zkhrr-003.ico" />
+    <None Include="Resources\form2_PSn.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

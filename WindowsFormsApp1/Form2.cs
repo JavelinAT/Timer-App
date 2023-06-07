@@ -17,7 +17,7 @@ namespace WindowsFormsApp1
         }
         public void Flash()
         {
-            textBox_Round_Time.Text = MainForm.Time_For_F2;
+            textBox_Run_Time.Text = MainForm.Time_For_F2;
             textBox_Team_Information.Text = MainForm.Team_Information_For_F2;
             MatchCollection matches = regex.Matches(MainForm.Round_For_F2);
             // 一一取出 MatchCollection 內容
@@ -55,8 +55,8 @@ namespace WindowsFormsApp1
 
         public string Round_Time//Form1 to Form2
         {
-            get { return textBox_Round_Time.Text; }
-            set { textBox_Round_Time.Text = value; }
+            get { return textBox_Run_Time.Text; }
+            set { textBox_Run_Time.Text = value; }
         }
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {

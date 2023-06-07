@@ -1305,7 +1305,7 @@ namespace WindowsFormsApp1
             {
                 foreach (var item in Team_List.Team[DataGvRowInd].Time)
                 {
-                    str += "Round " + round.ToString() + "-" + item.ToString() + "\r\n";
+                    str += "S" + round.ToString() + " - " + item.ToString() + "\r\n";
                     round++;
                 }
             }
@@ -1360,7 +1360,7 @@ namespace WindowsFormsApp1
                         count++;
                         //str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
                         str += count.ToString() + "." + item.Organize + "\t-" + item.ToString() + "\r\n";
-                        //if (count == 3) break;
+                        if (count == 3) break;
                     }
                 }
             }
