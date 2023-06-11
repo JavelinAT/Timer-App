@@ -63,9 +63,19 @@ namespace WindowsFormsApp1.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap form2_PSn {
+        internal static System.Drawing.Bitmap form2_PS {
             get {
-                object obj = ResourceManager.GetObject("form2_PSn", resourceCulture);
+                object obj = ResourceManager.GetObject("form2_PS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap form2_PS_mouse {
+            get {
+                object obj = ResourceManager.GetObject("form2_PS_mouse", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

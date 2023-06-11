@@ -30,6 +30,7 @@ namespace WindowsFormsApp1
                 textBox_Round.Text = groups[1].Value.Trim();// MainForm.Round_For_F2;
             }
             textBox_Total_Time.Text = MainForm.TotalTimes_For_F2;
+            textBox_Run.Text = MainForm.RunTime_For_F2;
             textBox_Score.Text = MainForm.Score_For_F2;
             textBox_Best_Score.Text = MainForm.BestScore_For_F2;
         }

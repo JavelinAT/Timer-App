@@ -105,8 +105,8 @@ namespace WindowsFormsApp1
                     {
                         Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].mSec = MazeTimeTP;
                         string strMazeTime = Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].ToString();
-                        Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, strMazeTime);
-                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, strMazeTime);
+                        Write_dataGridView(DataGvRowInd, DataGvColInd + (TotalRuns * 2), strMazeTime);
+                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 2), strMazeTime);
                         Console.WriteLine("MazeTimeTP:{2}\tCount:{0}\tMazeTime{1}\t", Team_List.Team[DataGvRowInd].MazeTime.Count, Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].mSec, MazeTimeTP);
                     }
                     //Console.WriteLine("MazeTimeTP:{2}\tCount:{0}\tMazeTime{1}\t", Team_List.Team[DataGvRowInd].MazeTime.Count, Team_List.Team[DataGvRowInd].MazeTime[Team_List.Team[DataGvRowInd].MazeTime.Count - 1].mSec, MazeTimeTP);
@@ -123,15 +123,26 @@ namespace WindowsFormsApp1
                         Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
                         WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
                         WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                        TimerData ScoreTime = new TimerData(0);
-                        if (ClassicMouseMode)
-                            ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec + (int)((float)MazeTimeTP / (float)30) - (3000 * ClassicMousebonus);
-                        else
-                            ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
+                        //-------------------------------------------------------------------------------
 
-                        string strScore = ScoreTime.ToString();
-                        Write_dataGridView(DataGvRowInd, DataGvColInd + (TotalRuns * 2), strScore);
-                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 2), strScore);
+                        if (ClassicMouseMode)
+                            Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec + (int)((float)MazeTimeTP / (float)30) - (3000 * ClassicMousebonus);
+                        else
+                            Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
+
+                        //TimerData ScoreTime = new TimerData(0);
+                        //if (ClassicMouseMode)
+                        //    ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec + (int)((float)MazeTimeTP / (float)30) - (3000 * ClassicMousebonus);
+                        //else
+                        //    ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
+
+                        //string strScore = ScoreTime.ToString();
+                        string strScore = Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].ToString();
+
+                        //-------------------------------------------------------------------------------
+
+                        Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns , strScore);
+                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, strScore);
                         if (ClassicMouseMode)
                         {
                             Write_dataGridView(DataGvRowInd, DataGvColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
@@ -983,6 +994,8 @@ namespace WindowsFormsApp1
                     //-------------------------------------------------------------------------------
                     Team_List.Team[i - 1].MazeTime.Add(new TimerData(0));
                     //-------------------------------------------------------------------------------
+                    Team_List.Team[i - 1].Score.Add(new TimerData(0));
+                    //-------------------------------------------------------------------------------
                 }
             }
             DataRow dr = null;
@@ -1125,6 +1138,9 @@ namespace WindowsFormsApp1
                     "TotalTimes\t" + SetJobj[comboBox_SettingPage_class.Text]["TotalTimes"] + "\r\n" +
                     "TotalRound\t" + SetJobj[comboBox_SettingPage_class.Text]["TotalRound"]);
             WriteJson(SetJobj, "Settings");
+            if ((string)comboBox_SettingPage_class.SelectedItem == "Classic_Mouse")
+                ClassicMouseMode = true;
+            else ClassicMouseMode = false;
         }
         private void comboBox_SettingPage_class_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1162,6 +1178,11 @@ namespace WindowsFormsApp1
                         TotalTimes = 180,
                         TotalRound = 3
                     },
+                    Half_Mouse = new
+                    {
+                        TotalTimes = 420,
+                        TotalRound = 5
+                    },
                 };
                 File.WriteAllText(Filename + ".json", JsonConvert.SerializeObject(json, Formatting.Indented));
                 JObject jobj = JObject.Parse(JsonConvert.SerializeObject(json, Formatting.Indented));
@@ -1181,8 +1202,9 @@ namespace WindowsFormsApp1
         {
             SetJobj = ReadJson("Settings");
             comboBox_SettingPage_class.SelectedItem = (string)SetJobj["Mode"];
-            if ((string)comboBox_SettingPage_class.SelectedItem == "Classic_Mouse")
+            if ((string)comboBox_SettingPage_class.SelectedItem == "Classic_Mouse" || (string)comboBox_SettingPage_class.SelectedItem == "Half_Mouse")
                 ClassicMouseMode = true;
+            else ClassicMouseMode = false;
             TotalRuns = Int32.Parse(comboBox_SettingPage_TotalRound.Text);
             TotalTimes = Int32.Parse(textBox_SettingPage_TotalTimes.Text);
             if (TotalTimes % 60 < 10)
@@ -1259,6 +1281,10 @@ namespace WindowsFormsApp1
         {
             get { return Score_with_TeamClass(); }
         }
+        public string RunTime_For_F2
+        {
+            get { return RunTime_with_TeamClass(); }
+        }
         public string BestScore_For_F2
         {
             get { return BestScore(); }
@@ -1303,9 +1329,23 @@ namespace WindowsFormsApp1
             int round = 1;
             if (DataGvLoaded)
             {
-                foreach (var item in Team_List.Team[DataGvRowInd].Time)
+                foreach (var item in Team_List.Team[DataGvRowInd].Score)
                 {
                     str += "S" + round.ToString() + " - " + item.ToString() + "\r\n";
+                    round++;
+                }
+            }
+            return str;
+        }
+        public string RunTime_with_TeamClass()
+        {
+            string str = "";
+            int round = 1;
+            if (DataGvLoaded)
+            {
+                foreach (var item in Team_List.Team[DataGvRowInd].Time)
+                {
+                    str += "R" + round.ToString() + " - " + item.ToString() + "\r\n";
                     round++;
                 }
             }
@@ -1359,7 +1399,7 @@ namespace WindowsFormsApp1
                     {
                         count++;
                         //str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
-                        str += count.ToString() + "." + item.Organize + "\t-" + item.ToString() + "\r\n";
+                        str += count.ToString() + "." + item.Organize + /*"\t-" +*/ item.ToString() + "\r\n";
                         if (count == 3) break;
                     }
                 }
