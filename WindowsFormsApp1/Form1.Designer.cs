@@ -148,6 +148,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1559, 480);
             this.tabControl1.TabIndex = 9;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage_Main
             // 
@@ -208,7 +209,7 @@
             this.button_Command_Ready.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Command_Ready.FlatAppearance.BorderSize = 0;
             this.button_Command_Ready.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Command_Ready.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_Ready.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Command_Ready.Location = new System.Drawing.Point(1, 2);
             this.button_Command_Ready.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_Ready.Name = "button_Command_Ready";
@@ -224,7 +225,7 @@
             this.button_Command_Fail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Command_Fail.FlatAppearance.BorderSize = 0;
             this.button_Command_Fail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Command_Fail.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_Fail.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Command_Fail.ForeColor = System.Drawing.Color.Black;
             this.button_Command_Fail.Location = new System.Drawing.Point(1, 91);
             this.button_Command_Fail.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
@@ -241,7 +242,7 @@
             this.button_Command_LoadExcel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Command_LoadExcel.FlatAppearance.BorderSize = 0;
             this.button_Command_LoadExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Command_LoadExcel.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_LoadExcel.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Command_LoadExcel.Location = new System.Drawing.Point(1, 180);
             this.button_Command_LoadExcel.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_LoadExcel.Name = "button_Command_LoadExcel";
@@ -257,7 +258,7 @@
             this.button_Command_NoBonus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Command_NoBonus.FlatAppearance.BorderSize = 0;
             this.button_Command_NoBonus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Command_NoBonus.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_NoBonus.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Command_NoBonus.Location = new System.Drawing.Point(1, 269);
             this.button_Command_NoBonus.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Command_NoBonus.Name = "button_Command_NoBonus";
@@ -273,7 +274,7 @@
             this.button_Command_Restart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Command_Restart.FlatAppearance.BorderSize = 0;
             this.button_Command_Restart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Command_Restart.Font = new System.Drawing.Font("新細明體", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_Command_Restart.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Command_Restart.ForeColor = System.Drawing.SystemColors.Control;
             this.button_Command_Restart.Location = new System.Drawing.Point(1, 358);
             this.button_Command_Restart.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
@@ -375,6 +376,7 @@
             // button_Total_Times
             // 
             this.button_Total_Times.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Total_Times.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Total_Times.Location = new System.Drawing.Point(0, 0);
             this.button_Total_Times.Name = "button_Total_Times";
             this.button_Total_Times.Size = new System.Drawing.Size(258, 96);
@@ -519,6 +521,7 @@
             // button_Round_Previous
             // 
             this.button_Round_Previous.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Round_Previous.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Round_Previous.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Previous.Name = "button_Round_Previous";
             this.button_Round_Previous.Size = new System.Drawing.Size(179, 96);
@@ -530,6 +533,7 @@
             // button_Round_Next
             // 
             this.button_Round_Next.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Round_Next.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Round_Next.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Next.Name = "button_Round_Next";
             this.button_Round_Next.Size = new System.Drawing.Size(170, 96);
@@ -591,6 +595,7 @@
             // button_Inf_Previous
             // 
             this.button_Inf_Previous.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Inf_Previous.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Inf_Previous.Location = new System.Drawing.Point(0, 0);
             this.button_Inf_Previous.Name = "button_Inf_Previous";
             this.button_Inf_Previous.Size = new System.Drawing.Size(188, 96);
@@ -602,6 +607,7 @@
             // button_Inf_Next
             // 
             this.button_Inf_Next.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Inf_Next.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Inf_Next.Location = new System.Drawing.Point(0, 0);
             this.button_Inf_Next.Name = "button_Inf_Next";
             this.button_Inf_Next.Size = new System.Drawing.Size(198, 96);

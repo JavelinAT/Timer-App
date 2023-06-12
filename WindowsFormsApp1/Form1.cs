@@ -47,6 +47,7 @@ namespace WindowsFormsApp1
         public int TotalTimes;          //總時間
         private bool TimeOut;           //超時表示位元
         private bool StartCount;        //開始計數剩餘時間
+        private bool LapStart = false;          //單圈開始
         private bool PauseCountdown;    //暫停倒數
         public Form2 F2 = new Form2();
         private Thread t;
@@ -100,7 +101,6 @@ namespace WindowsFormsApp1
                 case BoardState.Start:
                     if (ExcelIsLoaded && !StartCount)
                         StartCount = true;
-                    label_Time_display.BackColor = Color.FromArgb(0, 225, 255);
                     if (ExcelIsLoaded && ClassicMouseMode)
                     {
                         Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].mSec = MazeTimeTP;
@@ -109,8 +109,9 @@ namespace WindowsFormsApp1
                         WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 2), strMazeTime);
                         Console.WriteLine("MazeTimeTP:{2}\tCount:{0}\tMazeTime{1}\t", Team_List.Team[DataGvRowInd].MazeTime.Count, Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].mSec, MazeTimeTP);
                     }
-                    //Console.WriteLine("MazeTimeTP:{2}\tCount:{0}\tMazeTime{1}\t", Team_List.Team[DataGvRowInd].MazeTime.Count, Team_List.Team[DataGvRowInd].MazeTime[Team_List.Team[DataGvRowInd].MazeTime.Count - 1].mSec, MazeTimeTP);
-
+                    if (ExcelIsLoaded)
+                        LapStart = true;
+                    label_Time_display.BackColor = Color.FromArgb(0, 225, 255);
                     break;
                 case BoardState.End:
                     State_Ready = false;
@@ -121,58 +122,46 @@ namespace WindowsFormsApp1
                     if (ExcelIsLoaded)
                     {
                         Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
-                        WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
                         WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                        //-------------------------------------------------------------------------------
-
+                        WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
                         if (ClassicMouseMode)
                             Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec + (int)((float)MazeTimeTP / (float)30) - (3000 * ClassicMousebonus);
                         else
                             Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
-
-                        //TimerData ScoreTime = new TimerData(0);
-                        //if (ClassicMouseMode)
-                        //    ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec + (int)((float)MazeTimeTP / (float)30) - (3000 * ClassicMousebonus);
-                        //else
-                        //    ScoreTime.mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
-
-                        //string strScore = ScoreTime.ToString();
                         string strScore = Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].ToString();
-
-                        //-------------------------------------------------------------------------------
-
-                        Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns , strScore);
+                        Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, strScore);
                         WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, strScore);
                         if (ClassicMouseMode)
                         {
                             Write_dataGridView(DataGvRowInd, DataGvColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
                             WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
                         }
-
+                        LapStart = false;
                         ButtonClick(button_Round_Next, null);
                     }
                     break;
-                //case "C":
-                //    label_Time_display.BackColor = Color.Transparent;
-                //    break;
                 case BoardState.READY:   //Ready
                     State_Ready = true;
                     State_Failing = false;
                     label_Time_display.BackColor = Color.FromArgb(128, 255, 128);
                     label_Time_display.Text = "Ready";
                     break;
-                    //case "F":   //Fail
-                    //    State_Failing = true;
-                    //    State_Ready = false;
-                    //    label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
-                    //    //label_Time_display.Text = "99:59.999";
-                    //    label_Time_display.Text = "99:99.999";
-                    //    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
-                    //    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
-                    //    F2.Round_Time = label_Time_display.Text;
-                    //    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                    //    //SaveToExcel(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                    //    break;
+                case BoardState.FAIL:   //Fail
+                    State_Ready = false;
+                    State_Failing = true;
+                    LapStart = false;
+                    label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
+                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
+                    Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
+                    string FAILstr = Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].ToString();
+                    Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, FAILstr);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, FAILstr);
+                    ButtonClick(button_Round_Next, null);
+                    if (ClassicMouseMode)
+                        ClassicMousebonus = 0;
+                    break;
             }
         }
         //WriteToTeamList
@@ -288,7 +277,7 @@ namespace WindowsFormsApp1
                     break;
                 case "button_Command_Fail":
                     //if (State_Failing == false) SendString("F\n");
-                    //if (State_Failing == false) SendCommand(COMMAND.READY);
+                    if (State_Failing == false) SendCommand(COMMAND.FAIL_ENDROUND);
                     break;
                 case "button_Command_Restart":
                     Reset();
@@ -580,6 +569,7 @@ namespace WindowsFormsApp1
             Timing,     //  1 計時中 (該圈)
             Start,      //  2 開始時間
             End,        //  3 結束時間
+            FAIL,
             READY = 10
         }
         public enum COMMAND
@@ -588,8 +578,8 @@ namespace WindowsFormsApp1
             READY,          //  1 就緒
             STARTTime,      //  2 開始時間
             ENDTime,        //  3 結束時間
-            ENDROUND,       //  4結束計時
-            RESET
+            FAIL_ENDROUND,  //  4結束計時
+            RESET,
         };
         private void DoReceive()
         {
@@ -641,7 +631,13 @@ namespace WindowsFormsApp1
                                     {
                                         CurrentTime = byteU.uinTime;
                                         string strTimes = Format_MilliSecond(CurrentTime - StartTime);
-                                        this.Invoke(d, new object[] { strTimes });
+                                        Invoke(d, new object[] { strTimes });
+                                    }
+                                    else if (Board_state == (int)BoardState.FAIL)
+                                    {
+                                        Invoke(d, new object[] { "99:59.999" });
+                                        //Invoke(d, new object[] { "FAIL" });
+                                        Invoke(cmd, new object[] { Board_state });
                                     }
                                     Console.WriteLine("sW:{0}\t\tT:{1}\tBs:{2}", stopWatch.ElapsedMilliseconds, byteU.uinTime, (BoardState)Board_state);
 
@@ -1405,6 +1401,21 @@ namespace WindowsFormsApp1
                 }
             }
             return str;
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 0)
+            {
+                if (DataGvLoaded == true)
+                {
+                    DataGv_Get_Current_Location = false;
+                    dataGridView1.Focus();
+                    dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
+                    dataGridView1.BeginEdit(true);
+                    DataGv_Get_Current_Location = true;
+                }
+            }
         }
 
         public class SCORE

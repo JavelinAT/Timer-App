@@ -57,7 +57,7 @@
             this.textBox_Run_Time.Enabled = false;
             this.textBox_Run_Time.Font = new System.Drawing.Font("Times New Roman", 80.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Run_Time.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.textBox_Run_Time.Location = new System.Drawing.Point(371, 115);
+            this.textBox_Run_Time.Location = new System.Drawing.Point(371, 153);
             this.textBox_Run_Time.Name = "textBox_Run_Time";
             this.textBox_Run_Time.ReadOnly = true;
             this.textBox_Run_Time.Size = new System.Drawing.Size(1470, 131);
@@ -135,7 +135,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::WindowsTimerApp.Properties.Resources.form2_PS;
+            this.BackgroundImage = global::TimerApp.Properties.Resources.form2_PS;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1904, 1041);
             this.Controls.Add(this.textBox_Run);

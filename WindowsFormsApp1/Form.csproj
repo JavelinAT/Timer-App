@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5D80B9B5-C088-4921-A3AA-AF128174FE8E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WindowsTimerApp</RootNamespace>
-    <AssemblyName>WindowsTimerApp</AssemblyName>
+    <RootNamespace>TimerApp</RootNamespace>
+    <AssemblyName>TimerApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
