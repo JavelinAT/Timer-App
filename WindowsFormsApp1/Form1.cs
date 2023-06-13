@@ -28,7 +28,7 @@ namespace WindowsFormsApp1
         private bool Console_receiving = false;
         // Regex 正規表達式 ( Regular Expression )
         //宣告 Regex 忽略大小寫 
-        //private readonly Regex regex = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
+        private readonly Regex regexMKRZERO = new Regex(@"Arduino MKRZERO [(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
         private readonly Regex regex = new Regex(@"[(](COM\d{1,3})[)]", RegexOptions.IgnoreCase);
         private readonly Regex ReScore = new Regex(@"\s*(\d{1,2})\s*:\s*(\d{1,2})\s*.\s*(\d{1,3})", RegexOptions.IgnoreCase);
         //private bool Counting = false;
@@ -79,6 +79,7 @@ namespace WindowsFormsApp1
             AppName = this.Text;
             Console.WriteLine(AppName);
             ComPort_Connect(null);
+            checkedListBox_Setting.SetItemChecked(0, true);
             InitJson();
             InitTimer();
         }
@@ -137,6 +138,7 @@ namespace WindowsFormsApp1
                             WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
                         }
                         LapStart = false;
+
                         ButtonClick(button_Round_Next, null);
                     }
                     break;
@@ -290,6 +292,7 @@ namespace WindowsFormsApp1
                         if (ofd.ShowDialog() == DialogResult.OK)
                         {
                             ExcelFilePath = ofd.FileName;
+                            label_excel_1.Text = ExcelFilePath;
                             LodeExcelToDataGridViewWithEpplus(ExcelFilePath);
                         }
                     }
@@ -314,17 +317,32 @@ namespace WindowsFormsApp1
                 case "button_Inf_Next":
                     if (DataGvLoaded == true)
                     {
+                        if (LapStart)
+                        {
+                            MessageBox.Show("Objects cannot be changed during timing");
+                            return;
+                        }
+
+                        DialogResult Result = MessageBox.Show("This action resets the parameter\r\ndo you want to continue", "Notification", MessageBoxButtons.YesNo);
+                        if (Result == DialogResult.No)
+                            return;
                         DataGvRowInd += 1;
                         DataGv_Get_Rows_Location = false;
                         dataGridView1.Focus();
                         dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
                         dataGridView1.BeginEdit(true);
                         DataGv_Get_Rows_Location = true;
+                        Reset();
                     }
                     break;
                 case "button_Round_Previous":
                     if (DataGvLoaded == true)
                     {
+                        if (LapStart)
+                        {
+                            MessageBox.Show("Objects cannot be changed during timing");
+                            return;
+                        }
                         DataGvColInd += -1;
                         DataGv_Get_Current_Location = false;
                         dataGridView1.Focus();
@@ -374,11 +392,6 @@ namespace WindowsFormsApp1
                             ExcelFilePath = ofd.FileName;
                             label_excel_1.Text = ExcelFilePath;
                             getExcelFile(ExcelFilePath);
-                        }
-                        else
-                        {
-                            ExcelFilePath = string.Empty;
-                            label_excel_1.Text = ExcelFilePath;
                         }
                     }
                     break;
@@ -711,7 +724,7 @@ namespace WindowsFormsApp1
                 }
                 if (portMsg != null)
                 {
-                    MatchCollection matches = regex.Matches(portMsg);
+                    MatchCollection matches = regexMKRZERO.Matches(portMsg);
                     foreach (Match match in matches)
                     {
                         portName = match.Groups[1].Value;
@@ -721,6 +734,7 @@ namespace WindowsFormsApp1
                     if (portName == null)
                         return;
                 }
+                else return;
             }
             if (portName != null)
                 Console_Connect(portName, 115200);
@@ -1051,7 +1065,7 @@ namespace WindowsFormsApp1
         {
             if (ExcelIsUsing == false)
             {
-                if (DataGv_Get_Rows_Location == true)
+                if (DataGv_Get_Rows_Location == true && LapStart == false)
                 {
                     DataGvRowInd = dataGridView1.CurrentCell.RowIndex;
                 }

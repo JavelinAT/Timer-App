@@ -301,7 +301,7 @@
             // 
             this.splitContainer6.Panel2.Controls.Add(this.Information);
             this.splitContainer6.Size = new System.Drawing.Size(1324, 446);
-            this.splitContainer6.SplitterDistance = 241;
+            this.splitContainer6.SplitterDistance = 291;
             this.splitContainer6.SplitterWidth = 3;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -309,15 +309,18 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1324, 241);
+            this.dataGridView1.Size = new System.Drawing.Size(1324, 291);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             // 
@@ -329,7 +332,6 @@
             this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.15173F));
             this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.98137F));
             this.Information.Controls.Add(this.Total_Times, 0, 0);
-            this.Information.Controls.Add(this.Excel_Control_Panel, 3, 0);
             this.Information.Controls.Add(this.Round, 2, 0);
             this.Information.Controls.Add(this.Team_Information, 1, 0);
             this.Information.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -337,7 +339,7 @@
             this.Information.Name = "Information";
             this.Information.RowCount = 1;
             this.Information.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Information.Size = new System.Drawing.Size(1324, 202);
+            this.Information.Size = new System.Drawing.Size(1324, 152);
             this.Information.TabIndex = 1;
             // 
             // Total_Times
@@ -354,8 +356,8 @@
             // Total_Times.Panel2
             // 
             this.Total_Times.Panel2.Controls.Add(this.button_Total_Times);
-            this.Total_Times.Size = new System.Drawing.Size(258, 196);
-            this.Total_Times.SplitterDistance = 96;
+            this.Total_Times.Size = new System.Drawing.Size(258, 146);
+            this.Total_Times.SplitterDistance = 95;
             this.Total_Times.TabIndex = 0;
             // 
             // textBox_TotalTimes
@@ -367,7 +369,7 @@
             this.textBox_TotalTimes.Multiline = true;
             this.textBox_TotalTimes.Name = "textBox_TotalTimes";
             this.textBox_TotalTimes.ReadOnly = true;
-            this.textBox_TotalTimes.Size = new System.Drawing.Size(258, 96);
+            this.textBox_TotalTimes.Size = new System.Drawing.Size(258, 95);
             this.textBox_TotalTimes.TabIndex = 1;
             this.textBox_TotalTimes.TabStop = false;
             this.textBox_TotalTimes.Text = "Total Time";
@@ -379,7 +381,7 @@
             this.button_Total_Times.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Total_Times.Location = new System.Drawing.Point(0, 0);
             this.button_Total_Times.Name = "button_Total_Times";
-            this.button_Total_Times.Size = new System.Drawing.Size(258, 96);
+            this.button_Total_Times.Size = new System.Drawing.Size(258, 47);
             this.button_Total_Times.TabIndex = 0;
             this.button_Total_Times.Text = "Pause";
             this.button_Total_Times.UseVisualStyleBackColor = true;
@@ -394,8 +396,7 @@
             this.Excel_Control_Panel.Controls.Add(this.button_excel_2, 0, 1);
             this.Excel_Control_Panel.Controls.Add(this.button_excel_3, 0, 2);
             this.Excel_Control_Panel.Controls.Add(this.button_excel_1, 0, 0);
-            this.Excel_Control_Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Excel_Control_Panel.Location = new System.Drawing.Point(1022, 3);
+            this.Excel_Control_Panel.Location = new System.Drawing.Point(779, 244);
             this.Excel_Control_Panel.Name = "Excel_Control_Panel";
             this.Excel_Control_Panel.RowCount = 5;
             this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
@@ -405,6 +406,7 @@
             this.Excel_Control_Panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.Excel_Control_Panel.Size = new System.Drawing.Size(299, 196);
             this.Excel_Control_Panel.TabIndex = 0;
+            this.Excel_Control_Panel.Visible = false;
             // 
             // button_excel_5
             // 
@@ -482,8 +484,8 @@
             // Round.Panel2
             // 
             this.Round.Panel2.Controls.Add(this.splitContainer9);
-            this.Round.Size = new System.Drawing.Size(353, 196);
-            this.Round.SplitterDistance = 96;
+            this.Round.Size = new System.Drawing.Size(353, 146);
+            this.Round.SplitterDistance = 95;
             this.Round.TabIndex = 0;
             // 
             // textBox_Round
@@ -495,7 +497,7 @@
             this.textBox_Round.Multiline = true;
             this.textBox_Round.Name = "textBox_Round";
             this.textBox_Round.ReadOnly = true;
-            this.textBox_Round.Size = new System.Drawing.Size(353, 96);
+            this.textBox_Round.Size = new System.Drawing.Size(353, 95);
             this.textBox_Round.TabIndex = 1;
             this.textBox_Round.TabStop = false;
             this.textBox_Round.Text = "Round";
@@ -514,8 +516,8 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.button_Round_Next);
-            this.splitContainer9.Size = new System.Drawing.Size(353, 96);
-            this.splitContainer9.SplitterDistance = 179;
+            this.splitContainer9.Size = new System.Drawing.Size(353, 47);
+            this.splitContainer9.SplitterDistance = 174;
             this.splitContainer9.TabIndex = 0;
             // 
             // button_Round_Previous
@@ -524,7 +526,7 @@
             this.button_Round_Previous.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Round_Previous.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Previous.Name = "button_Round_Previous";
-            this.button_Round_Previous.Size = new System.Drawing.Size(179, 96);
+            this.button_Round_Previous.Size = new System.Drawing.Size(174, 47);
             this.button_Round_Previous.TabIndex = 1;
             this.button_Round_Previous.Text = "Previous";
             this.button_Round_Previous.UseVisualStyleBackColor = true;
@@ -536,7 +538,7 @@
             this.button_Round_Next.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Round_Next.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Next.Name = "button_Round_Next";
-            this.button_Round_Next.Size = new System.Drawing.Size(170, 96);
+            this.button_Round_Next.Size = new System.Drawing.Size(175, 47);
             this.button_Round_Next.TabIndex = 1;
             this.button_Round_Next.Text = "Next";
             this.button_Round_Next.UseVisualStyleBackColor = true;
@@ -556,8 +558,8 @@
             // Team_Information.Panel2
             // 
             this.Team_Information.Panel2.Controls.Add(this.Information_Button);
-            this.Team_Information.Size = new System.Drawing.Size(390, 196);
-            this.Team_Information.SplitterDistance = 96;
+            this.Team_Information.Size = new System.Drawing.Size(390, 146);
+            this.Team_Information.SplitterDistance = 95;
             this.Team_Information.TabIndex = 0;
             // 
             // textBox_Team_Information
@@ -569,7 +571,7 @@
             this.textBox_Team_Information.Multiline = true;
             this.textBox_Team_Information.Name = "textBox_Team_Information";
             this.textBox_Team_Information.ReadOnly = true;
-            this.textBox_Team_Information.Size = new System.Drawing.Size(390, 96);
+            this.textBox_Team_Information.Size = new System.Drawing.Size(390, 95);
             this.textBox_Team_Information.TabIndex = 0;
             this.textBox_Team_Information.TabStop = false;
             this.textBox_Team_Information.Text = "Team Information";
@@ -588,7 +590,7 @@
             // Information_Button.Panel2
             // 
             this.Information_Button.Panel2.Controls.Add(this.button_Inf_Next);
-            this.Information_Button.Size = new System.Drawing.Size(390, 96);
+            this.Information_Button.Size = new System.Drawing.Size(390, 47);
             this.Information_Button.SplitterDistance = 188;
             this.Information_Button.TabIndex = 0;
             // 
@@ -598,7 +600,7 @@
             this.button_Inf_Previous.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Inf_Previous.Location = new System.Drawing.Point(0, 0);
             this.button_Inf_Previous.Name = "button_Inf_Previous";
-            this.button_Inf_Previous.Size = new System.Drawing.Size(188, 96);
+            this.button_Inf_Previous.Size = new System.Drawing.Size(188, 47);
             this.button_Inf_Previous.TabIndex = 0;
             this.button_Inf_Previous.Text = "Previous";
             this.button_Inf_Previous.UseVisualStyleBackColor = true;
@@ -610,7 +612,7 @@
             this.button_Inf_Next.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Inf_Next.Location = new System.Drawing.Point(0, 0);
             this.button_Inf_Next.Name = "button_Inf_Next";
-            this.button_Inf_Next.Size = new System.Drawing.Size(198, 96);
+            this.button_Inf_Next.Size = new System.Drawing.Size(198, 47);
             this.button_Inf_Next.TabIndex = 0;
             this.button_Inf_Next.Text = "Next";
             this.button_Inf_Next.UseVisualStyleBackColor = true;
@@ -618,6 +620,7 @@
             // 
             // tabPage_Setting
             // 
+            this.tabPage_Setting.Controls.Add(this.Excel_Control_Panel);
             this.tabPage_Setting.Controls.Add(this.groupBox1);
             this.tabPage_Setting.Controls.Add(this.tableLayoutPanel2);
             this.tabPage_Setting.Controls.Add(this.label_excel_1);
@@ -635,29 +638,29 @@
             // 
             this.groupBox1.Controls.Add(this.checkedListBox_Setting);
             this.groupBox1.Controls.Add(this.button_setting);
-            this.groupBox1.Location = new System.Drawing.Point(56, 227);
+            this.groupBox1.Location = new System.Drawing.Point(474, 236);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(277, 165);
+            this.groupBox1.Size = new System.Drawing.Size(277, 175);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             // 
             // checkedListBox_Setting
             // 
-            this.checkedListBox_Setting.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkedListBox_Setting.Dock = System.Windows.Forms.DockStyle.Top;
             this.checkedListBox_Setting.FormattingEnabled = true;
             this.checkedListBox_Setting.Items.AddRange(new object[] {
             "pair sensor"});
             this.checkedListBox_Setting.Location = new System.Drawing.Point(3, 22);
             this.checkedListBox_Setting.Name = "checkedListBox_Setting";
-            this.checkedListBox_Setting.Size = new System.Drawing.Size(181, 140);
+            this.checkedListBox_Setting.Size = new System.Drawing.Size(271, 88);
             this.checkedListBox_Setting.TabIndex = 6;
             // 
             // button_setting
             // 
-            this.button_setting.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button_setting.Location = new System.Drawing.Point(185, 22);
+            this.button_setting.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button_setting.Location = new System.Drawing.Point(3, 135);
             this.button_setting.Name = "button_setting";
-            this.button_setting.Size = new System.Drawing.Size(89, 140);
+            this.button_setting.Size = new System.Drawing.Size(271, 37);
             this.button_setting.TabIndex = 7;
             this.button_setting.Text = "Setting";
             this.button_setting.UseVisualStyleBackColor = true;
@@ -679,7 +682,7 @@
             this.tableLayoutPanel2.Controls.Add(this.label_SettingPage_Class, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.textBox_SettingPage_TotalTimes, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.button_SettingPage_Apply, 1, 3);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(56, 26);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(24, 246);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -777,7 +780,7 @@
             // label_excel_1
             // 
             this.label_excel_1.AutoSize = true;
-            this.label_excel_1.Location = new System.Drawing.Point(3, 1);
+            this.label_excel_1.Location = new System.Drawing.Point(20, 210);
             this.label_excel_1.Name = "label_excel_1";
             this.label_excel_1.Size = new System.Drawing.Size(36, 19);
             this.label_excel_1.TabIndex = 4;
@@ -785,10 +788,10 @@
             // 
             // splitContainer3
             // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Left;
             this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer3.IsSplitterFixed = true;
-            this.splitContainer3.Location = new System.Drawing.Point(1103, 1);
+            this.splitContainer3.Location = new System.Drawing.Point(0, 1);
             this.splitContainer3.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -801,7 +804,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer3.Size = new System.Drawing.Size(448, 446);
+            this.splitContainer3.Size = new System.Drawing.Size(761, 446);
             this.splitContainer3.SplitterDistance = 49;
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 1;
@@ -816,7 +819,7 @@
             this.label_ComState.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ComState.Location = new System.Drawing.Point(0, 0);
             this.label_ComState.Name = "label_ComState";
-            this.label_ComState.Size = new System.Drawing.Size(448, 25);
+            this.label_ComState.Size = new System.Drawing.Size(761, 25);
             this.label_ComState.TabIndex = 1;
             this.label_ComState.Text = "Click to select Com Port";
             this.label_ComState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -836,7 +839,7 @@
             this.PorSelector.Location = new System.Drawing.Point(0, 25);
             this.PorSelector.Margin = new System.Windows.Forms.Padding(1);
             this.PorSelector.Name = "PorSelector";
-            this.PorSelector.Size = new System.Drawing.Size(448, 24);
+            this.PorSelector.Size = new System.Drawing.Size(761, 24);
             this.PorSelector.Sorted = true;
             this.PorSelector.TabIndex = 2;
             this.PorSelector.TabStop = false;
@@ -860,10 +863,11 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.textBoxReceive);
             this.splitContainer2.Panel2.Controls.Add(this.button_Clear);
-            this.splitContainer2.Size = new System.Drawing.Size(448, 395);
-            this.splitContainer2.SplitterDistance = 228;
+            this.splitContainer2.Size = new System.Drawing.Size(761, 395);
+            this.splitContainer2.SplitterDistance = 387;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 0;
+            this.splitContainer2.Visible = false;
             // 
             // textBoxSend
             // 
@@ -872,7 +876,7 @@
             this.textBoxSend.Multiline = true;
             this.textBoxSend.Name = "textBoxSend";
             this.textBoxSend.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxSend.Size = new System.Drawing.Size(228, 341);
+            this.textBoxSend.Size = new System.Drawing.Size(387, 341);
             this.textBoxSend.TabIndex = 3;
             // 
             // button_Sand
@@ -882,7 +886,7 @@
             this.button_Sand.Location = new System.Drawing.Point(0, 0);
             this.button_Sand.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button_Sand.Name = "button_Sand";
-            this.button_Sand.Size = new System.Drawing.Size(228, 54);
+            this.button_Sand.Size = new System.Drawing.Size(387, 54);
             this.button_Sand.TabIndex = 0;
             this.button_Sand.Text = "Sand Text";
             this.button_Sand.UseVisualStyleBackColor = true;
@@ -897,7 +901,7 @@
             this.textBoxReceive.Name = "textBoxReceive";
             this.textBoxReceive.ReadOnly = true;
             this.textBoxReceive.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxReceive.Size = new System.Drawing.Size(219, 341);
+            this.textBoxReceive.Size = new System.Drawing.Size(373, 341);
             this.textBoxReceive.TabIndex = 4;
             // 
             // button_Clear
@@ -906,7 +910,7 @@
             this.button_Clear.Location = new System.Drawing.Point(0, 0);
             this.button_Clear.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.button_Clear.Name = "button_Clear";
-            this.button_Clear.Size = new System.Drawing.Size(219, 54);
+            this.button_Clear.Size = new System.Drawing.Size(373, 54);
             this.button_Clear.TabIndex = 5;
             this.button_Clear.Text = "Clear Receive Box";
             this.button_Clear.UseCompatibleTextRendering = true;
