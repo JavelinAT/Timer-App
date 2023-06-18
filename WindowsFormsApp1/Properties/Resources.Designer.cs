@@ -63,9 +63,9 @@ namespace TimerApp.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap form2_PS {
+        internal static System.Drawing.Bitmap form2_PSAsh {
             get {
-                object obj = ResourceManager.GetObject("form2_PS", resourceCulture);
+                object obj = ResourceManager.GetObject("form2_PSAsh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace TimerApp.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap form2_PS_mouse {
+        internal static System.Drawing.Bitmap form2_PSBlue {
             get {
-                object obj = ResourceManager.GetObject("form2_PS_mouse", resourceCulture);
+                object obj = ResourceManager.GetObject("form2_PSBlue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

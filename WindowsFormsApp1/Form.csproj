@@ -176,8 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="avnx7-zkhrr-003.ico" />
-    <None Include="Resources\form2_PS.png" />
-    <None Include="Resources\form2_PS_mouse.png" />
+    <None Include="Resources\form2_PSBlue1.png" />
+    <None Include="Resources\form2_PSBlue.png" />
+    <None Include="Resources\form2_PSAsh.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

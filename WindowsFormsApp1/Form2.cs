@@ -20,13 +20,9 @@ namespace WindowsFormsApp1
             textBox_Run_Time.Text = MainForm.Time_For_F2;
             textBox_Team_Information.Text = MainForm.Team_Information_For_F2;
             MatchCollection matches = regex.Matches(MainForm.Round_For_F2);
-            // 一一取出 MatchCollection 內容
             foreach (Match match in matches)
             {
-                // 將 Match 內所有值的集合傳給 GroupCollection groups
                 GroupCollection groups = match.Groups;
-                // 印出 Group 內 word 值
-                //Console.WriteLine(groups[1].Value.Trim());
                 textBox_Round.Text = groups[1].Value.Trim();// MainForm.Round_For_F2;
             }
             textBox_Total_Time.Text = MainForm.TotalTimes_For_F2;
@@ -68,8 +64,7 @@ namespace WindowsFormsApp1
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
         {
             int WM_KEYDOWN = 256;
-            int WM_SYSKEYDOWN = 260;
-
+            int WM_SYSKEYDOWN = 260; 
             if (msg.Msg == WM_KEYDOWN | msg.Msg == WM_SYSKEYDOWN)
             {
                 switch (keyData)
@@ -77,22 +72,19 @@ namespace WindowsFormsApp1
                     case Keys.F11:
                         if (FormBorderStyle == FormBorderStyle.None)
                         {
-                            this.FormBorderStyle = FormBorderStyle.Sizable;     //設定窗體為無邊框樣式
-                            this.WindowState = FormWindowState.Normal;    //最大化窗體
+                            this.FormBorderStyle = FormBorderStyle.Sizable;     //設定邊框樣式
+                            this.WindowState = FormWindowState.Normal;          //Normal窗體
                         }
                         else
                         {
-                            this.FormBorderStyle = FormBorderStyle.None;     //設定窗體為無邊框樣式
-                            this.WindowState = FormWindowState.Maximized;    //最大化窗體
+                            this.FormBorderStyle = FormBorderStyle.None;        //設定窗體為無邊框樣式
+                            this.WindowState = FormWindowState.Maximized;       //最大化窗體
                         }
                         break;
-
                     case Keys.F12:
                         MessageBox.Show("F12");
                         break;
-
                 }
-
             }
             return false;
         }

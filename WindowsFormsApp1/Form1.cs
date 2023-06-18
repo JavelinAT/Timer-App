@@ -67,11 +67,12 @@ namespace WindowsFormsApp1
         public FrontPage()
         {
             InitializeComponent();
-            F2.Show();
             F2.MainForm = this;//form2 to form1
+            F2.Show();
         }
         private void FrontPage_Load(object sender, EventArgs e)
         {
+            
             //string strPath = System.Environment.CurrentDirectory;
             //string strPath = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
@@ -279,7 +280,7 @@ namespace WindowsFormsApp1
                     break;
                 case "button_Command_Fail":
                     //if (State_Failing == false) SendString("F\n");
-                    if (State_Failing == false) SendCommand(COMMAND.FAIL_ENDROUND);
+                    if (State_Failing == false && ExcelIsLoaded && LapStart) SendCommand(COMMAND.FAIL_ENDROUND);
                     break;
                 case "button_Command_Restart":
                     Reset();
@@ -326,13 +327,28 @@ namespace WindowsFormsApp1
                         DialogResult Result = MessageBox.Show("This action resets the parameter\r\ndo you want to continue", "Notification", MessageBoxButtons.YesNo);
                         if (Result == DialogResult.No)
                             return;
+                        
                         DataGvRowInd += 1;
                         DataGv_Get_Rows_Location = false;
                         dataGridView1.Focus();
+                        DataGvColInd = 4;
                         dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
                         dataGridView1.BeginEdit(true);
                         DataGv_Get_Rows_Location = true;
-                        Reset();
+                        
+
+                        //Reset();
+                        StartCount = false;
+                        TimeOut = false;
+                        State_Ready = false;
+                        State_Failing = false;
+                        PauseCountdown = false;
+                        label_Time_display.Text = "00:00.000";
+                        label_Time_display.BackColor = Color.Transparent;
+                        ClassicMousebonus = 1;
+                        InitJson();
+                        if (Console_receiving)
+                            SendCommand(COMMAND.RESET);
                     }
                     break;
                 case "button_Round_Previous":
@@ -1039,7 +1055,13 @@ namespace WindowsFormsApp1
                             {
                                 int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
                                 Team_List.Team[count].Time[j - 5].mSec = IntMillisecond;
+                                
                                 Team_List.Team[count].Minimum = IntMillisecond;
+                            }
+                            if (j > 4 + TotalRuns && j < 5 + TotalRuns*2)
+                            {
+                                int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
+                                Team_List.Team[count].Score[j - (5 + TotalRuns)].mSec = IntMillisecond;
                             }
                         }
                     }
@@ -1341,7 +1363,11 @@ namespace WindowsFormsApp1
             {
                 foreach (var item in Team_List.Team[DataGvRowInd].Score)
                 {
-                    str += "S" + round.ToString() + " - " + item.ToString() + "\r\n";
+                    if (item.mSec != 0)
+                        str += "S" + round.ToString() + " - " + item.ToString() + "\r\n";
+                    else
+                        str += "S" + round.ToString() + " - " + "\r\n";
+
                     round++;
                 }
             }
@@ -1355,7 +1381,11 @@ namespace WindowsFormsApp1
             {
                 foreach (var item in Team_List.Team[DataGvRowInd].Time)
                 {
-                    str += "R" + round.ToString() + " - " + item.ToString() + "\r\n";
+                    if(item.mSec != 0)
+                        str += "R" + round.ToString() + " - " + item.ToString() + "\r\n";
+                    else
+                        str += "R" + round.ToString() + " - " + "\r\n";
+
                     round++;
                 }
             }
@@ -1409,8 +1439,16 @@ namespace WindowsFormsApp1
                     {
                         count++;
                         //str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
-                        str += count.ToString() + "." + item.Organize + /*"\t-" +*/ item.ToString() + "\r\n";
-                        if (count == 3) break;
+
+                        string Org = item.Organize;
+                        string teamOrg ="";
+                        if (Org.Length > 7)
+                            for (int i = 0; i < 7; i++)
+                                teamOrg += Org[i];
+                        else teamOrg = Org;
+
+                        str += count.ToString() + "." + teamOrg/*item.Organize*/ + "\t" + item.ToString() + "\r\n";
+                        if (count == 9) break;
                     }
                 }
             }

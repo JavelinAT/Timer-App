@@ -27,12 +27,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_149413EE68CB467EB961D356E969D6EB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_3D79EB8B95C7EB1A286B8AB34CF80D17"
         "OwnerKey" = "8:_649EAE114634017267E9991BEA5E955C"
         "MsmSig" = "8:_UNDEFINED"
@@ -189,8 +183,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B1C45D5525357CBF340071FDC7FCD39D"
+        "MsmKey" = "8:_FDF65CE7D30F477F940243A1256705A3"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -287,6 +281,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_08C11DFF08C5CC99C5A9E375C58B7546"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B1C45D5525357CBF340071FDC7FCD39D"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -413,26 +413,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_149413EE68CB467EB961D356E969D6EB"
-            {
-            "SourcePath" = "8:..\\..\\..\\..\\..\\Desktop\\LHU128.ico"
-            "TargetName" = "8:LHU128.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_1F4207D555B64BE48D0EFCA9C0627DC5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3D79EB8B95C7EB1A286B8AB34CF80D17"
@@ -931,6 +911,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FDF65CE7D30F477F940243A1256705A3"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\..\\OneDrive - 龍華科技大學\\LHU\\Document        資料\\icon\\LHU128.ico"
+            "TargetName" = "8:LHU128.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_1F4207D555B64BE48D0EFCA9C0627DC5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -1005,7 +1005,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:TimerApp"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:_149413EE68CB467EB961D356E969D6EB"
+        "ARPPRODUCTICON" = "8:_FDF65CE7D30F477F940243A1256705A3"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -1119,7 +1119,7 @@
             "Target" = "8:_F11A01B3E9374F8C86D0F1CCC23B7F89"
             "Folder" = "8:_5586F262F5B448A0BAA075A62256BE8D"
             "WorkingFolder" = "8:_1F4207D555B64BE48D0EFCA9C0627DC5"
-            "Icon" = "8:_149413EE68CB467EB961D356E969D6EB"
+            "Icon" = "8:_FDF65CE7D30F477F940243A1256705A3"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_DEC769D84C2B4E25B5FB5EFF13ED8EB9"
@@ -1133,7 +1133,7 @@
             "Target" = "8:_F11A01B3E9374F8C86D0F1CCC23B7F89"
             "Folder" = "8:_905CF01B4CD64F358673545B55F546C7"
             "WorkingFolder" = "8:_1F4207D555B64BE48D0EFCA9C0627DC5"
-            "Icon" = "8:_149413EE68CB467EB961D356E969D6EB"
+            "Icon" = "8:_FDF65CE7D30F477F940243A1256705A3"
             "Feature" = "8:"
             }
         }
