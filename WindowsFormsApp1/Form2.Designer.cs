@@ -105,11 +105,11 @@
             this.textBox_Score.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_Score.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Score.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));
-            this.textBox_Score.Location = new System.Drawing.Point(827, 623);
+            this.textBox_Score.Location = new System.Drawing.Point(799, 623);
             this.textBox_Score.Multiline = true;
             this.textBox_Score.Name = "textBox_Score";
             this.textBox_Score.ReadOnly = true;
-            this.textBox_Score.Size = new System.Drawing.Size(440, 359);
+            this.textBox_Score.Size = new System.Drawing.Size(420, 359);
             this.textBox_Score.TabIndex = 4;
             this.textBox_Score.TabStop = false;
             this.textBox_Score.Text = "Score";
@@ -120,11 +120,11 @@
             this.textBox_Best_Score.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_Best_Score.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Best_Score.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));
-            this.textBox_Best_Score.Location = new System.Drawing.Point(1287, 623);
+            this.textBox_Best_Score.Location = new System.Drawing.Point(1225, 623);
             this.textBox_Best_Score.Multiline = true;
             this.textBox_Best_Score.Name = "textBox_Best_Score";
             this.textBox_Best_Score.ReadOnly = true;
-            this.textBox_Best_Score.Size = new System.Drawing.Size(600, 359);
+            this.textBox_Best_Score.Size = new System.Drawing.Size(662, 359);
             this.textBox_Best_Score.TabIndex = 5;
             this.textBox_Best_Score.TabStop = false;
             this.textBox_Best_Score.Text = "BestScore";
@@ -139,7 +139,7 @@
             this.textBox_Run.Multiline = true;
             this.textBox_Run.Name = "textBox_Run";
             this.textBox_Run.ReadOnly = true;
-            this.textBox_Run.Size = new System.Drawing.Size(440, 359);
+            this.textBox_Run.Size = new System.Drawing.Size(420, 359);
             this.textBox_Run.TabIndex = 6;
             this.textBox_Run.TabStop = false;
             this.textBox_Run.Text = "Run";

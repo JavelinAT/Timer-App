@@ -72,7 +72,7 @@ namespace WindowsFormsApp1
         }
         private void FrontPage_Load(object sender, EventArgs e)
         {
-            
+
             //string strPath = System.Environment.CurrentDirectory;
             //string strPath = System.Windows.Forms.Application.StartupPath;//啟動路徑
             string strPath = System.Windows.Forms.Application.ExecutablePath;
@@ -91,6 +91,8 @@ namespace WindowsFormsApp1
         public void ShowCount(string str)
         {
             textBox_TotalTimes.Text = str;
+            if (TimeOut)
+                textBox_TotalTimes.ForeColor = Color.FromArgb(192, 0, 0);
         }
         public int MazeTimeTP;
         public void Command(BoardState cmd)
@@ -154,13 +156,14 @@ namespace WindowsFormsApp1
                     State_Failing = true;
                     LapStart = false;
                     label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
-                    Write_dataGridView(DataGvRowInd, DataGvColInd, label_Time_display.Text);
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, label_Time_display.Text);
-                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, label_Time_display.Text);
-                    Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
-                    string FAILstr = Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].ToString();
-                    Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, FAILstr);
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, FAILstr);
+                    string RunTime = label_Time_display.Text;
+                    Write_dataGridView(DataGvRowInd, DataGvColInd, RunTime);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, RunTime);
+                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, RunTime);
+                    //Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
+                    //string FAILstr = Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].ToString();
+                    Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, RunTime);
+                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, RunTime);
                     ButtonClick(button_Round_Next, null);
                     if (ClassicMouseMode)
                         ClassicMousebonus = 0;
@@ -175,8 +178,15 @@ namespace WindowsFormsApp1
         }
         public void WriteToTeamList(int TeamIndex, int RunIndex, string Score)
         {
-            int IntMillisecond = StringScore_To_IntMillisecond(Score.ToString());
+            int IntMillisecond;
+            if (Score == "FAIL")
+            {
+                IntMillisecond = StringScore_To_IntMillisecond("99:59.999");
+            }
+            else
+                IntMillisecond = StringScore_To_IntMillisecond(Score);
             Team_List.Team[TeamIndex].Time[RunIndex].mSec = IntMillisecond;
+            Team_List.Team[TeamIndex].Score[RunIndex].mSec = IntMillisecond;
             Team_List.Team[TeamIndex].Minimum = IntMillisecond;
         }
         //WriteToTeamList
@@ -189,6 +199,7 @@ namespace WindowsFormsApp1
             PauseCountdown = false;
             label_Time_display.Text = "00:00.000";
             label_Time_display.BackColor = Color.Transparent;
+            textBox_TotalTimes.ForeColor = Color.Black;
             ClassicMousebonus = 1;
             InitJson();
             if (ExcelIsLoaded)
@@ -324,10 +335,13 @@ namespace WindowsFormsApp1
                             return;
                         }
 
-                        DialogResult Result = MessageBox.Show("This action resets the parameter\r\ndo you want to continue", "Notification", MessageBoxButtons.YesNo);
+                        DialogResult Result = MessageBox.Show(
+                            "This action resets the parameter\r\n" +
+                            "do you want to continue", "Notification", 
+                            MessageBoxButtons.YesNo);
                         if (Result == DialogResult.No)
                             return;
-                        
+
                         DataGvRowInd += 1;
                         DataGv_Get_Rows_Location = false;
                         dataGridView1.Focus();
@@ -335,9 +349,7 @@ namespace WindowsFormsApp1
                         dataGridView1.CurrentCell = dataGridView1[DataGvColInd, DataGvRowInd];
                         dataGridView1.BeginEdit(true);
                         DataGv_Get_Rows_Location = true;
-                        
 
-                        //Reset();
                         StartCount = false;
                         TimeOut = false;
                         State_Ready = false;
@@ -524,6 +536,12 @@ namespace WindowsFormsApp1
                     MessageBox.Show(ex.Message);
                 }
             }
+            else
+            {
+                MessageBox.Show("Before starting the operation, please complete the connection settings");
+                tabControl1.SelectedTab = tabPage_Setting;
+                PorSelector.DroppedDown = true;
+            }
         }
         public void Console_Connect(string COM, Int32 baud)
         {
@@ -664,8 +682,8 @@ namespace WindowsFormsApp1
                                     }
                                     else if (Board_state == (int)BoardState.FAIL)
                                     {
-                                        Invoke(d, new object[] { "99:59.999" });
-                                        //Invoke(d, new object[] { "FAIL" });
+                                        //Invoke(d, new object[] { "99:59.999" });
+                                        Invoke(d, new object[] { "FAIL" });
                                         Invoke(cmd, new object[] { Board_state });
                                     }
                                     Console.WriteLine("sW:{0}\t\tT:{1}\tBs:{2}", stopWatch.ElapsedMilliseconds, byteU.uinTime, (BoardState)Board_state);
@@ -1053,14 +1071,22 @@ namespace WindowsFormsApp1
                                 Team_List.Team[count].Organize = worksheet.Cells[i, j].Value.ToString();
                             if (j > 4 && j < 5 + TotalRuns)
                             {
-                                int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
+                                int IntMillisecond;
+                                if (Value.ToString() == "FAIL")
+                                    IntMillisecond = 5999999;
+                                else
+                                    IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
+
                                 Team_List.Team[count].Time[j - 5].mSec = IntMillisecond;
-                                
                                 Team_List.Team[count].Minimum = IntMillisecond;
                             }
-                            if (j > 4 + TotalRuns && j < 5 + TotalRuns*2)
+                            if (j > 4 + TotalRuns && j < 5 + TotalRuns * 2)
                             {
-                                int IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
+                                int IntMillisecond;
+                                if (Value.ToString() == "FAIL")
+                                    IntMillisecond = 5999999;
+                                else
+                                    IntMillisecond = StringScore_To_IntMillisecond(Value.ToString());
                                 Team_List.Team[count].Score[j - (5 + TotalRuns)].mSec = IntMillisecond;
                             }
                         }
@@ -1321,6 +1347,10 @@ namespace WindowsFormsApp1
         {
             get { return BestScore(); }
         }
+        public bool LapStart_For_F2
+        {
+            get { return LapStart; }
+        }
         /////////////////////////////////////////  Form 2   ///////////////////////////////////////////////
         ///
         /////////////////////////////////////////  Score   ////////////////////////////////////////////////
@@ -1363,8 +1393,10 @@ namespace WindowsFormsApp1
             {
                 foreach (var item in Team_List.Team[DataGvRowInd].Score)
                 {
-                    if (item.mSec != 0)
+                    if (item.mSec != 0 && item.mSec != 5999999)
                         str += "S" + round.ToString() + " - " + item.ToString() + "\r\n";
+                    else if (item.mSec == 5999999)
+                        str += "S" + round.ToString() + " - " + "FAIL" + "\r\n";
                     else
                         str += "S" + round.ToString() + " - " + "\r\n";
 
@@ -1381,36 +1413,14 @@ namespace WindowsFormsApp1
             {
                 foreach (var item in Team_List.Team[DataGvRowInd].Time)
                 {
-                    if(item.mSec != 0)
+                    if (item.mSec != 0 && item.mSec != 5999999)
                         str += "R" + round.ToString() + " - " + item.ToString() + "\r\n";
+                    else if (item.mSec == 5999999)
+                        str += "R" + round.ToString() + " - " + "FAIL" + "\r\n";
                     else
                         str += "R" + round.ToString() + " - " + "\r\n";
 
                     round++;
-                }
-            }
-            return str;
-        }
-        public string BestScore_Old()
-        {
-            List<TimerData> Best = new List<TimerData>();
-            string str = "";
-            if (DataGvLoaded)
-            {
-                foreach (var item in Team_List.Team)
-                {
-                    if (item.Minimum != 0)
-                        Best.Add(new TimerData(item.Minimum));
-                }
-                Best.Sort();
-                int count = 1;
-                foreach (var item in Best)
-                {
-                    str += item.ToString() + "\r\n";
-                    if (count < 3)
-                        count++;
-                    else
-                        break;
                 }
             }
             return str;
@@ -1426,28 +1436,21 @@ namespace WindowsFormsApp1
                 {
                     BestScore.Team.Add(item);
                 }
-                //foreach (var item in BestScore.Team)
-                //{
-                //    Console.WriteLine("Name\t{0}\tMinimum\t{1}", item.Name, item.Minimum.ToString());
-                //}
-                //Console.WriteLine("Sort----------------------------");
                 BestScore.Team.Sort();
                 foreach (var item in BestScore.Team)
                 {
-                    //Console.WriteLine("Name\t{0}\tMinimum\t{1}", item.Name, item.Minimum.ToString());
-                    if (item.Minimum != 0)
+                    if (item.Minimum != 0 && item.Minimum != 5999999)
                     {
                         count++;
-                        //str += count.ToString() + "." + item.Name + "\t" + item.ToString() + "\r\n";
 
                         string Org = item.Organize;
-                        string teamOrg ="";
+                        string teamOrg = "";
                         if (Org.Length > 7)
                             for (int i = 0; i < 7; i++)
                                 teamOrg += Org[i];
                         else teamOrg = Org;
 
-                        str += count.ToString() + "." + teamOrg/*item.Organize*/ + "\t" + item.ToString() + "\r\n";
+                        str += count.ToString() + "." + teamOrg + "\t" + item.ToString() + "\r\n";
                         if (count == 9) break;
                     }
                 }
@@ -1459,6 +1462,12 @@ namespace WindowsFormsApp1
         {
             if (tabControl1.SelectedIndex == 0)
             {
+                if (!LapStart)
+                {
+                    InitJson();
+                    if (ExcelIsLoaded)
+                        LodeExcelToDataGridViewWithEpplus(ExcelFilePath);
+                }
                 if (DataGvLoaded == true)
                 {
                     DataGv_Get_Current_Location = false;

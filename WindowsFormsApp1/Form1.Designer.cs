@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrontPage));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_Main = new System.Windows.Forms.TabPage();
@@ -288,6 +289,7 @@
             // 
             // splitContainer6
             // 
+            this.splitContainer6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer6.Location = new System.Drawing.Point(0, 0);
             this.splitContainer6.Margin = new System.Windows.Forms.Padding(2);
@@ -313,20 +315,25 @@
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1324, 289);
+            this.dataGridView1.Size = new System.Drawing.Size(1322, 287);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             // 
             // Information
             // 
+            this.Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
             this.Information.ColumnCount = 4;
             this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
@@ -340,7 +347,7 @@
             this.Information.Name = "Information";
             this.Information.RowCount = 1;
             this.Information.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.Information.Size = new System.Drawing.Size(1324, 152);
+            this.Information.Size = new System.Drawing.Size(1322, 150);
             this.Information.TabIndex = 1;
             // 
             // Total_Times
@@ -357,20 +364,21 @@
             // Total_Times.Panel2
             // 
             this.Total_Times.Panel2.Controls.Add(this.button_Total_Times);
-            this.Total_Times.Size = new System.Drawing.Size(258, 146);
-            this.Total_Times.SplitterDistance = 95;
+            this.Total_Times.Size = new System.Drawing.Size(258, 144);
+            this.Total_Times.SplitterDistance = 93;
             this.Total_Times.TabIndex = 0;
             // 
             // textBox_TotalTimes
             // 
+            this.textBox_TotalTimes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_TotalTimes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_TotalTimes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_TotalTimes.Enabled = false;
             this.textBox_TotalTimes.Font = new System.Drawing.Font("Times New Roman", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_TotalTimes.Location = new System.Drawing.Point(0, 0);
             this.textBox_TotalTimes.Multiline = true;
             this.textBox_TotalTimes.Name = "textBox_TotalTimes";
             this.textBox_TotalTimes.ReadOnly = true;
-            this.textBox_TotalTimes.Size = new System.Drawing.Size(258, 95);
+            this.textBox_TotalTimes.Size = new System.Drawing.Size(258, 93);
             this.textBox_TotalTimes.TabIndex = 1;
             this.textBox_TotalTimes.TabStop = false;
             this.textBox_TotalTimes.Text = "Total Time";
@@ -402,12 +410,14 @@
             // Round.Panel2
             // 
             this.Round.Panel2.Controls.Add(this.splitContainer9);
-            this.Round.Size = new System.Drawing.Size(353, 146);
-            this.Round.SplitterDistance = 95;
+            this.Round.Size = new System.Drawing.Size(352, 144);
+            this.Round.SplitterDistance = 93;
             this.Round.TabIndex = 0;
             // 
             // textBox_Round
             // 
+            this.textBox_Round.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Round.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_Round.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_Round.Enabled = false;
             this.textBox_Round.Font = new System.Drawing.Font("Times New Roman", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -415,7 +425,7 @@
             this.textBox_Round.Multiline = true;
             this.textBox_Round.Name = "textBox_Round";
             this.textBox_Round.ReadOnly = true;
-            this.textBox_Round.Size = new System.Drawing.Size(353, 95);
+            this.textBox_Round.Size = new System.Drawing.Size(352, 93);
             this.textBox_Round.TabIndex = 1;
             this.textBox_Round.TabStop = false;
             this.textBox_Round.Text = "Round";
@@ -434,8 +444,8 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.button_Round_Next);
-            this.splitContainer9.Size = new System.Drawing.Size(353, 47);
-            this.splitContainer9.SplitterDistance = 174;
+            this.splitContainer9.Size = new System.Drawing.Size(352, 47);
+            this.splitContainer9.SplitterDistance = 173;
             this.splitContainer9.TabIndex = 0;
             // 
             // button_Round_Previous
@@ -444,7 +454,7 @@
             this.button_Round_Previous.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Round_Previous.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Previous.Name = "button_Round_Previous";
-            this.button_Round_Previous.Size = new System.Drawing.Size(174, 47);
+            this.button_Round_Previous.Size = new System.Drawing.Size(173, 47);
             this.button_Round_Previous.TabIndex = 1;
             this.button_Round_Previous.Text = "Previous";
             this.button_Round_Previous.UseVisualStyleBackColor = true;
@@ -476,12 +486,14 @@
             // Team_Information.Panel2
             // 
             this.Team_Information.Panel2.Controls.Add(this.Information_Button);
-            this.Team_Information.Size = new System.Drawing.Size(390, 146);
-            this.Team_Information.SplitterDistance = 95;
+            this.Team_Information.Size = new System.Drawing.Size(390, 144);
+            this.Team_Information.SplitterDistance = 93;
             this.Team_Information.TabIndex = 0;
             // 
             // textBox_Team_Information
             // 
+            this.textBox_Team_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Team_Information.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_Team_Information.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_Team_Information.Enabled = false;
             this.textBox_Team_Information.Font = new System.Drawing.Font("Times New Roman", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -489,7 +501,7 @@
             this.textBox_Team_Information.Multiline = true;
             this.textBox_Team_Information.Name = "textBox_Team_Information";
             this.textBox_Team_Information.ReadOnly = true;
-            this.textBox_Team_Information.Size = new System.Drawing.Size(390, 95);
+            this.textBox_Team_Information.Size = new System.Drawing.Size(390, 93);
             this.textBox_Team_Information.TabIndex = 0;
             this.textBox_Team_Information.TabStop = false;
             this.textBox_Team_Information.Text = "Team Information";
@@ -654,7 +666,7 @@
             "pair sensor"});
             this.checkedListBox_Setting.Location = new System.Drawing.Point(3, 25);
             this.checkedListBox_Setting.Name = "checkedListBox_Setting";
-            this.checkedListBox_Setting.Size = new System.Drawing.Size(271, 88);
+            this.checkedListBox_Setting.Size = new System.Drawing.Size(271, 76);
             this.checkedListBox_Setting.TabIndex = 6;
             // 
             // button_setting
@@ -822,7 +834,7 @@
             this.label_ComState.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ComState.Location = new System.Drawing.Point(0, 0);
             this.label_ComState.Name = "label_ComState";
-            this.label_ComState.Size = new System.Drawing.Size(761, 25);
+            this.label_ComState.Size = new System.Drawing.Size(761, 14);
             this.label_ComState.TabIndex = 1;
             this.label_ComState.Text = "Click to select Com Port";
             this.label_ComState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -836,13 +848,14 @@
             this.PorSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PorSelector.DropDownWidth = 104;
             this.PorSelector.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.PorSelector.Font = new System.Drawing.Font("新細明體", 12F);
+            this.PorSelector.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PorSelector.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
             this.PorSelector.FormattingEnabled = true;
             this.PorSelector.IntegralHeight = false;
-            this.PorSelector.Location = new System.Drawing.Point(0, 25);
+            this.PorSelector.Location = new System.Drawing.Point(0, 14);
             this.PorSelector.Margin = new System.Windows.Forms.Padding(1);
             this.PorSelector.Name = "PorSelector";
-            this.PorSelector.Size = new System.Drawing.Size(761, 24);
+            this.PorSelector.Size = new System.Drawing.Size(761, 35);
             this.PorSelector.Sorted = true;
             this.PorSelector.TabIndex = 2;
             this.PorSelector.TabStop = false;

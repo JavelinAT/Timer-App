@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -29,6 +30,22 @@ namespace WindowsFormsApp1
             textBox_Run.Text = MainForm.RunTime_For_F2;
             textBox_Score.Text = MainForm.Score_For_F2;
             textBox_Best_Score.Text = MainForm.BestScore_For_F2;
+            bool timeout = false;
+            if (textBox_Total_Time.Text == "Time OUT")
+                timeout = true;
+            if (textBox_Run_Time.Text == "Ready")
+                textBox_Run_Time.ForeColor = Color.FromArgb(160, 216, 179);
+            else if (textBox_Run_Time.Text == "FAIL")
+                textBox_Run_Time.ForeColor = Color.FromArgb(192, 0, 0);
+            else if (MainForm.LapStart_For_F2 && timeout)
+                textBox_Run_Time.ForeColor = Color.FromArgb(192, 0, 0);
+            else
+                textBox_Run_Time.ForeColor = Color.FromArgb(21, 2, 1);
+
+            if (timeout)
+                textBox_Total_Time.ForeColor = Color.FromArgb(192, 0, 0);
+            else
+                textBox_Total_Time.ForeColor = Color.FromArgb(21, 2, 1);
         }
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -47,7 +64,14 @@ namespace WindowsFormsApp1
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             Get_Data_To_Display d = new Get_Data_To_Display(Flash);
-            this.Invoke(d, new Object[] { });
+            try
+            {
+                this.Invoke(d, new Object[] { });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public string Round_Time//Form1 to Form2
@@ -64,7 +88,7 @@ namespace WindowsFormsApp1
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
         {
             int WM_KEYDOWN = 256;
-            int WM_SYSKEYDOWN = 260; 
+            int WM_SYSKEYDOWN = 260;
             if (msg.Msg == WM_KEYDOWN | msg.Msg == WM_SYSKEYDOWN)
             {
                 switch (keyData)
