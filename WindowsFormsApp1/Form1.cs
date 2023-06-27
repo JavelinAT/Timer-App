@@ -113,8 +113,7 @@ namespace WindowsFormsApp1
                         WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 2), strMazeTime);
                         Console.WriteLine("MazeTimeTP:{2}\tCount:{0}\tMazeTime{1}\t", Team_List.Team[DataGvRowInd].MazeTime.Count, Team_List.Team[DataGvRowInd].MazeTime[DataGvColInd - 4].mSec, MazeTimeTP);
                     }
-                    if (ExcelIsLoaded)
-                        LapStart = true;
+                    LapStart = true;
                     label_Time_display.BackColor = Color.FromArgb(0, 225, 255);
                     break;
                 case BoardState.End:
@@ -140,10 +139,9 @@ namespace WindowsFormsApp1
                             Write_dataGridView(DataGvRowInd, DataGvColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
                             WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + (TotalRuns * 3), ClassicMousebonus.ToString());
                         }
-                        LapStart = false;
-
                         ButtonClick(button_Round_Next, null);
                     }
+                    LapStart = false;
                     break;
                 case BoardState.READY:   //Ready
                     State_Ready = true;
@@ -156,17 +154,21 @@ namespace WindowsFormsApp1
                     State_Failing = true;
                     LapStart = false;
                     label_Time_display.BackColor = Color.FromArgb(192, 0, 0);
-                    string RunTime = label_Time_display.Text;
-                    Write_dataGridView(DataGvRowInd, DataGvColInd, RunTime);
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, RunTime);
-                    WriteToTeamList(DataGvRowInd, DataGvColInd - 4, RunTime);
-                    //Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
-                    //string FAILstr = Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].ToString();
-                    Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, RunTime);
-                    WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, RunTime);
-                    ButtonClick(button_Round_Next, null);
-                    if (ClassicMouseMode)
-                        ClassicMousebonus = 0;
+                    if (ExcelIsLoaded)
+                    {
+                        string RunTime = label_Time_display.Text;
+                        Write_dataGridView(DataGvRowInd, DataGvColInd, RunTime);
+                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd, RunTime);
+                        WriteToTeamList(DataGvRowInd, DataGvColInd - 4, RunTime);
+                        //Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].mSec = Team_List.Team[DataGvRowInd].Time[DataGvColInd - 4].mSec;
+                        //string FAILstr = Team_List.Team[DataGvRowInd].Score[DataGvColInd - 4].ToString();
+                        Write_dataGridView(DataGvRowInd, DataGvColInd + TotalRuns, RunTime);
+                        WriteToExcelWithEpplus(ExcelFilePath, xlCells_RowInd, xlCells_ColInd + TotalRuns, RunTime);
+                        ButtonClick(button_Round_Next, null);
+                        if (ClassicMouseMode)
+                            ClassicMousebonus = 0;
+                    }
+                    LapStart = false;
                     break;
             }
         }
@@ -291,7 +293,7 @@ namespace WindowsFormsApp1
                     break;
                 case "button_Command_Fail":
                     //if (State_Failing == false) SendString("F\n");
-                    if (State_Failing == false && ExcelIsLoaded && LapStart) SendCommand(COMMAND.FAIL_ENDROUND);
+                    if (State_Failing == false && LapStart) SendCommand(COMMAND.FAIL_ENDROUND);
                     break;
                 case "button_Command_Restart":
                     Reset();

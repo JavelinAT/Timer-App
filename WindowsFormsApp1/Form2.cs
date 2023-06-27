@@ -8,6 +8,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
+        private bool timeout = false;
         public FrontPage MainForm;//Form2 to Form1
         delegate void Get_Data_To_Display();
         System.Timers.Timer timer;
@@ -30,17 +31,27 @@ namespace WindowsFormsApp1
             textBox_Run.Text = MainForm.RunTime_For_F2;
             textBox_Score.Text = MainForm.Score_For_F2;
             textBox_Best_Score.Text = MainForm.BestScore_For_F2;
-            bool timeout = false;
-            if (textBox_Total_Time.Text == "Time OUT")
+
+            if (textBox_Total_Time.Text == "Time OUT")                      // TIME OUT判斷
                 timeout = true;
-            if (textBox_Run_Time.Text == "Ready")
-                textBox_Run_Time.ForeColor = Color.FromArgb(160, 216, 179);
-            else if (textBox_Run_Time.Text == "FAIL")
-                textBox_Run_Time.ForeColor = Color.FromArgb(192, 0, 0);
-            else if (MainForm.LapStart_For_F2 && timeout)
-                textBox_Run_Time.ForeColor = Color.FromArgb(192, 0, 0);
-            else
-                textBox_Run_Time.ForeColor = Color.FromArgb(21, 2, 1);
+            if (textBox_Run_Time.Text == "Ready")                          // READY
+                textBox_Run_Time.BackColor = Color.FromArgb(128, 255, 128);
+            else if (textBox_Run_Time.Text == "FAIL")                      // FAIL
+                textBox_Run_Time.BackColor = Color.FromArgb(192, 0, 0);
+            else if (MainForm.LapStart_For_F2)                             // LAP進行中
+            {
+                if (timeout)                                                    // 超時
+                    textBox_Run_Time.BackColor = Color.FromArgb(192, 0, 0);
+                else                                                            // 未超時
+                    textBox_Run_Time.BackColor = Color.FromArgb(0, 225, 255);
+            }
+            else                                                            // LAP結束
+            {
+                if (timeout)                                                    // 超時
+                    textBox_Run_Time.BackColor = Color.FromArgb(192, 0, 0);
+                else                                                            // 未超時
+                    textBox_Run_Time.BackColor = Color.FromArgb(128, 255, 128);
+            }
 
             if (timeout)
                 textBox_Total_Time.ForeColor = Color.FromArgb(192, 0, 0);
