@@ -40,9 +40,9 @@
             // 
             // textBox_Team_Information
             // 
-            this.textBox_Team_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Team_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.textBox_Team_Information.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_Team_Information.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_Team_Information.Font = new System.Drawing.Font("Times New Roman", 56F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Team_Information.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));
             this.textBox_Team_Information.Location = new System.Drawing.Point(12, 133);
             this.textBox_Team_Information.Multiline = true;
@@ -71,14 +71,14 @@
             // 
             // textBox_Round
             // 
-            this.textBox_Round.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Round.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.textBox_Round.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_Round.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.textBox_Round.Font = new System.Drawing.Font("Times New Roman", 80F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_Round.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));
             this.textBox_Round.Location = new System.Drawing.Point(12, 623);
             this.textBox_Round.Name = "textBox_Round";
             this.textBox_Round.ReadOnly = true;
-            this.textBox_Round.Size = new System.Drawing.Size(336, 74);
+            this.textBox_Round.Size = new System.Drawing.Size(336, 123);
             this.textBox_Round.TabIndex = 3;
             this.textBox_Round.TabStop = false;
             this.textBox_Round.Text = "Round";
@@ -86,14 +86,14 @@
             // 
             // textBox_Total_Time
             // 
-            this.textBox_Total_Time.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Total_Time.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.textBox_Total_Time.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_Total_Time.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.textBox_Total_Time.Font = new System.Drawing.Font("Times New Roman", 80F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_Total_Time.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));
-            this.textBox_Total_Time.Location = new System.Drawing.Point(12, 901);
+            this.textBox_Total_Time.Location = new System.Drawing.Point(12, 859);
             this.textBox_Total_Time.Name = "textBox_Total_Time";
             this.textBox_Total_Time.ReadOnly = true;
-            this.textBox_Total_Time.Size = new System.Drawing.Size(336, 74);
+            this.textBox_Total_Time.Size = new System.Drawing.Size(336, 123);
             this.textBox_Total_Time.TabIndex = 4;
             this.textBox_Total_Time.TabStop = false;
             this.textBox_Total_Time.Text = "Total_Time";
@@ -101,7 +101,7 @@
             // 
             // textBox_Score
             // 
-            this.textBox_Score.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Score.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(189)))), ((int)(((byte)(255)))));
             this.textBox_Score.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_Score.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Score.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));
@@ -116,7 +116,7 @@
             // 
             // textBox_Best_Score
             // 
-            this.textBox_Best_Score.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Best_Score.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(202)))), ((int)(((byte)(255)))));
             this.textBox_Best_Score.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_Best_Score.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Best_Score.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));
@@ -131,7 +131,7 @@
             // 
             // textBox_Run
             // 
-            this.textBox_Run.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
+            this.textBox_Run.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(176)))), ((int)(((byte)(255)))));
             this.textBox_Run.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_Run.Font = new System.Drawing.Font("Times New Roman", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_Run.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(2)))), ((int)(((byte)(1)))));

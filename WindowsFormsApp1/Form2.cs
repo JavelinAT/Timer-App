@@ -32,8 +32,9 @@ namespace WindowsFormsApp1
             textBox_Score.Text = MainForm.Score_For_F2;
             textBox_Best_Score.Text = MainForm.BestScore_For_F2;
 
-            if (textBox_Total_Time.Text == "Time OUT")                      // TIME OUT判斷
+            if (textBox_Total_Time.Text == "00:00")                      // TIME OUT判斷
                 timeout = true;
+            else timeout = false;
             if (textBox_Run_Time.Text == "Ready")                          // READY
                 textBox_Run_Time.BackColor = Color.FromArgb(128, 255, 128);
             else if (textBox_Run_Time.Text == "FAIL")                      // FAIL
@@ -123,5 +124,6 @@ namespace WindowsFormsApp1
             }
             return false;
         }
+
     }
 }

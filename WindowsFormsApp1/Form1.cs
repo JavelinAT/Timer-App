@@ -93,6 +93,7 @@ namespace WindowsFormsApp1
             textBox_TotalTimes.Text = str;
             if (TimeOut)
                 textBox_TotalTimes.ForeColor = Color.FromArgb(192, 0, 0);
+            else textBox_TotalTimes.ForeColor = SystemColors.WindowText;
         }
         public int MazeTimeTP;
         public void Command(BoardState cmd)
@@ -201,7 +202,7 @@ namespace WindowsFormsApp1
             PauseCountdown = false;
             label_Time_display.Text = "00:00.000";
             label_Time_display.BackColor = Color.Transparent;
-            textBox_TotalTimes.ForeColor = Color.Black;
+            textBox_TotalTimes.ForeColor = SystemColors.WindowText;
             ClassicMousebonus = 1;
             InitJson();
             if (ExcelIsLoaded)
@@ -359,6 +360,7 @@ namespace WindowsFormsApp1
                         PauseCountdown = false;
                         label_Time_display.Text = "00:00.000";
                         label_Time_display.BackColor = Color.Transparent;
+                        textBox_TotalTimes.ForeColor = SystemColors.WindowText;
                         ClassicMousebonus = 1;
                         InitJson();
                         if (Console_receiving)
@@ -675,7 +677,13 @@ namespace WindowsFormsApp1
                                     Board_state = (byte)(buffer[recindex + 6] >> 4);
                                     if (Board_state == (int)BoardState.READY) { Invoke(cmd, new object[] { Board_state }); }
                                     else if (Board_state == (int)BoardState.Start) { StartTime = byteU.uinTime; MazeTimeTP = (int)StartTime; Invoke(cmd, new object[] { Board_state }); }
-                                    else if (Board_state == (int)BoardState.End) { EndTime = byteU.uinTime; Invoke(cmd, new object[] { Board_state }); }
+                                    else if (Board_state == (int)BoardState.End) 
+                                    {
+                                        EndTime = byteU.uinTime;
+                                        string strTimes = Format_MilliSecond(EndTime - StartTime);
+                                        Invoke(d, new object[] { strTimes }); 
+                                        Invoke(cmd, new object[] { Board_state }); 
+                                    }
                                     else if (Board_state == (int)BoardState.Timing)
                                     {
                                         CurrentTime = byteU.uinTime;
@@ -1299,7 +1307,7 @@ namespace WindowsFormsApp1
                 if (TotalTimes == 0)
                 {
                     TimeOut = true;
-                    str = "Time OUT";
+                    str = "00:00";
                 }
                 else
                 {

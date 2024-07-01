@@ -374,6 +374,7 @@
             this.textBox_TotalTimes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_TotalTimes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_TotalTimes.Font = new System.Drawing.Font("Times New Roman", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_TotalTimes.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBox_TotalTimes.Location = new System.Drawing.Point(0, 0);
             this.textBox_TotalTimes.Multiline = true;
             this.textBox_TotalTimes.Name = "textBox_TotalTimes";
