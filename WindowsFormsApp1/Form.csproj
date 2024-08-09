@@ -176,6 +176,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="avnx7-zkhrr-003.ico" />
+    <None Include="Resources\LHU256.ico" />
+    <None Include="Resources\LHU128.ico" />
     <None Include="Resources\form2_PSBlue1.png" />
     <None Include="Resources\form2_PSBlue.png" />
     <None Include="Resources\form2_PSAsh.png" />
