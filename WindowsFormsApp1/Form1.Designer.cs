@@ -335,9 +335,9 @@
             // 
             this.Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(167)))), ((int)(((byte)(217)))));
             this.Information.ColumnCount = 4;
-            this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.15173F));
+            this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.8941F));
+            this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.80333F));
+            this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.23147F));
             this.Information.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.98137F));
             this.Information.Controls.Add(this.Total_Times, 0, 0);
             this.Information.Controls.Add(this.Round, 2, 0);
@@ -364,7 +364,7 @@
             // Total_Times.Panel2
             // 
             this.Total_Times.Panel2.Controls.Add(this.button_Total_Times);
-            this.Total_Times.Size = new System.Drawing.Size(258, 144);
+            this.Total_Times.Size = new System.Drawing.Size(257, 144);
             this.Total_Times.SplitterDistance = 93;
             this.Total_Times.TabIndex = 0;
             // 
@@ -379,7 +379,7 @@
             this.textBox_TotalTimes.Multiline = true;
             this.textBox_TotalTimes.Name = "textBox_TotalTimes";
             this.textBox_TotalTimes.ReadOnly = true;
-            this.textBox_TotalTimes.Size = new System.Drawing.Size(258, 93);
+            this.textBox_TotalTimes.Size = new System.Drawing.Size(257, 93);
             this.textBox_TotalTimes.TabIndex = 1;
             this.textBox_TotalTimes.TabStop = false;
             this.textBox_TotalTimes.Text = "Total Time";
@@ -391,7 +391,7 @@
             this.button_Total_Times.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Total_Times.Location = new System.Drawing.Point(0, 0);
             this.button_Total_Times.Name = "button_Total_Times";
-            this.button_Total_Times.Size = new System.Drawing.Size(258, 47);
+            this.button_Total_Times.Size = new System.Drawing.Size(257, 47);
             this.button_Total_Times.TabIndex = 0;
             this.button_Total_Times.Text = "Pause";
             this.button_Total_Times.UseVisualStyleBackColor = true;
@@ -400,7 +400,7 @@
             // Round
             // 
             this.Round.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Round.Location = new System.Drawing.Point(663, 3);
+            this.Round.Location = new System.Drawing.Point(660, 3);
             this.Round.Name = "Round";
             this.Round.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -411,7 +411,7 @@
             // Round.Panel2
             // 
             this.Round.Panel2.Controls.Add(this.splitContainer9);
-            this.Round.Size = new System.Drawing.Size(352, 144);
+            this.Round.Size = new System.Drawing.Size(354, 144);
             this.Round.SplitterDistance = 93;
             this.Round.TabIndex = 0;
             // 
@@ -426,7 +426,7 @@
             this.textBox_Round.Multiline = true;
             this.textBox_Round.Name = "textBox_Round";
             this.textBox_Round.ReadOnly = true;
-            this.textBox_Round.Size = new System.Drawing.Size(352, 93);
+            this.textBox_Round.Size = new System.Drawing.Size(354, 93);
             this.textBox_Round.TabIndex = 1;
             this.textBox_Round.TabStop = false;
             this.textBox_Round.Text = "Round";
@@ -445,7 +445,7 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.button_Round_Next);
-            this.splitContainer9.Size = new System.Drawing.Size(352, 47);
+            this.splitContainer9.Size = new System.Drawing.Size(354, 47);
             this.splitContainer9.SplitterDistance = 173;
             this.splitContainer9.TabIndex = 0;
             // 
@@ -467,7 +467,7 @@
             this.button_Round_Next.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Round_Next.Location = new System.Drawing.Point(0, 0);
             this.button_Round_Next.Name = "button_Round_Next";
-            this.button_Round_Next.Size = new System.Drawing.Size(175, 47);
+            this.button_Round_Next.Size = new System.Drawing.Size(177, 47);
             this.button_Round_Next.TabIndex = 1;
             this.button_Round_Next.Text = "Next";
             this.button_Round_Next.UseVisualStyleBackColor = true;
@@ -476,7 +476,7 @@
             // Team_Information
             // 
             this.Team_Information.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Team_Information.Location = new System.Drawing.Point(267, 3);
+            this.Team_Information.Location = new System.Drawing.Point(266, 3);
             this.Team_Information.Name = "Team_Information";
             this.Team_Information.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -487,7 +487,7 @@
             // Team_Information.Panel2
             // 
             this.Team_Information.Panel2.Controls.Add(this.Information_Button);
-            this.Team_Information.Size = new System.Drawing.Size(390, 144);
+            this.Team_Information.Size = new System.Drawing.Size(388, 144);
             this.Team_Information.SplitterDistance = 93;
             this.Team_Information.TabIndex = 0;
             // 
@@ -502,7 +502,7 @@
             this.textBox_Team_Information.Multiline = true;
             this.textBox_Team_Information.Name = "textBox_Team_Information";
             this.textBox_Team_Information.ReadOnly = true;
-            this.textBox_Team_Information.Size = new System.Drawing.Size(390, 93);
+            this.textBox_Team_Information.Size = new System.Drawing.Size(388, 93);
             this.textBox_Team_Information.TabIndex = 0;
             this.textBox_Team_Information.TabStop = false;
             this.textBox_Team_Information.Text = "Team Information";
@@ -521,8 +521,8 @@
             // Information_Button.Panel2
             // 
             this.Information_Button.Panel2.Controls.Add(this.button_Inf_Next);
-            this.Information_Button.Size = new System.Drawing.Size(390, 47);
-            this.Information_Button.SplitterDistance = 188;
+            this.Information_Button.Size = new System.Drawing.Size(388, 47);
+            this.Information_Button.SplitterDistance = 187;
             this.Information_Button.TabIndex = 0;
             // 
             // button_Inf_Previous
@@ -531,7 +531,7 @@
             this.button_Inf_Previous.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Inf_Previous.Location = new System.Drawing.Point(0, 0);
             this.button_Inf_Previous.Name = "button_Inf_Previous";
-            this.button_Inf_Previous.Size = new System.Drawing.Size(188, 47);
+            this.button_Inf_Previous.Size = new System.Drawing.Size(187, 47);
             this.button_Inf_Previous.TabIndex = 0;
             this.button_Inf_Previous.Text = "Previous";
             this.button_Inf_Previous.UseVisualStyleBackColor = true;
@@ -543,7 +543,7 @@
             this.button_Inf_Next.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Inf_Next.Location = new System.Drawing.Point(0, 0);
             this.button_Inf_Next.Name = "button_Inf_Next";
-            this.button_Inf_Next.Size = new System.Drawing.Size(198, 47);
+            this.button_Inf_Next.Size = new System.Drawing.Size(197, 47);
             this.button_Inf_Next.TabIndex = 0;
             this.button_Inf_Next.Text = "Next";
             this.button_Inf_Next.UseVisualStyleBackColor = true;
