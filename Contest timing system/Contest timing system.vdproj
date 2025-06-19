@@ -987,15 +987,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TimerApp"
-        "ProductCode" = "8:{56DFE2A7-1942-4E5C-86FF-2FEBD4612E4F}"
-        "PackageCode" = "8:{8BC574AD-92FE-4257-94C4-7408062716FE}"
+        "ProductCode" = "8:{2CBD126A-6752-4B3A-AF0A-B97AB046C394}"
+        "PackageCode" = "8:{D653D785-3530-4EFF-8411-371203365FE1}"
         "UpgradeCode" = "8:{530C03BD-F52F-4CF9-B410-90954891D589}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:C1101"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1110,7 +1110,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1400CCA11AEA4DAFA2F58869D84394F4"
             {
-            "Name" = "8:Timer APP"
+            "Name" = "8:Timer APP-24"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1118,13 +1118,13 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:_BE35685D1FB5434B9BA5A1A8D7B479E5"
             "Folder" = "8:_5586F262F5B448A0BAA075A62256BE8D"
-            "WorkingFolder" = "8:_5586F262F5B448A0BAA075A62256BE8D"
+            "WorkingFolder" = "8:_1F4207D555B64BE48D0EFCA9C0627DC5"
             "Icon" = "8:_7A99233A7C2442208220DA772FC57ACB"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_AFD5660536AF4DEF99C5238F3D13D1A9"
             {
-            "Name" = "8:Timer APP"
+            "Name" = "8:Timer APP-24"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"

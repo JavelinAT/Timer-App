@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -1270,7 +1271,7 @@ namespace WindowsFormsApp1
         {
             SetJobj = ReadJson("Settings");
             comboBox_SettingPage_class.SelectedItem = (string)SetJobj["Mode"];
-            if ((string)comboBox_SettingPage_class.SelectedItem == "Classic_Mouse" || (string)comboBox_SettingPage_class.SelectedItem == "Half_Mouse")
+            if ((string)comboBox_SettingPage_class.SelectedItem == "Classic_Mouse" )
                 ClassicMouseMode = true;
             else ClassicMouseMode = false;
             TotalRuns = Int32.Parse(comboBox_SettingPage_TotalRound.Text);
